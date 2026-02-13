@@ -1,14 +1,37 @@
-import { useMemo, useState } from 'react';
-import { labels, projects, stack, timeline } from './data/content';
+import { useEffect, useMemo, useState } from 'react';
+import { content } from './data/content';
 
 const sections = ['overview', 'projects', 'caseStudy', 'stack', 'contact'];
 
-function App() {
-  const [language, setLanguage] = useState('en');
-  const [activeSection, setActiveSection] = useState('overview');
-  const [selectedProject, setSelectedProject] = useState(projects[0]);
+function getInitialLanguage() {
+  if (typeof window === 'undefined') {
+    return 'en';
+  }
 
-  const t = useMemo(() => labels[language], [language]);
+  const saved = window.localStorage.getItem('portfolio-lang');
+  return saved === 'es' || saved === 'en' ? saved : 'en';
+}
+
+function App() {
+  const [language, setLanguage] = useState(getInitialLanguage);
+  const [activeSection, setActiveSection] = useState('overview');
+  const [selectedProjectId, setSelectedProjectId] = useState('taskflow');
+
+  const t = useMemo(() => content[language], [language]);
+  const projects = t.projects.items;
+  const selectedProject =
+    projects.find((project) => project.id === selectedProjectId) ?? projects[0];
+
+  useEffect(() => {
+    if (!projects.some((project) => project.id === selectedProjectId)) {
+      setSelectedProjectId(projects[0].id);
+    }
+  }, [projects, selectedProjectId]);
+
+  useEffect(() => {
+    window.localStorage.setItem('portfolio-lang', language);
+    document.documentElement.lang = language;
+  }, [language]);
 
   return (
     <div className="app-shell">
@@ -16,13 +39,18 @@ function App() {
         <div>
           <p className="eyebrow">Miguel Bayter</p>
           <h1>{t.topbar.title}</h1>
+          <p className="topbar-subtitle">{t.topbar.subtitle}</p>
         </div>
 
         <div className="topbar-actions">
-          <span className="status-pill">{t.topbar.status}</span>
+          <span className="status-pill">
+            <span className="status-dot" aria-hidden="true" />
+            {t.topbar.status}
+          </span>
           <button
             type="button"
             className="lang-button"
+            aria-label={t.a11y.toggleLanguage}
             onClick={() => setLanguage((prev) => (prev === 'en' ? 'es' : 'en'))}
           >
             {language === 'en' ? 'ES' : 'EN'}
@@ -31,7 +59,7 @@ function App() {
       </header>
 
       <div className="workspace">
-        <aside className="sidebar" aria-label="Navigation">
+        <aside className="sidebar" aria-label={t.a11y.navigation}>
           <div className="identity-card">
             <p className="role">{t.role}</p>
             <p className="focus">{t.focus}</p>
@@ -56,9 +84,10 @@ function App() {
 
           <ProjectsSection
             t={t}
+            projects={projects}
             isVisible={activeSection === 'projects'}
-            selectedProject={selectedProject}
-            setSelectedProject={setSelectedProject}
+            selectedProjectId={selectedProject.id}
+            setSelectedProjectId={setSelectedProjectId}
           />
 
           <CaseStudySection t={t} isVisible={activeSection === 'caseStudy'} />
@@ -68,12 +97,24 @@ function App() {
           <footer className="footer-note">{t.footer}</footer>
         </main>
 
-        <aside className="detail-drawer" aria-label="Selected project details">
+        <aside className="detail-drawer" aria-label={t.a11y.projectPulse}>
+          <p className="drawer-kicker">{t.drawer.title}</p>
           <h2>{selectedProject.name}</h2>
           <p>{selectedProject.summary}</p>
 
+          <div className="pulse-row">
+            <article className="pulse-stat">
+              <p>{t.drawer.status}</p>
+              <strong>{selectedProject.health}</strong>
+            </article>
+            <article className="pulse-stat">
+              <p>{t.drawer.completion}</p>
+              <strong>{selectedProject.completion}</strong>
+            </article>
+          </div>
+
           <div className="drawer-block">
-            <h3>Engineering Decisions</h3>
+            <h3>{t.drawer.decisions}</h3>
             <ul>
               {selectedProject.decisions.map((decision) => (
                 <li key={decision}>{decision}</li>
@@ -82,7 +123,7 @@ function App() {
           </div>
 
           <div className="drawer-block">
-            <h3>Metrics</h3>
+            <h3>{t.drawer.metrics}</h3>
             <ul>
               {selectedProject.metrics.map((metric) => (
                 <li key={metric.label}>
@@ -119,7 +160,13 @@ function OverviewSection({ t, isVisible }) {
   );
 }
 
-function ProjectsSection({ t, isVisible, selectedProject, setSelectedProject }) {
+function ProjectsSection({
+  t,
+  projects,
+  isVisible,
+  selectedProjectId,
+  setSelectedProjectId
+}) {
   if (!isVisible) return null;
 
   return (
@@ -131,16 +178,16 @@ function ProjectsSection({ t, isVisible, selectedProject, setSelectedProject }) 
 
       <div className="project-grid">
         {projects.map((project) => {
-          const isSelected = selectedProject.name === project.name;
+          const isSelected = selectedProjectId === project.id;
           return (
             <article
-              key={project.name}
+              key={project.id}
               className={isSelected ? 'project-card is-selected' : 'project-card'}
-              onClick={() => setSelectedProject(project)}
+              onClick={() => setSelectedProjectId(project.id)}
               onKeyDown={(event) => {
                 if (event.key === 'Enter' || event.key === ' ') {
                   event.preventDefault();
-                  setSelectedProject(project);
+                  setSelectedProjectId(project.id);
                 }
               }}
               role="button"
@@ -161,12 +208,15 @@ function ProjectsSection({ t, isVisible, selectedProject, setSelectedProject }) 
               </div>
 
               <div className="links-row">
-                <a href={project.links.repo} target="_blank" rel="noreferrer">
-                  {t.projects.links}: Repo
-                </a>
-                <a href={project.links.demo} target="_blank" rel="noreferrer">
-                  Demo
-                </a>
+                <span>{t.projects.linksLabel}</span>
+                <div className="project-links">
+                  <a href={project.links.repo} target="_blank" rel="noreferrer">
+                    {t.projects.repo}
+                  </a>
+                  <a href={project.links.demo} target="_blank" rel="noreferrer">
+                    {t.projects.demo}
+                  </a>
+                </div>
               </div>
             </article>
           );
@@ -186,7 +236,7 @@ function CaseStudySection({ t, isVisible }) {
         <p>{t.caseStudy.subtitle}</p>
       </header>
       <div className="timeline-rail">
-        {timeline.map((item) => (
+        {t.caseStudy.timeline.map((item) => (
           <article key={item.stage} className="timeline-item">
             <p className="stage">{item.stage}</p>
             <p>{item.text}</p>
@@ -208,7 +258,7 @@ function StackSection({ t, isVisible }) {
       </header>
 
       <div className="stack-grid">
-        {stack.map((item) => (
+        {t.stack.items.map((item) => (
           <article key={item.area} className="stack-card">
             <h3>{item.area}</h3>
             <ul>
@@ -234,13 +284,16 @@ function ContactSection({ t, isVisible }) {
       </header>
 
       <div className="contact-grid">
-        <a href="https://github.com/Miguel-Bayter" target="_blank" rel="noreferrer">
-          GitHub
-        </a>
-        <a href="https://www.linkedin.com" target="_blank" rel="noreferrer">
-          LinkedIn
-        </a>
-        <a href="mailto:you@example.com">{t.contact.cta}</a>
+        {t.contact.channels.map((channel) => (
+          <a
+            key={channel.label}
+            href={channel.href}
+            target={channel.external ? '_blank' : undefined}
+            rel={channel.external ? 'noreferrer' : undefined}
+          >
+            {channel.label}
+          </a>
+        ))}
       </div>
     </section>
   );
