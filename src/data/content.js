@@ -160,8 +160,12 @@ export const content = {
       subtitle: 'Open to fullstack opportunities and technical collaboration.',
       channels: [
         { label: 'GitHub', href: 'https://github.com/Miguel-Bayter', external: true },
-        { label: 'LinkedIn', href: 'https://www.linkedin.com', external: true },
-        { label: 'Send message', href: 'mailto:you@example.com', external: false }
+        {
+          label: 'LinkedIn',
+          href: 'https://www.linkedin.com/in/miguel-eduardo-bayter-quintana-98653b128/',
+          external: true
+        },
+        { label: 'Send message', href: 'mailto:mbayterq.dev@gmail.com', external: false }
       ]
     },
     drawer: {
@@ -334,8 +338,12 @@ export const content = {
       subtitle: 'Disponible para oportunidades fullstack y colaboracion tecnica.',
       channels: [
         { label: 'GitHub', href: 'https://github.com/Miguel-Bayter', external: true },
-        { label: 'LinkedIn', href: 'https://www.linkedin.com', external: true },
-        { label: 'Enviar mensaje', href: 'mailto:you@example.com', external: false }
+        {
+          label: 'LinkedIn',
+          href: 'https://www.linkedin.com/in/miguel-eduardo-bayter-quintana-98653b128/',
+          external: true
+        },
+        { label: 'Enviar mensaje', href: 'mailto:mbayterq.dev@gmail.com', external: false }
       ]
     },
     drawer: {
