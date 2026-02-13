@@ -36,3 +36,7 @@ npm run preview
 ## Language support
 
 The interface includes EN/ES toggle in the top bar.
+
+## Notes
+
+Pages site is configured with `build_type=workflow`.
