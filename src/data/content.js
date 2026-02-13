@@ -1,7 +1,7 @@
 export const content = {
   en: {
     role: 'Fullstack Developer',
-    focus: 'Building reliable web systems from interface to API',
+    focus: 'Shipping production-ready web products from interface to API',
     a11y: {
       navigation: 'Primary navigation',
       projectPulse: 'Selected project pulse panel',
@@ -16,22 +16,22 @@ export const content = {
     },
     topbar: {
       title: 'Friendly Ops Portfolio',
-      subtitle: 'Product-minded fullstack delivery console',
+      subtitle: 'Interview-ready fullstack delivery console',
       status: 'System Stable'
     },
     overview: {
       title: 'Developer Signal',
       subtitle:
-        'I deliver fullstack products with clear architecture, practical UX, and measurable outcomes.',
+        'I build fullstack systems with clear architecture, clean execution, and outcomes that are easy to defend in interviews.',
       cards: [
         { label: 'Current Track', value: 'React + Node + PostgreSQL' },
-        { label: 'Primary Goal', value: 'Junior/Semi Junior Fullstack Role' },
-        { label: 'Work Style', value: 'Feature slices with iterative quality checks' }
+        { label: 'Hiring Target', value: 'Junior/Semi Junior Fullstack Role' },
+        { label: 'Delivery Approach', value: 'Feature slices with quality checks and iteration' }
       ]
     },
     projects: {
       title: 'Service Portfolio',
-      subtitle: 'Each project is shown as a shipped system with technical evidence.',
+      subtitle: 'Each project is presented as a product shipment with technical evidence.',
       linksLabel: 'Links',
       repo: 'Repository',
       demo: 'Live Demo',
@@ -40,12 +40,12 @@ export const content = {
           id: 'taskflow',
           name: 'TaskFlow Teams',
           type: 'Fullstack Platform',
-          summary: 'Collaborative task workspace with auth, role control, and project-based execution.',
+          summary: 'Collaborative task workspace with authentication, role control, and project execution flows.',
           facets: ['Frontend: React', 'API: Express', 'DB: PostgreSQL', 'DevOps: CI/CD'],
           health: 'Healthy',
           completion: '82%',
           decisions: [
-            'JWT auth with route guards',
+            'JWT auth with protected routes',
             'Module-oriented backend by business context',
             'Explicit states for loading, empty, and error paths'
           ],
@@ -63,14 +63,14 @@ export const content = {
           id: 'finance',
           name: 'Finance Pulse',
           type: 'Fullstack Dashboard',
-          summary: 'Personal finance control with category analytics, filters, and export-ready reporting.',
+          summary: 'Personal finance control with category analytics, date filters, and export-ready reporting.',
           facets: ['Frontend: React', 'API: Node', 'DB: PostgreSQL', 'Export: CSV'],
           health: 'Stable',
           completion: '76%',
           decisions: [
             'Category-first analytics model',
             'Date filter strategy for monthly and custom windows',
-            'Separation between data services and visual widgets'
+            'Clear separation between data services and visual widgets'
           ],
           metrics: [
             { label: 'Reports', value: 'Monthly and custom' },
@@ -86,14 +86,14 @@ export const content = {
           id: 'commerce',
           name: 'Commerce Engine',
           type: 'E-commerce System',
-          summary: 'Catalog, cart, order flow, and admin operations on a layered architecture.',
+          summary: 'Catalog, cart, order flow, and admin operations built on layered architecture.',
           facets: ['Frontend: React', 'API: Express', 'DB: PostgreSQL', 'Infra: Docker'],
           health: 'In Progress',
           completion: '69%',
           decisions: [
             'Layered services for maintainability',
-            'Persistent cart with deterministic order flow',
-            'Role separation between customer and admin paths'
+            'Persistent cart with deterministic checkout flow',
+            'Role separation between customer and admin journeys'
           ],
           metrics: [
             { label: 'Features', value: 'Catalog + cart + orders' },
@@ -135,7 +135,7 @@ export const content = {
     },
     stack: {
       title: 'Stack and Engineering Practices',
-      subtitle: 'Tools connected to delivery habits and architecture decisions.',
+      subtitle: 'Tools mapped to delivery habits and architecture decisions.',
       items: [
         {
           area: 'Frontend',
@@ -157,7 +157,7 @@ export const content = {
     },
     contact: {
       title: 'Contact Channel',
-      subtitle: 'Open to fullstack roles and technical collaboration.',
+      subtitle: 'Open to fullstack opportunities and technical collaboration.',
       channels: [
         { label: 'GitHub', href: 'https://github.com/Miguel-Bayter', external: true },
         { label: 'LinkedIn', href: 'https://www.linkedin.com', external: true },
@@ -171,11 +171,11 @@ export const content = {
       decisions: 'Engineering Decisions',
       metrics: 'Delivery Metrics'
     },
-    footer: 'Built with React + Vite. Deployed on GitHub Pages.'
+    footer: 'Built with React + Vite. Designed for technical interviews.'
   },
   es: {
     role: 'Desarrollador Fullstack',
-    focus: 'Construyo sistemas web confiables desde interfaz hasta API',
+    focus: 'Entrego productos web listos para produccion desde interfaz hasta API',
     a11y: {
       navigation: 'Navegacion principal',
       projectPulse: 'Panel de pulso del proyecto seleccionado',
@@ -190,22 +190,22 @@ export const content = {
     },
     topbar: {
       title: 'Portafolio Friendly Ops',
-      subtitle: 'Consola de entrega fullstack orientada a producto',
+      subtitle: 'Consola fullstack lista para entrevistas tecnicas',
       status: 'Sistema Estable'
     },
     overview: {
       title: 'Senal Profesional',
       subtitle:
-        'Entrego productos fullstack con arquitectura clara, UX practica y resultados medibles.',
+        'Construyo sistemas fullstack con arquitectura clara, ejecucion ordenada y resultados defendibles en entrevista.',
       cards: [
         { label: 'Enfoque Actual', value: 'React + Node + PostgreSQL' },
-        { label: 'Objetivo Principal', value: 'Rol Fullstack Junior/Semi Junior' },
-        { label: 'Forma de Trabajo', value: 'Features por etapas con validacion continua' }
+        { label: 'Objetivo de Contratacion', value: 'Rol Fullstack Junior/Semi Junior' },
+        { label: 'Metodo de Entrega', value: 'Features por etapas con validacion continua' }
       ]
     },
     projects: {
       title: 'Portafolio de Servicios',
-      subtitle: 'Cada proyecto se presenta como sistema entregado con evidencia tecnica.',
+      subtitle: 'Cada proyecto se presenta como entrega de producto con evidencia tecnica.',
       linksLabel: 'Enlaces',
       repo: 'Repositorio',
       demo: 'Demo',
@@ -214,12 +214,12 @@ export const content = {
           id: 'taskflow',
           name: 'TaskFlow Teams',
           type: 'Plataforma Fullstack',
-          summary: 'Espacio colaborativo de tareas con auth, control de roles y ejecucion por proyectos.',
+          summary: 'Espacio colaborativo de tareas con autenticacion, control de roles y flujos de ejecucion por proyecto.',
           facets: ['Frontend: React', 'API: Express', 'DB: PostgreSQL', 'DevOps: CI/CD'],
           health: 'Saludable',
           completion: '82%',
           decisions: [
-            'Autenticacion JWT con proteccion de rutas',
+            'Autenticacion JWT con rutas protegidas',
             'Backend modular por contexto de negocio',
             'Estados explicitos para carga, vacio y error'
           ],
@@ -237,14 +237,14 @@ export const content = {
           id: 'finance',
           name: 'Finance Pulse',
           type: 'Dashboard Fullstack',
-          summary: 'Control financiero personal con analitica por categorias, filtros y reportes exportables.',
+          summary: 'Control financiero personal con analitica por categoria, filtros por fecha y reportes exportables.',
           facets: ['Frontend: React', 'API: Node', 'DB: PostgreSQL', 'Export: CSV'],
           health: 'Estable',
           completion: '76%',
           decisions: [
             'Modelo analitico centrado en categorias',
-            'Estrategia de filtros por fecha mensual y personalizada',
-            'Separacion entre servicios de datos y widgets visuales'
+            'Estrategia de filtros mensuales y ventanas personalizadas',
+            'Separacion clara entre servicios de datos y widgets visuales'
           ],
           metrics: [
             { label: 'Reportes', value: 'Mensual y personalizado' },
@@ -266,7 +266,7 @@ export const content = {
           completion: '69%',
           decisions: [
             'Servicios por capas para mantenibilidad',
-            'Carrito persistente con flujo de orden determinista',
+            'Carrito persistente con checkout determinista',
             'Separacion de roles entre cliente y administrador'
           ],
           metrics: [
@@ -283,11 +283,11 @@ export const content = {
     },
     caseStudy: {
       title: 'Linea de Tiempo de Releases',
-      subtitle: 'Desde la definicion del problema hasta la validacion post-release.',
+      subtitle: 'Desde el planteamiento del problema hasta la validacion post-release.',
       timeline: [
         {
           stage: '01 / Descubrimiento',
-          text: 'Definir problema de usuario, restricciones y criterio de exito antes de implementar.'
+          text: 'Definir problema del usuario, restricciones y criterio de exito antes de implementar.'
         },
         {
           stage: '02 / Arquitectura',
@@ -303,13 +303,13 @@ export const content = {
         },
         {
           stage: '05 / Release',
-          text: 'Desplegar, documentar decisiones y revisar resultados para iterar.'
+          text: 'Desplegar, documentar decisiones y revisar resultados para la siguiente iteracion.'
         }
       ]
     },
     stack: {
       title: 'Stack y Practicas de Ingenieria',
-      subtitle: 'Herramientas conectadas con habitos de entrega y decisiones de arquitectura.',
+      subtitle: 'Herramientas mapeadas a habitos de entrega y decisiones de arquitectura.',
       items: [
         {
           area: 'Frontend',
@@ -331,7 +331,7 @@ export const content = {
     },
     contact: {
       title: 'Canales de Contacto',
-      subtitle: 'Disponible para roles fullstack y colaboracion tecnica.',
+      subtitle: 'Disponible para oportunidades fullstack y colaboracion tecnica.',
       channels: [
         { label: 'GitHub', href: 'https://github.com/Miguel-Bayter', external: true },
         { label: 'LinkedIn', href: 'https://www.linkedin.com', external: true },
@@ -345,6 +345,6 @@ export const content = {
       decisions: 'Decisiones de Ingenieria',
       metrics: 'Metricas de Entrega'
     },
-    footer: 'Construido con React + Vite. Desplegado en GitHub Pages.'
+    footer: 'Construido con React + Vite. Disenado para entrevistas tecnicas.'
   }
 };
