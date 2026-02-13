@@ -179,9 +179,9 @@ export const content = {
   },
   es: {
     role: 'Desarrollador Fullstack',
-    focus: 'Entrego productos web listos para produccion desde interfaz hasta API',
+    focus: 'Entrego productos web listos para producción desde interfaz hasta API',
     a11y: {
-      navigation: 'Navegacion principal',
+      navigation: 'Navegación principal',
       projectPulse: 'Panel de pulso del proyecto seleccionado',
       toggleLanguage: 'Cambiar idioma'
     },
@@ -189,27 +189,27 @@ export const content = {
       overview: 'Resumen',
       projects: 'Proyectos',
       caseStudy: 'Caso de Estudio',
-      stack: 'Stack y Practicas',
+      stack: 'Stack y Prácticas',
       contact: 'Contacto'
     },
     topbar: {
       title: 'Portafolio Friendly Ops',
-      subtitle: 'Consola fullstack lista para entrevistas tecnicas',
+      subtitle: 'Consola fullstack lista para entrevistas técnicas',
       status: 'Sistema Estable'
     },
     overview: {
-      title: 'Senal Profesional',
+      title: 'Señal Profesional',
       subtitle:
-        'Construyo sistemas fullstack con arquitectura clara, ejecucion ordenada y resultados defendibles en entrevista.',
+        'Construyo sistemas fullstack con arquitectura clara, ejecución ordenada y resultados defendibles en entrevista.',
       cards: [
         { label: 'Enfoque Actual', value: 'React + Node + PostgreSQL' },
-        { label: 'Objetivo de Contratacion', value: 'Rol Fullstack Junior/Semi Junior' },
-        { label: 'Metodo de Entrega', value: 'Features por etapas con validacion continua' }
+        { label: 'Objetivo de Contratación', value: 'Rol Fullstack Junior/Semi Junior' },
+        { label: 'Método de Entrega', value: 'Features por etapas con validación continua' }
       ]
     },
     projects: {
       title: 'Portafolio de Servicios',
-      subtitle: 'Cada proyecto se presenta como entrega de producto con evidencia tecnica.',
+      subtitle: 'Cada proyecto se presenta como entrega de producto con evidencia técnica.',
       linksLabel: 'Enlaces',
       repo: 'Repositorio',
       demo: 'Demo',
@@ -218,19 +218,20 @@ export const content = {
           id: 'taskflow',
           name: 'TaskFlow Teams',
           type: 'Plataforma Fullstack',
-          summary: 'Espacio colaborativo de tareas con autenticacion, control de roles y flujos de ejecucion por proyecto.',
+          summary:
+            'Espacio colaborativo de tareas con autenticación, control de roles y flujos de ejecución por proyecto.',
           facets: ['Frontend: React', 'API: Express', 'DB: PostgreSQL', 'DevOps: CI/CD'],
           health: 'Saludable',
           completion: '82%',
           decisions: [
-            'Autenticacion JWT con rutas protegidas',
+            'Autenticación JWT con rutas protegidas',
             'Backend modular por contexto de negocio',
-            'Estados explicitos para carga, vacio y error'
+            'Estados explícitos para carga, vacío y error'
           ],
           metrics: [
-            { label: 'Modulos', value: '4 modulos principales' },
+            { label: 'Módulos', value: '4 módulos principales' },
             { label: 'Flujos', value: 'Auth + CRUD + Roles' },
-            { label: 'API', value: 'REST con validacion' }
+            { label: 'API', value: 'REST con validación' }
           ],
           links: {
             repo: 'https://github.com/Miguel-Bayter',
@@ -241,19 +242,20 @@ export const content = {
           id: 'finance',
           name: 'Finance Pulse',
           type: 'Dashboard Fullstack',
-          summary: 'Control financiero personal con analitica por categoria, filtros por fecha y reportes exportables.',
+          summary:
+            'Control financiero personal con analítica por categoría, filtros por fecha y reportes exportables.',
           facets: ['Frontend: React', 'API: Node', 'DB: PostgreSQL', 'Export: CSV'],
           health: 'Estable',
           completion: '76%',
           decisions: [
-            'Modelo analitico centrado en categorias',
+            'Modelo analítico centrado en categorías',
             'Estrategia de filtros mensuales y ventanas personalizadas',
-            'Separacion clara entre servicios de datos y widgets visuales'
+            'Separación clara entre servicios de datos y widgets visuales'
           ],
           metrics: [
             { label: 'Reportes', value: 'Mensual y personalizado' },
-            { label: 'Filtros', value: 'Fecha + categoria' },
-            { label: 'Exportacion', value: 'CSV listo' }
+            { label: 'Filtros', value: 'Fecha + categoría' },
+            { label: 'Exportación', value: 'CSV listo' }
           ],
           links: {
             repo: 'https://github.com/Miguel-Bayter',
@@ -264,18 +266,18 @@ export const content = {
           id: 'commerce',
           name: 'Commerce Engine',
           type: 'Sistema E-commerce',
-          summary: 'Catalogo, carrito, flujo de ordenes y operaciones admin sobre arquitectura por capas.',
+          summary: 'Catálogo, carrito, flujo de órdenes y operaciones admin sobre arquitectura por capas.',
           facets: ['Frontend: React', 'API: Express', 'DB: PostgreSQL', 'Infra: Docker'],
           health: 'En Progreso',
           completion: '69%',
           decisions: [
             'Servicios por capas para mantenibilidad',
             'Carrito persistente con checkout determinista',
-            'Separacion de roles entre cliente y administrador'
+            'Separación de roles entre cliente y administrador'
           ],
           metrics: [
-            { label: 'Funciones', value: 'Catalogo + carrito + ordenes' },
-            { label: 'Infra', value: 'Configuracion con Docker' },
+            { label: 'Funciones', value: 'Catálogo + carrito + órdenes' },
+            { label: 'Infra', value: 'Configuración con Docker' },
             { label: 'Panel', value: 'Flujo administrativo' }
           ],
           links: {
@@ -286,19 +288,19 @@ export const content = {
       ]
     },
     caseStudy: {
-      title: 'Linea de Tiempo de Releases',
-      subtitle: 'Desde el planteamiento del problema hasta la validacion post-release.',
+      title: 'Línea de Tiempo de Releases',
+      subtitle: 'Desde el planteamiento del problema hasta la validación post-release.',
       timeline: [
         {
           stage: '01 / Descubrimiento',
-          text: 'Definir problema del usuario, restricciones y criterio de exito antes de implementar.'
+          text: 'Definir problema del usuario, restricciones y criterio de éxito antes de implementar.'
         },
         {
           stage: '02 / Arquitectura',
-          text: 'Disenar contratos de API, modelo de datos y limites de modulos.'
+          text: 'Diseñar contratos de API, modelo de datos y límites de módulos.'
         },
         {
-          stage: '03 / Construccion',
+          stage: '03 / Construcción',
           text: 'Entregar flujos frontend y servicios backend por slices funcionales.'
         },
         {
@@ -307,13 +309,13 @@ export const content = {
         },
         {
           stage: '05 / Release',
-          text: 'Desplegar, documentar decisiones y revisar resultados para la siguiente iteracion.'
+          text: 'Desplegar, documentar decisiones y revisar resultados para la siguiente iteración.'
         }
       ]
     },
     stack: {
-      title: 'Stack y Practicas de Ingenieria',
-      subtitle: 'Herramientas mapeadas a habitos de entrega y decisiones de arquitectura.',
+      title: 'Stack y Prácticas de Ingeniería',
+      subtitle: 'Herramientas mapeadas a hábitos de entrega y decisiones de arquitectura.',
       items: [
         {
           area: 'Frontend',
@@ -321,11 +323,11 @@ export const content = {
         },
         {
           area: 'Backend',
-          tools: ['Node.js', 'Express', 'API REST', 'Patrones de autenticacion']
+          tools: ['Node.js', 'Express', 'API REST', 'Patrones de autenticación']
         },
         {
           area: 'Datos',
-          tools: ['PostgreSQL', 'Modelo relacional', 'Base de optimizacion de consultas']
+          tools: ['PostgreSQL', 'Modelo relacional', 'Base de optimización de consultas']
         },
         {
           area: 'Entrega',
@@ -335,7 +337,7 @@ export const content = {
     },
     contact: {
       title: 'Canales de Contacto',
-      subtitle: 'Disponible para oportunidades fullstack y colaboracion tecnica.',
+      subtitle: 'Disponible para oportunidades fullstack y colaboración técnica.',
       channels: [
         { label: 'GitHub', href: 'https://github.com/Miguel-Bayter', external: true },
         {
@@ -350,9 +352,9 @@ export const content = {
       title: 'Pulso del Proyecto',
       status: 'Estado',
       completion: 'Avance',
-      decisions: 'Decisiones de Ingenieria',
-      metrics: 'Metricas de Entrega'
+      decisions: 'Decisiones de Ingeniería',
+      metrics: 'Métricas de Entrega'
     },
-    footer: 'Construido con React + Vite. Disenado para entrevistas tecnicas.'
+    footer: 'Construido con React + Vite. Diseñado para entrevistas técnicas.'
   }
 };
