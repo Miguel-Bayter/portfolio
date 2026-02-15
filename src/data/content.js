@@ -40,8 +40,7 @@ export const content = {
       ],
     },
     overview: {
-      title: "Quick Hiring Snapshot",
-      subtitle: "A fast scan of fit, execution style, and project evidence.",
+      title: "Technology Stack",
       hero: {
         nameLine: "I'm Miguel Bayter",
         roleLinePrefix: "",
@@ -54,11 +53,25 @@ export const content = {
       },
       proofTitle: "Proof Strip",
       proofAction: "Open project board",
-      cards: [
-        { label: "Target Role", value: "Junior / Semi Senior Fullstack" },
-        { label: "Strength", value: "Interface quality + backend structure" },
-        { label: "Work Preference", value: "Product teams with ownership" },
-      ],
+      techStack: {
+        a11yLabel: "Technology stack carousel",
+        prev: "Previous technologies",
+        next: "Next technologies",
+        items: [
+          { name: "HTML5", icon: "html", tone: "orange", rank: 1 },
+          { name: "CSS3", icon: "css", tone: "blue", rank: 2 },
+          { name: "JavaScript", icon: "javascript", tone: "amber", rank: 3 },
+          { name: "Git", icon: "git", tone: "orange", rank: 4 },
+          { name: "React", icon: "react", tone: "indigo", rank: 5 },
+          { name: "Tailwind CSS", icon: "tailwind", tone: "cyan", rank: 6 },
+          { name: "TypeScript", icon: "typescript", tone: "blue", rank: 7 },
+          { name: "Node.js", icon: "nodejs", tone: "green", rank: 8 },
+          { name: "Express", icon: "express", tone: "slate", rank: 9 },
+          { name: "SQLite", icon: "sqlite", tone: "indigo", rank: 10 },
+          { name: "MongoDB", icon: "mongodb", tone: "forest", rank: 11 },
+          { name: "Docker", icon: "docker", tone: "cyan", rank: 12 },
+        ],
+      },
     },
     projects: {
       title: "Project Portfolio",
@@ -77,7 +90,8 @@ export const content = {
           id: "impostor",
           name: "Impostor",
           type: "Multiplayer Fullstack Game",
-          previewImage: "https://opengraph.githubassets.com/1/Miguel-Bayter/Impostor",
+          previewImage:
+            "https://opengraph.githubassets.com/1/Miguel-Bayter/Impostor",
           previewLabel: "Real-time social deduction architecture",
           summary:
             "Online multiplayer social deduction game with real-time rooms, role logic, and synchronized interactions.",
@@ -87,12 +101,7 @@ export const content = {
             "Designed a split frontend/backend architecture with Socket.io channels, room lifecycle control, and auth boundaries.",
           impact:
             "Established a production-shaped foundation for real-time game flows and progressive feature delivery.",
-          facets: [
-            "Node.js",
-            "Express",
-            "Socket.io",
-            "JavaScript",
-          ],
+          facets: ["Node.js", "Express", "Socket.io", "JavaScript"],
           statusKey: "up",
           health: "Healthy",
           completion: "74%",
@@ -115,7 +124,8 @@ export const content = {
           id: "tugestionamiga",
           name: "TuGestionAmiga",
           type: "Library Management System",
-          previewImage: "https://opengraph.githubassets.com/1/Miguel-Bayter/TuGestionAmiga",
+          previewImage:
+            "https://opengraph.githubassets.com/1/Miguel-Bayter/TuGestionAmiga",
           previewLabel: "Commerce + rentals + admin operations",
           summary:
             "Library management platform handling catalog, shopping cart, rentals, returns, and admin supervision.",
@@ -125,12 +135,7 @@ export const content = {
             "Implemented monorepo frontend/backend with i18n-first UX, protected routes, and transactional checkout/loan flows.",
           impact:
             "Improved operational reliability for inventory and returns while supporting multilingual product growth.",
-          facets: [
-            "React 19",
-            "TypeScript",
-            "Prisma",
-            "i18n",
-          ],
+          facets: ["React 19", "TypeScript", "Prisma", "i18n"],
           statusKey: "stable",
           health: "Stable",
           completion: "86%",
@@ -357,8 +362,7 @@ export const content = {
       ],
     },
     overview: {
-      title: "Resumen rapido para contratacion",
-      subtitle: "Vista rapida de encaje, ejecucion y evidencia de proyectos.",
+      title: "Technology Stack",
       hero: {
         nameLine: "Soy Miguel Bayter",
         roleLinePrefix: "Desarrollador",
@@ -371,14 +375,25 @@ export const content = {
       },
       proofTitle: "Franja de evidencia",
       proofAction: "Abrir tablero de proyectos",
-      cards: [
-        { label: "Rol objetivo", value: "Fullstack Junior / Semi Senior" },
-        {
-          label: "Fortaleza",
-          value: "Calidad de interfaz + estructura backend",
-        },
-        { label: "Preferencia", value: "Equipos de producto con ownership" },
-      ],
+      techStack: {
+        a11yLabel: "Carrusel de stack tecnologico",
+        prev: "Tecnologias anteriores",
+        next: "Siguientes tecnologias",
+        items: [
+          { name: "HTML5", icon: "html", tone: "orange", rank: 1 },
+          { name: "CSS3", icon: "css", tone: "blue", rank: 2 },
+          { name: "JavaScript", icon: "javascript", tone: "amber", rank: 3 },
+          { name: "Git", icon: "git", tone: "orange", rank: 4 },
+          { name: "React", icon: "react", tone: "indigo", rank: 5 },
+          { name: "Tailwind CSS", icon: "tailwind", tone: "cyan", rank: 6 },
+          { name: "TypeScript", icon: "typescript", tone: "blue", rank: 7 },
+          { name: "Node.js", icon: "nodejs", tone: "green", rank: 8 },
+          { name: "Express", icon: "express", tone: "slate", rank: 9 },
+          { name: "SQLite", icon: "sqlite", tone: "indigo", rank: 10 },
+          { name: "MongoDB", icon: "mongodb", tone: "forest", rank: 11 },
+          { name: "Docker", icon: "docker", tone: "cyan", rank: 12 },
+        ],
+      },
     },
     projects: {
       title: "Portafolio de Proyectos",
@@ -397,7 +412,8 @@ export const content = {
           id: "impostor",
           name: "Impostor",
           type: "Juego Fullstack Multijugador",
-          previewImage: "https://opengraph.githubassets.com/1/Miguel-Bayter/Impostor",
+          previewImage:
+            "https://opengraph.githubassets.com/1/Miguel-Bayter/Impostor",
           previewLabel: "Arquitectura social en tiempo real",
           summary:
             "Juego social multijugador online con salas en tiempo real, logica de roles y sincronizacion de estado.",
@@ -407,12 +423,7 @@ export const content = {
             "Disene una arquitectura separada frontend/backend con canales Socket.io y control de ciclo de salas.",
           impact:
             "Dejo una base real de produccion para evolucionar flujos multijugador con menor riesgo tecnico.",
-          facets: [
-            "Node.js",
-            "Express",
-            "Socket.io",
-            "JavaScript",
-          ],
+          facets: ["Node.js", "Express", "Socket.io", "JavaScript"],
           statusKey: "up",
           health: "Saludable",
           completion: "74%",
@@ -435,7 +446,8 @@ export const content = {
           id: "tugestionamiga",
           name: "TuGestionAmiga",
           type: "Sistema de Gestion Bibliotecaria",
-          previewImage: "https://opengraph.githubassets.com/1/Miguel-Bayter/TuGestionAmiga",
+          previewImage:
+            "https://opengraph.githubassets.com/1/Miguel-Bayter/TuGestionAmiga",
           previewLabel: "Compras + prestamos + panel admin",
           summary:
             "Plataforma de gestion bibliotecaria para catalogo, carrito, prestamos, devoluciones y supervision administrativa.",
@@ -445,12 +457,7 @@ export const content = {
             "Implemente monorepo frontend/backend con i18n-first, rutas protegidas y operaciones criticas transaccionales.",
           impact:
             "Mejoro la confiabilidad operativa de inventario y devoluciones, habilitando crecimiento multilenguaje.",
-          facets: [
-            "React 19",
-            "TypeScript",
-            "Prisma",
-            "i18n",
-          ],
+          facets: ["React 19", "TypeScript", "Prisma", "i18n"],
           statusKey: "stable",
           health: "Estable",
           completion: "86%",
@@ -617,7 +624,8 @@ export const content = {
         sending: "Enviando...",
         cancel: "Cancelar",
         sent: "Mensaje enviado correctamente. Te respondere pronto.",
-        error: "No se pudo enviar el mensaje. Intentalo de nuevo en un momento.",
+        error:
+          "No se pudo enviar el mensaje. Intentalo de nuevo en un momento.",
         invalidEmail: "Ingresa un correo valido.",
         required: "Completa todos los campos obligatorios.",
       },

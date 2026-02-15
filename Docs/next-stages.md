@@ -11,7 +11,13 @@
 - [x] Refactor `Project Pulse` from fixed column to optional floating panel
 - [x] Add pulse toggle behavior (open/close) scoped to `Projects` section
 - [x] Keep portfolio layout stable when pulse is closed
-- [ ] Run final visual QA for pulse behavior in desktop/mobile and all themes
+- [x] Run final visual QA for pulse behavior in desktop/mobile and all themes
+
+## Overview carousel updates
+
+- [x] Replace old overview cards with a technology carousel section
+- [x] Keep technology carousel i18n-ready in EN/ES
+- [ ] Run final visual QA for technology carousel in desktop/mobile and all themes
 
 ## Presentation readiness snapshot
 
