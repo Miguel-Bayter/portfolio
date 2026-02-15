@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { content } from './data/content';
 import profilePhoto from './img/Profile.jpg';
+import overviewPhoto from './img/overview.png';
 
 const HEALTH = {
   up: {
@@ -44,7 +45,9 @@ function App() {
   const [language, setLanguage] = useState(getInitialLanguage);
   const [theme, setTheme] = useState(getInitialTheme);
   const [activeSection, setActiveSection] = useState('overview');
-  const [selectedProjectId, setSelectedProjectId] = useState('taskflow');
+  const [selectedProjectId, setSelectedProjectId] = useState('impostor');
+  const [isPulseOpen, setIsPulseOpen] = useState(false);
+  const pulsePanelRef = useRef(null);
 
   const t = useMemo(() => content[language], [language]);
   const projects = t.projects.items;
@@ -55,6 +58,24 @@ function App() {
       setSelectedProjectId(projects[0].id);
     }
   }, [projects, selectedProjectId]);
+
+  useEffect(() => {
+    if (activeSection !== 'projects' && isPulseOpen) {
+      setIsPulseOpen(false);
+    }
+  }, [activeSection, isPulseOpen]);
+
+  useEffect(() => {
+    if (!isPulseOpen || activeSection !== 'projects') return;
+    if (typeof window === 'undefined') return;
+    if (window.innerWidth > 900) return;
+
+    const timer = window.setTimeout(() => {
+      pulsePanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }, 40);
+
+    return () => window.clearTimeout(timer);
+  }, [isPulseOpen, activeSection, selectedProjectId]);
 
   useEffect(() => {
     window.localStorage.setItem('portfolio-lang', language);
@@ -90,7 +111,7 @@ function App() {
   const healthToken = HEALTH[selectedProject.statusKey];
 
   return (
-    <div className="app-shell w-[min(1440px,95vw)] mx-auto my-5 border border-line/20 rounded-[20px] overflow-hidden bg-gradient-to-b from-[rgba(34,60,82,0.9)] to-[rgba(16,29,43,0.95)] shadow-[0_20px_58px_rgba(10,19,30,0.42),inset_0_1px_0_rgba(226,240,248,0.06)] max-md:mx-2.5 max-md:my-2.5 max-md:rounded-[14px]">
+    <div className="app-shell relative w-[min(1440px,95vw)] mx-auto my-5 border border-line/20 rounded-[20px] overflow-hidden bg-gradient-to-b from-[rgba(34,60,82,0.9)] to-[rgba(16,29,43,0.95)] shadow-[0_20px_58px_rgba(10,19,30,0.42),inset_0_1px_0_rgba(226,240,248,0.06)] max-md:mx-2.5 max-md:my-2.5 max-md:rounded-[14px]">
       <header className="flex flex-col gap-4 p-5 border-b border-line/20 bg-gradient-to-r from-surface-4/20 to-transparent md:flex-row md:justify-between md:items-center md:px-8 md:py-5 md:gap-0">
         <div>
           <p className="m-0 font-mono text-signal-cyan tracking-[0.12em] text-[0.7rem] font-medium uppercase">
@@ -130,7 +151,7 @@ function App() {
         </div>
       </header>
 
-      <div className="grid grid-cols-1 min-h-[76vh] md:grid-cols-[226px_1fr] lg:grid-cols-[248px_1fr_348px]">
+      <div className="grid grid-cols-1 min-h-[76vh] md:grid-cols-[226px_1fr] lg:grid-cols-[248px_1fr]">
         <aside className="border-b border-line/20 p-5 flex flex-col gap-5 md:border-b-0 md:border-r md:p-6 md:px-4" aria-label={t.a11y.navigation}>
           <div className="border border-line/20 rounded-md p-4 pb-5 bg-gradient-to-br from-surface-5/35 to-surface-3/80">
             <img
@@ -165,10 +186,9 @@ function App() {
         </aside>
 
         <main className="p-5 flex flex-col gap-5 md:p-6">
-          <HeroSection t={t} onNavigate={setActiveSection} isVisible={activeSection === 'overview'} />
-
           <OverviewSection
             t={t}
+            language={language}
             projects={projects}
             isVisible={activeSection === 'overview'}
             onNavigate={setActiveSection}
@@ -180,7 +200,8 @@ function App() {
             isVisible={activeSection === 'projects'}
             selectedProjectId={selectedProject.id}
             setSelectedProjectId={setSelectedProjectId}
-            onNavigate={setActiveSection}
+            isPulseOpen={isPulseOpen}
+            setIsPulseOpen={setIsPulseOpen}
           />
           <CaseStudySection t={t} isVisible={activeSection === 'caseStudy'} />
           <StackSection t={t} isVisible={activeSection === 'stack'} />
@@ -191,128 +212,155 @@ function App() {
           </footer>
         </main>
 
-        <aside
-          className="border-t border-line/20 p-6 bg-gradient-to-b from-surface-3/90 to-surface-1/95 flex flex-col md:col-span-2 lg:col-span-1 lg:border-t-0 lg:border-l"
-          aria-label={t.a11y.projectPulse}
-        >
-          <p className="m-0 text-signal-coral font-mono uppercase tracking-[0.1em] text-[0.68rem] font-medium">
-            {t.drawer.title}
-          </p>
-          <h2 className={`mt-2 mb-0 text-[1.1rem] font-semibold tracking-[-0.01em] ${healthToken.text}`}>
-            {selectedProject.name}
-          </h2>
-          <p className="mt-2 mb-4 text-ink-2 text-[0.86rem] leading-[1.55]">{selectedProject.summary}</p>
+      </div>
 
-          <div className="grid grid-cols-2 gap-3 mb-1">
-            <article className="border border-line/20 rounded-sm bg-surface-1/60 p-3">
-              <p className="m-0 text-ink-3 text-[0.72rem] font-mono tracking-[0.06em] uppercase">{t.drawer.status}</p>
-              <strong className={`block mt-2 font-mono text-[0.9rem] font-medium ${healthToken.text}`}>
-                {selectedProject.health}
-              </strong>
-            </article>
-
-            <article className="border border-line/20 rounded-sm bg-surface-1/60 p-3">
-              <p className="m-0 text-ink-3 text-[0.72rem] font-mono tracking-[0.06em] uppercase">{t.drawer.completion}</p>
-              <strong className="block mt-2 font-mono text-[0.9rem] font-medium text-ink">{selectedProject.completion}</strong>
-              <div className="mt-2 h-[3px] rounded-full bg-line/12 overflow-hidden" aria-hidden="true">
-                <div
-                  className={`h-full rounded-full transition-all duration-[400ms] ease-out ${healthToken.fill}`}
-                  style={{ width: selectedProject.completion }}
+      {activeSection === 'projects' && isPulseOpen && (
+        <>
+          <button
+            type="button"
+            className="pulse-backdrop"
+            aria-label={t.drawer.close}
+            onClick={() => setIsPulseOpen(false)}
+          />
+          <aside ref={pulsePanelRef} className="project-pulse-panel" aria-label={t.a11y.projectPulse}>
+            <div className="project-pulse border border-line/20 rounded-md p-5 bg-gradient-to-b from-surface-3/92 to-surface-1/96 flex flex-col h-full overflow-y-auto">
+              <div className="project-pulse-media">
+                <img
+                  src={selectedProject.previewImage}
+                  alt={`${selectedProject.name} pulse preview`}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
-            </article>
-          </div>
 
-          <div className="mt-5 pt-5 border-t border-line/10">
-            <h3 className="m-0 mb-3 text-[0.72rem] font-mono font-medium tracking-[0.1em] uppercase text-signal-coral">
-              {t.drawer.decisions}
-            </h3>
-            <ul className="m-0 p-0 list-none grid gap-2">
-              {selectedProject.decisions.map((decision) => (
-                <li key={decision} className="text-ink-2 text-[0.83rem] leading-[1.5] pl-4 relative drawer-li">
-                  {decision}
-                </li>
-              ))}
-            </ul>
-          </div>
+              <p className="m-0 mt-4 text-signal-coral font-mono uppercase tracking-[0.1em] text-[0.68rem] font-medium">
+                {t.drawer.title}
+              </p>
+              <h2 className={`mt-2 mb-0 text-[1.1rem] font-semibold tracking-[-0.01em] ${healthToken.text}`}>
+                {selectedProject.name}
+              </h2>
+              <p className="mt-2 mb-4 text-ink-2 text-[0.86rem] leading-[1.55]">{selectedProject.summary}</p>
 
-          <div className="mt-5 pt-5 border-t border-line/10">
-            <h3 className="m-0 mb-3 text-[0.72rem] font-mono font-medium tracking-[0.1em] uppercase text-signal-coral">
-              {t.drawer.metrics}
-            </h3>
-            <ul className="m-0 p-0 list-none grid gap-2">
-              {selectedProject.metrics.map((metric) => (
-                <li key={metric.label} className="flex justify-between items-baseline gap-3 text-ink-2 text-[0.83rem] leading-[1.5]">
-                  <span>{metric.label}</span>
-                  <strong className="font-mono text-[0.8rem] font-medium text-ink whitespace-nowrap">{metric.value}</strong>
-                </li>
-              ))}
-            </ul>
-          </div>
+              <div className="grid grid-cols-2 gap-3 mb-1">
+                <article className="border border-line/20 rounded-sm bg-surface-1/60 p-3">
+                  <p className="m-0 text-ink-3 text-[0.72rem] font-mono tracking-[0.06em] uppercase">{t.drawer.status}</p>
+                  <strong className={`block mt-2 font-mono text-[0.9rem] font-medium ${healthToken.text}`}>
+                    {selectedProject.health}
+                  </strong>
+                </article>
 
-          <div className="mt-5 pt-5 border-t border-line/10">
-            <h3 className="m-0 mb-3 text-[0.72rem] font-mono font-medium tracking-[0.1em] uppercase text-signal-coral">
-              {t.drawer.impact}
-            </h3>
-            <p className="m-0 text-ink-2 text-[0.84rem] leading-[1.55]">{selectedProject.impact}</p>
-          </div>
-        </aside>
-      </div>
+                <article className="border border-line/20 rounded-sm bg-surface-1/60 p-3">
+                  <p className="m-0 text-ink-3 text-[0.72rem] font-mono tracking-[0.06em] uppercase">{t.drawer.completion}</p>
+                  <strong className="block mt-2 font-mono text-[0.9rem] font-medium text-ink">{selectedProject.completion}</strong>
+                  <div className="mt-2 h-[3px] rounded-full bg-line/12 overflow-hidden" aria-hidden="true">
+                    <div
+                      className={`h-full rounded-full transition-all duration-[400ms] ease-out ${healthToken.fill}`}
+                      style={{ width: selectedProject.completion }}
+                    />
+                  </div>
+                </article>
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-line/10">
+                <h3 className="m-0 mb-3 text-[0.72rem] font-mono font-medium tracking-[0.1em] uppercase text-signal-coral">
+                  {t.drawer.decisions}
+                </h3>
+                <ul className="m-0 p-0 list-none grid gap-2">
+                  {selectedProject.decisions.map((decision) => (
+                    <li key={decision} className="text-ink-2 text-[0.83rem] leading-[1.5] pl-4 relative drawer-li">
+                      {decision}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-line/10">
+                <h3 className="m-0 mb-3 text-[0.72rem] font-mono font-medium tracking-[0.1em] uppercase text-signal-coral">
+                  {t.drawer.metrics}
+                </h3>
+                <ul className="m-0 p-0 list-none grid gap-2">
+                  {selectedProject.metrics.map((metric) => (
+                    <li key={metric.label} className="flex justify-between items-baseline gap-3 text-ink-2 text-[0.83rem] leading-[1.5]">
+                      <span>{metric.label}</span>
+                      <strong className="font-mono text-[0.8rem] font-medium text-ink whitespace-nowrap">{metric.value}</strong>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-line/10">
+                <h3 className="m-0 mb-3 text-[0.72rem] font-mono font-medium tracking-[0.1em] uppercase text-signal-coral">
+                  {t.drawer.impact}
+                </h3>
+                <p className="m-0 text-ink-2 text-[0.84rem] leading-[1.55]">{selectedProject.impact}</p>
+              </div>
+            </div>
+          </aside>
+        </>
+      )}
     </div>
   );
 }
 
-function HeroSection({ t, onNavigate, isVisible }) {
-  if (!isVisible) return null;
-
-  return (
-    <section className="border border-line/20 rounded-md p-5 md:p-6 bg-gradient-to-r from-surface-4/55 to-surface-2/78 animate-panel-in">
-      <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
-        <div>
-          <p className="m-0 text-signal-coral text-[0.72rem] font-mono font-medium tracking-[0.1em] uppercase">{t.hero.kicker}</p>
-          <h2 className="mt-3 mb-0 text-[1.45rem] md:text-[1.7rem] font-semibold tracking-[-0.015em] leading-[1.2] text-ink">
-            {t.hero.title}
-          </h2>
-          <p className="mt-3 mb-0 text-ink-2 text-[0.92rem] leading-[1.6] max-w-[65ch]">{t.hero.subtitle}</p>
-
-          <div className="mt-5 flex flex-wrap gap-3">
-            <button
-              type="button"
-              onClick={() => onNavigate('projects')}
-              className="border border-signal-cyan/50 bg-signal-cyan/10 text-signal-cyan font-mono text-[0.78rem] tracking-[0.06em] uppercase px-5 py-2 rounded-xs cursor-pointer transition-all duration-150 hover:bg-signal-cyan/20 hover:-translate-y-px"
-            >
-              {t.hero.ctaPrimary}
-            </button>
-            <button
-              type="button"
-              onClick={() => onNavigate('contact')}
-              className="border border-line/30 bg-transparent text-ink-2 font-mono text-[0.78rem] tracking-[0.06em] uppercase px-5 py-2 rounded-xs cursor-pointer transition-all duration-150 hover:border-line/50 hover:text-ink hover:-translate-y-px"
-            >
-              {t.hero.ctaSecondary}
-            </button>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          {t.hero.metrics.map((metric) => (
-            <article key={metric.label} className="border border-line/20 rounded-sm bg-surface-1/60 p-3">
-              <p className="m-0 text-ink-3 text-[0.72rem] font-mono tracking-[0.06em] uppercase">{metric.label}</p>
-              <strong className="block mt-2 text-ink text-[1rem] font-semibold tracking-[-0.01em]">{metric.value}</strong>
-            </article>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function OverviewSection({ t, projects, isVisible, onNavigate, onSelectProject }) {
+function OverviewSection({ t, language, projects, isVisible, onNavigate, onSelectProject }) {
   if (!isVisible) return null;
 
   return (
     <section className="border border-line/20 rounded-md p-5 md:p-6 animate-panel-in bg-surface-2/75 section-rhythm-light">
-      <header className="pb-5 mb-5 border-b border-line/10">
-        <h2 className="m-0 text-[1.15rem] font-semibold tracking-[-0.01em] text-ink">{t.overview.title}</h2>
+      <article className="overview-hero-showcase relative overflow-hidden rounded-md border">
+        <span className="overview-accent-dot overview-accent-amber absolute left-7 top-6" aria-hidden="true" />
+        <span className="overview-accent-dot overview-accent-mint overview-accent-optional absolute left-[52%] top-8" aria-hidden="true" />
+        <span className="overview-accent-square overview-accent-cyan overview-accent-optional absolute left-[42%] bottom-16" aria-hidden="true" />
+        <span className="overview-accent-square overview-accent-amber absolute right-8 top-12" aria-hidden="true" />
+        <span className="overview-accent-dot overview-accent-mint overview-accent-optional absolute left-[46%] bottom-7" aria-hidden="true" />
+        <span className="overview-accent-dot overview-accent-amber absolute right-10 bottom-6" aria-hidden="true" />
+        <div className="overview-hero-overlay" aria-hidden="true" />
+
+        <div
+          className={`overview-hero-layout relative z-10 px-6 py-7 md:px-8 md:py-8 lg:px-10 lg:py-10 ${
+            language === 'en' ? 'overview-hero-layout-en' : ''
+          }`}
+        >
+          <div className="overview-hero-content max-w-[35rem]">
+            <p className="overview-hero-name m-0 text-[1.52rem] md:text-[1.9rem] font-semibold tracking-[-0.02em] leading-[1.08]">
+              {t.overview.hero.nameLine}
+            </p>
+            <h2 className="overview-hero-title mt-2 mb-0 text-[1.9rem] md:text-[2.2rem] font-bold tracking-[-0.025em] leading-[1.03]">
+              {t.overview.hero.roleLinePrefix ? `${t.overview.hero.roleLinePrefix} ` : ''}
+              <span className="overview-hero-highlight">{t.overview.hero.roleLineHighlight}</span>
+              {t.overview.hero.roleLineSuffix ? ` ${t.overview.hero.roleLineSuffix}` : ''}
+            </h2>
+            <p className="overview-hero-copy mt-4 mb-0 max-w-[32rem] text-[0.94rem] md:text-[0.98rem] leading-[1.58]">
+              {t.overview.hero.description}
+            </p>
+
+            <div className="mt-7 flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={() => onNavigate('projects')}
+                className="overview-hero-btn-primary inline-flex items-center gap-2 border font-mono text-[0.74rem] tracking-[0.07em] uppercase px-4 py-2 rounded-xs cursor-pointer transition-all duration-150 hover:-translate-y-px whitespace-nowrap"
+              >
+                {t.overview.hero.ctaPrimary}
+                <span aria-hidden="true">-&gt;</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => onNavigate('contact')}
+                className="overview-hero-btn-secondary inline-flex items-center gap-2 border font-mono text-[0.74rem] tracking-[0.07em] uppercase px-4 py-2 rounded-xs cursor-pointer transition-all duration-150 hover:-translate-y-px whitespace-nowrap"
+              >
+                {t.overview.hero.ctaSecondary}
+              </button>
+            </div>
+          </div>
+
+          <div className="overview-hero-image-wrap relative flex justify-center lg:justify-end">
+            <img src={overviewPhoto} alt="Miguel Bayter" className="overview-hero-image" />
+          </div>
+        </div>
+      </article>
+
+      <header className="pt-6 pb-5 mb-5 border-b border-line/10">
+        <h3 className="m-0 text-[1.05rem] font-semibold tracking-[-0.01em] text-ink">{t.overview.title}</h3>
         <p className="mt-2 mb-0 text-ink-2 text-[0.88rem] leading-[1.55]">{t.overview.subtitle}</p>
       </header>
 
@@ -362,7 +410,7 @@ function OverviewSection({ t, projects, isVisible, onNavigate, onSelectProject }
   );
 }
 
-function ProjectsSection({ t, projects, isVisible, selectedProjectId, setSelectedProjectId, onNavigate }) {
+function ProjectsSection({ t, projects, isVisible, selectedProjectId, setSelectedProjectId, isPulseOpen, setIsPulseOpen }) {
   if (!isVisible) return null;
 
   return (
@@ -376,77 +424,95 @@ function ProjectsSection({ t, projects, isVisible, selectedProjectId, setSelecte
         {projects.map((project) => {
           const isSelected = selectedProjectId === project.id;
           const projectHealth = HEALTH[project.statusKey];
+          const hasDemo = Boolean(project.links.demo);
 
           return (
             <article
               key={project.id}
-              className={`project-card border border-line/20 rounded-lg p-4 transition-all duration-150 h-full flex flex-col ${
+              className={`project-card project-showcase border border-line/20 rounded-lg transition-all duration-150 h-full flex flex-col overflow-hidden ${
                 isSelected
                   ? `bg-surface-4 ${projectHealth.selectedBorder} ${projectHealth.selectedShadow} shadow-[0_14px_30px_rgba(10,19,30,0.18)]`
                   : `bg-surface-3 hover:border-line/40 hover:bg-surface-4 ${projectHealth.shadow}`
               }`}
             >
-              <button
-                type="button"
-                onClick={() => setSelectedProjectId(project.id)}
-                className="w-full text-left bg-transparent border-0 p-0 cursor-pointer"
-              >
-                <div className="h-[132px] border border-line/20 rounded-md bg-gradient-to-br from-surface-5/30 via-surface-4/25 to-surface-2/75 px-4 py-3 flex flex-col justify-between">
-                  <p className="m-0 text-ink-3 text-[0.68rem] font-mono tracking-[0.08em] uppercase">{project.previewLabel}</p>
-                  <div className="flex items-end justify-between gap-3">
-                    <h3 className="m-0 text-[1rem] font-semibold tracking-[-0.01em] text-ink">{project.name}</h3>
-                    <span className={`text-[0.7rem] font-mono tracking-[0.08em] uppercase px-2 py-[2px] border border-line/20 rounded-xs bg-surface-2 ${projectHealth.text}`}>
+              <button type="button" onClick={() => setSelectedProjectId(project.id)} className="w-full text-left bg-transparent border-0 p-0 cursor-pointer">
+                <div className="project-showcase-media">
+                  <img
+                    src={project.previewImage}
+                    alt={`${project.name} preview`}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
+                  />
+                </div>
+
+                <div className="p-4 md:p-5">
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="m-0 text-ink-3 text-[0.66rem] font-mono tracking-[0.08em] uppercase">{project.type}</p>
+                      <h3 className="mt-2 mb-0 text-[1.08rem] font-semibold tracking-[-0.01em] text-ink">{project.name}</h3>
+                    </div>
+                    <span className={`text-[0.68rem] font-mono tracking-[0.08em] uppercase px-2 py-[2px] border border-line/20 rounded-xs bg-surface-2 whitespace-nowrap ${projectHealth.text}`}>
                       {project.health}
                     </span>
                   </div>
-                </div>
 
-                <p className="mt-3 mb-0 text-ink-2 text-[0.86rem] leading-[1.55]">{project.summary}</p>
+                  <p className="mt-3 mb-0 text-ink-2 text-[0.86rem] leading-[1.52]">{project.summary}</p>
 
-                <div className="mt-4 grid gap-3">
-                  <StoryRow label={t.projects.problemLabel} value={project.problem} />
-                  <StoryRow label={t.projects.solutionLabel} value={project.solution} />
-                  <StoryRow label={t.projects.impactLabel} value={project.impact} />
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {project.facets.slice(0, 4).map((facet) => (
+                      <span key={facet} className="project-tech-pill">
+                        {facet}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </button>
 
-              <div className="mt-4 pt-3 border-t border-line/10 flex flex-wrap gap-2">
-                {project.facets.map((facet) => (
-                  <span
-                    key={facet}
-                    className="border border-line/10 rounded-xs px-2.5 py-[3px] text-[0.72rem] font-mono text-ink-3 bg-surface-2/60 tracking-[0.02em]"
-                  >
-                    {facet}
-                  </span>
-                ))}
-              </div>
+              <div className="px-4 md:px-5 pb-4 md:pb-5 mt-auto">
+                <div className="mt-1 grid grid-cols-2 gap-3 border-t border-line/10 pt-3">
+                <article className="border border-line/15 rounded-xs p-2.5 bg-surface-2/60">
+                  <p className="m-0 text-ink-3 text-[0.66rem] font-mono tracking-[0.08em] uppercase">{t.drawer.completion}</p>
+                  <strong className="block mt-1 text-ink text-[0.83rem] font-medium">{project.completion}</strong>
+                </article>
+                <article className="border border-line/15 rounded-xs p-2.5 bg-surface-2/60">
+                  <p className="m-0 text-ink-3 text-[0.66rem] font-mono tracking-[0.08em] uppercase">{t.drawer.status}</p>
+                  <strong className={`block mt-1 text-[0.83rem] font-medium ${projectHealth.text}`}>{project.health}</strong>
+                </article>
+                </div>
 
-              <div className="mt-auto pt-3 border-t border-line/10 flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center text-ink-4 text-[0.78rem] font-mono tracking-[0.04em]">
-                <span>{t.projects.linksLabel}</span>
-                <div className="flex flex-wrap gap-2">
+                <div className="mt-3 border-t border-line/10 pt-3 flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSelectedProjectId(project.id);
+                      setIsPulseOpen(isSelected ? !isPulseOpen : true);
+                    }}
+                    className="project-action project-action-pulse"
+                  >
+                    {isSelected && isPulseOpen ? t.drawer.close : t.drawer.open}
+                  </button>
                   <a
                     href={project.links.repo}
                     target="_blank"
                     rel="noreferrer"
-                    className="border border-line/20 rounded-xs px-3 py-[3px] min-w-[84px] text-center text-ink-2 bg-signal-cyan/10 text-[0.76rem] font-mono transition-all duration-150 hover:border-signal-cyan hover:text-signal-cyan hover:bg-signal-cyan/20"
+                    className="project-action project-action-repo"
                   >
+                    <GitHubIcon className="w-3.5 h-3.5" />
                     {t.projects.repo}
                   </a>
-                  <a
-                    href={project.links.demo}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="border border-line/20 rounded-xs px-3 py-[3px] min-w-[84px] text-center text-ink-2 bg-signal-cyan/10 text-[0.76rem] font-mono transition-all duration-150 hover:border-signal-cyan hover:text-signal-cyan hover:bg-signal-cyan/20"
-                  >
-                    {t.projects.demo}
-                  </a>
-                  <button
-                    type="button"
-                    onClick={() => onNavigate('caseStudy')}
-                    className="border border-line/20 rounded-xs px-3 py-[3px] min-w-[84px] text-center text-ink-2 bg-transparent text-[0.76rem] font-mono transition-all duration-150 hover:border-line/40 hover:text-ink cursor-pointer"
-                  >
-                    {t.projects.caseStudy}
-                  </button>
+                  {hasDemo ? (
+                    <a
+                      href={project.links.demo}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="project-action project-action-demo"
+                    >
+                      <ExternalLinkIcon className="w-3.5 h-3.5" />
+                      {t.projects.demo}
+                    </a>
+                  ) : (
+                    <span className="project-action project-action-disabled">{t.projects.noDemo}</span>
+                  )}
                 </div>
               </div>
             </article>
@@ -454,17 +520,6 @@ function ProjectsSection({ t, projects, isVisible, selectedProjectId, setSelecte
         })}
       </div>
     </section>
-  );
-}
-
-function StoryRow({ label, value }) {
-  return (
-    <div className="grid grid-cols-[84px_1fr] gap-3 items-start">
-      <p className="m-0 text-ink-2 text-[0.66rem] font-mono tracking-[0.08em] uppercase border border-line/15 rounded-xs px-2 py-[2px] text-center bg-surface-2/60">
-        {label}
-      </p>
-      <p className="m-0 text-ink-2 text-[0.82rem] leading-[1.55]">{value}</p>
-    </div>
   );
 }
 
@@ -539,6 +594,16 @@ function GitHubIcon({ className }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0 1 12 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
+    </svg>
+  );
+}
+
+function ExternalLinkIcon({ className }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M14 4h6v6" />
+      <path d="M10 14 20 4" />
+      <path d="M20 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h5" />
     </svg>
   );
 }

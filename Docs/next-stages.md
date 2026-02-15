@@ -6,14 +6,21 @@
 - Scope started: Contact form Phase 1
 - Goal: real submission flow from `Send message` with clear UX states
 
+## UI polish updates
+
+- [x] Refactor `Project Pulse` from fixed column to optional floating panel
+- [x] Add pulse toggle behavior (open/close) scoped to `Projects` section
+- [x] Keep portfolio layout stable when pulse is closed
+- [ ] Run final visual QA for pulse behavior in desktop/mobile and all themes
+
 ## Presentation readiness snapshot
 
 - [x] UI and storytelling are strong enough for interviews
 - [x] Bilingual content and section structure are solid
 - [x] GitHub Pages CI/CD is configured and deployable
-- [ ] Project links should point to real, separate demos/repos per project
-- [ ] Contact form should send to a real endpoint (not mailto only)
-- [ ] SEO/social metadata (Open Graph/Twitter) should be completed
+- [x] Project links should point to real, separate demos/repos per project
+- [x] Contact form should send to a real endpoint (not mailto only)
+- [x] SEO/social metadata (Open Graph/Twitter) should be completed
 
 ## Send message - Phase 1 (recommended)
 
@@ -37,7 +44,7 @@ Ship a production-usable contact flow without changing hosting.
 - [x] Add anti-spam honeypot input
 - [x] Add success and error feedback messages in EN/ES
 - [x] Configure `VITE_FORMSPREE_ENDPOINT` in deployment environment
-- [ ] Run final production test against live endpoint
+- [x] Run final production test against live endpoint
 
 ### Environment variable
 
