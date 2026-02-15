@@ -150,16 +150,18 @@ function App() {
         </div>
       </header>
 
-      <div className="grid grid-cols-1 min-h-[76vh] md:grid-cols-[226px_1fr] lg:grid-cols-[248px_1fr]">
-        <aside className="border-b border-line/20 p-5 flex flex-col gap-2 md:border-b-0 md:border-r md:p-6 md:px-4" aria-label={t.a11y.navigation}>
-          <nav className="flex flex-wrap gap-2 md:flex-col md:gap-1">
+      <div className="grid grid-cols-1 min-h-[76vh] md:grid-cols-[204px_1fr] lg:grid-cols-[222px_1fr]">
+        <aside className="border-b border-line/20 p-5 flex flex-col gap-4 md:border-b-0 md:border-r md:p-6 md:px-4 md:sticky md:top-4 md:self-start" aria-label={t.a11y.navigation}>
+          <p className="m-0 text-ink-4 text-[0.68rem] font-mono tracking-[0.08em] uppercase">{t.a11y.navigation}</p>
+
+          <nav className="flex flex-wrap gap-2 md:flex-col md:gap-1.5 border border-line/15 rounded-md bg-surface-3/45 p-2">
             {sections.map((section) => {
               const isActive = section === activeSection;
               return (
                 <button
                   key={section}
                   type="button"
-                  className={`text-left bg-transparent border rounded-sm px-3 py-3 cursor-pointer text-[0.88rem] font-medium font-sans transition-all duration-150 focus-visible:outline-none md:w-full ${
+                  className={`text-left bg-transparent border rounded-sm px-3 py-2.5 cursor-pointer text-[0.86rem] font-medium font-sans transition-all duration-150 focus-visible:outline-none md:w-full ${
                     isActive
                       ? 'border-signal-cyan/30 bg-signal-cyan/10 text-ink shadow-[inset_3px_0_0_#6dbfdd]'
                       : 'border-transparent text-ink-2 hover:border-line/30 hover:bg-signal-cyan/10 hover:text-ink'

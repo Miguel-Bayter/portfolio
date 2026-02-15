@@ -4,7 +4,6 @@ export const content = {
     focus: "I ship production-ready products from UX to API architecture.",
     availability: "Open to full-time roles · LATAM / Remote",
     a11y: {
-      navigation: "Primary navigation",
       projectPulse: "Selected project pulse panel",
       toggleLanguage: "Switch language",
       toggleTheme: "Switch color theme",
@@ -326,7 +325,6 @@ export const content = {
       "Entrego productos listos para produccion desde UX hasta arquitectura de API.",
     availability: "Disponible para roles full-time · LATAM / Remoto",
     a11y: {
-      navigation: "Navegacion principal",
       projectPulse: "Panel de pulso del proyecto seleccionado",
       toggleLanguage: "Cambiar idioma",
       toggleTheme: "Cambiar tema de color",
