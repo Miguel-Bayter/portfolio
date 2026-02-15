@@ -19,6 +19,16 @@ npm install
 npm run dev
 ```
 
+### Contact form setup (Phase 1)
+
+Create a `.env` file in the project root with:
+
+```bash
+VITE_FORMSPREE_ENDPOINT=https://formspree.io/f/your-form-id
+```
+
+Without this variable, the contact form will show an error message instead of submitting.
+
 ## Build
 
 ```bash

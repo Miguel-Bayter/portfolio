@@ -564,17 +564,80 @@ const CHANNEL_ICONS = { github: GitHubIcon, linkedin: LinkedInIcon, mail: MailIc
 
 function ContactSection({ t, isVisible }) {
   const [showForm, setShowForm] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formStatus, setFormStatus] = useState('idle');
+  const [feedback, setFeedback] = useState('');
+  const [formData, setFormData] = useState({ name: '', email: '', message: '', company: '' });
+
+  const formEndpoint = import.meta.env.VITE_FORMSPREE_ENDPOINT;
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const isSending = formStatus === 'loading';
 
   if (!isVisible) return null;
 
-  function handleSubmit(event) {
+  function resetFormState() {
+    setFormStatus('idle');
+    setFeedback('');
+  }
+
+  function updateField(field, value) {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    if (formStatus !== 'idle') resetFormState();
+  }
+
+  async function handleSubmit(event) {
     event.preventDefault();
-    const subject = encodeURIComponent('Portfolio Contact');
-    const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`);
-    window.location.href = `mailto:mbayterq.dev@gmail.com?subject=${subject}&body=${body}`;
-    setSubmitted(true);
+
+    const payload = {
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      message: formData.message.trim(),
+      _subject: 'Portfolio Contact',
+      _gotcha: formData.company.trim(),
+    };
+
+    if (!payload.name || !payload.email || !payload.message) {
+      setFormStatus('error');
+      setFeedback(t.contact.form.required);
+      return;
+    }
+
+    if (!emailPattern.test(payload.email)) {
+      setFormStatus('error');
+      setFeedback(t.contact.form.invalidEmail);
+      return;
+    }
+
+    if (!formEndpoint) {
+      setFormStatus('error');
+      setFeedback(t.contact.form.error);
+      return;
+    }
+
+    setFormStatus('loading');
+    setFeedback('');
+
+    try {
+      const response = await fetch(formEndpoint, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        throw new Error('Contact request failed');
+      }
+
+      setFormStatus('success');
+      setFeedback(t.contact.form.sent);
+      setFormData({ name: '', email: '', message: '', company: '' });
+      setShowForm(false);
+    } catch {
+      setFormStatus('error');
+      setFeedback(t.contact.form.error);
+    }
   }
 
   const inputClass =
@@ -605,7 +668,7 @@ function ContactSection({ t, isVisible }) {
                 type="button"
                 onClick={() => {
                   setShowForm((prev) => !prev);
-                  setSubmitted(false);
+                  resetFormState();
                 }}
                 className={`flex flex-col items-start gap-3 border rounded-sm px-4 py-5 w-full text-left cursor-pointer transition-all duration-150 ${
                   showForm
@@ -634,27 +697,42 @@ function ContactSection({ t, isVisible }) {
         })}
       </div>
 
-      {showForm && !submitted && (
+      {showForm && formStatus !== 'success' && (
         <form onSubmit={handleSubmit} className="mt-5 pt-5 border-t border-line/10 animate-panel-in grid gap-4" noValidate>
+          <input
+            type="text"
+            name="company"
+            value={formData.company}
+            onChange={(event) => updateField('company', event.target.value)}
+            tabIndex={-1}
+            autoComplete="off"
+            className="hidden"
+            aria-hidden="true"
+          />
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className={labelClass}>{t.contact.form.name}</label>
+              <label htmlFor="contact-name" className={labelClass}>{t.contact.form.name}</label>
               <input
+                id="contact-name"
+                name="name"
                 type="text"
                 required
                 value={formData.name}
-                onChange={(event) => setFormData({ ...formData, name: event.target.value })}
+                onChange={(event) => updateField('name', event.target.value)}
                 placeholder={t.contact.form.namePlaceholder}
                 className={inputClass}
               />
             </div>
             <div>
-              <label className={labelClass}>{t.contact.form.email}</label>
+              <label htmlFor="contact-email" className={labelClass}>{t.contact.form.email}</label>
               <input
+                id="contact-email"
+                name="email"
                 type="email"
                 required
                 value={formData.email}
-                onChange={(event) => setFormData({ ...formData, email: event.target.value })}
+                onChange={(event) => updateField('email', event.target.value)}
                 placeholder={t.contact.form.emailPlaceholder}
                 className={inputClass}
               />
@@ -662,39 +740,49 @@ function ContactSection({ t, isVisible }) {
           </div>
 
           <div>
-            <label className={labelClass}>{t.contact.form.message}</label>
+            <label htmlFor="contact-message" className={labelClass}>{t.contact.form.message}</label>
             <textarea
+              id="contact-message"
+              name="message"
               required
               rows={4}
               value={formData.message}
-              onChange={(event) => setFormData({ ...formData, message: event.target.value })}
+              onChange={(event) => updateField('message', event.target.value)}
               placeholder={t.contact.form.messagePlaceholder}
               className={`${inputClass} resize-none`}
             />
           </div>
 
+          {formStatus === 'error' && feedback && (
+            <p className="m-0 text-signal-coral text-[0.82rem] leading-[1.5]">{feedback}</p>
+          )}
+
           <div className="flex gap-3 justify-end">
             <button
               type="button"
-              onClick={() => setShowForm(false)}
+              onClick={() => {
+                setShowForm(false);
+                resetFormState();
+              }}
               className="border border-line/20 bg-transparent text-ink-2 font-mono text-[0.78rem] tracking-[0.06em] uppercase px-5 py-2 rounded-xs cursor-pointer hover:border-line/40 hover:text-ink transition-all duration-150"
             >
               {t.contact.form.cancel}
             </button>
             <button
               type="submit"
-              className="border border-signal-mint/50 bg-signal-mint/10 text-signal-mint font-mono text-[0.78rem] tracking-[0.06em] uppercase px-5 py-2 rounded-xs cursor-pointer hover:bg-signal-mint/20 transition-all duration-150"
+              disabled={isSending}
+              className="border border-signal-mint/50 bg-signal-mint/10 text-signal-mint font-mono text-[0.78rem] tracking-[0.06em] uppercase px-5 py-2 rounded-xs cursor-pointer hover:bg-signal-mint/20 transition-all duration-150 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {t.contact.form.submit}
+              {isSending ? t.contact.form.sending : t.contact.form.submit}
             </button>
           </div>
         </form>
       )}
 
-      {submitted && (
+      {formStatus === 'success' && (
         <div className="mt-5 pt-5 border-t border-line/10 animate-panel-in flex items-center gap-3">
           <span className="text-signal-mint text-[1.1rem] font-mono">+</span>
-          <p className="m-0 text-ink-2 text-[0.88rem] leading-[1.5]">{t.contact.form.sent}</p>
+          <p className="m-0 text-ink-2 text-[0.88rem] leading-[1.5]">{feedback || t.contact.form.sent}</p>
         </div>
       )}
     </section>
