@@ -4,7 +4,6 @@ export const content = {
     focus: "I ship production-ready products from UX to API architecture.",
     availability: "Open to full-time roles · LATAM / Remote",
     a11y: {
-      projectPulse: "Selected project pulse panel",
       toggleLanguage: "Switch language",
       toggleTheme: "Switch color theme",
     },
@@ -74,7 +73,8 @@ export const content = {
           { name: "Express", icon: "express", tone: "slate", rank: 9 },
           { name: "SQLite", icon: "sqlite", tone: "indigo", rank: 10 },
           { name: "MongoDB", icon: "mongodb", tone: "forest", rank: 11 },
-          { name: "Docker", icon: "docker", tone: "cyan", rank: 12 },
+          { name: "Prisma", icon: "prisma", tone: "indigo", rank: 12 },
+          { name: "Docker", icon: "docker", tone: "cyan", rank: 13 },
         ],
       },
     },
@@ -85,7 +85,7 @@ export const content = {
       linksLabel: "Links",
       repo: "Repository",
       demo: "Live Demo",
-      noDemo: "No live demo",
+      noDemo: "Maintenance",
       caseStudy: "Details",
       problemLabel: "Problem",
       solutionLabel: "Solution",
@@ -107,9 +107,6 @@ export const content = {
           impact:
             "Established a production-shaped foundation for real-time game flows and progressive feature delivery.",
           facets: ["Node.js", "Express", "Socket.io", "JavaScript"],
-          statusKey: "up",
-          health: "Healthy",
-          completion: "74%",
           decisions: [
             "Event-driven room orchestration for real-time consistency",
             "Transport-level validation before gameplay actions",
@@ -141,9 +138,6 @@ export const content = {
           impact:
             "Improved operational reliability for inventory and returns while supporting multilingual product growth.",
           facets: ["React 19", "TypeScript", "Prisma", "i18n"],
-          statusKey: "stable",
-          health: "Stable",
-          completion: "86%",
           decisions: [
             "Strict ADMIN/USER role boundaries across routes and actions",
             "Transactional checkout + rental/return integrity",
@@ -313,16 +307,6 @@ export const content = {
         required: "Please complete all required fields.",
       },
     },
-    drawer: {
-      title: "Project Pulse",
-      open: "Open Pulse",
-      close: "Close Pulse",
-      status: "Status",
-      completion: "Completion",
-      decisions: "Technical Decisions",
-      metrics: "Delivery Metrics",
-      impact: "Business Impact",
-    },
     footer: "Miguel Eduardo Bayter Quintana - 2026",
   },
   es: {
@@ -331,7 +315,6 @@ export const content = {
       "Entrego productos listos para produccion desde UX hasta arquitectura de API.",
     availability: "Disponible para roles full-time · LATAM / Remoto",
     a11y: {
-      projectPulse: "Panel de pulso del proyecto seleccionado",
       toggleLanguage: "Cambiar idioma",
       toggleTheme: "Cambiar tema de color",
     },
@@ -401,7 +384,8 @@ export const content = {
           { name: "Express", icon: "express", tone: "slate", rank: 9 },
           { name: "SQLite", icon: "sqlite", tone: "indigo", rank: 10 },
           { name: "MongoDB", icon: "mongodb", tone: "forest", rank: 11 },
-          { name: "Docker", icon: "docker", tone: "cyan", rank: 12 },
+          { name: "Prisma", icon: "prisma", tone: "indigo", rank: 12 },
+          { name: "Docker", icon: "docker", tone: "cyan", rank: 13 },
         ],
       },
     },
@@ -412,7 +396,7 @@ export const content = {
       linksLabel: "Enlaces",
       repo: "Repositorio",
       demo: "Demo",
-      noDemo: "Sin demo",
+      noDemo: "Mantenimiento",
       caseStudy: "Detalle",
       problemLabel: "Problema",
       solutionLabel: "Solucion",
@@ -434,9 +418,6 @@ export const content = {
           impact:
             "Dejo una base real de produccion para evolucionar flujos multijugador con menor riesgo tecnico.",
           facets: ["Node.js", "Express", "Socket.io", "JavaScript"],
-          statusKey: "up",
-          health: "Saludable",
-          completion: "74%",
           decisions: [
             "Orquestacion por eventos para consistencia en tiempo real",
             "Validacion de acciones antes de ejecutar jugadas",
@@ -468,9 +449,6 @@ export const content = {
           impact:
             "Mejoro la confiabilidad operativa de inventario y devoluciones, habilitando crecimiento multilenguaje.",
           facets: ["React 19", "TypeScript", "Prisma", "i18n"],
-          statusKey: "stable",
-          health: "Estable",
-          completion: "86%",
           decisions: [
             "Limites estrictos entre roles ADMIN y USER",
             "Checkout y devoluciones con integridad transaccional",
@@ -639,16 +617,6 @@ export const content = {
         invalidEmail: "Ingresa un correo valido.",
         required: "Completa todos los campos obligatorios.",
       },
-    },
-    drawer: {
-      title: "Pulso del proyecto",
-      open: "Abrir Pulso",
-      close: "Cerrar Pulso",
-      status: "Estado",
-      completion: "Avance",
-      decisions: "Decisiones tecnicas",
-      metrics: "Metricas de entrega",
-      impact: "Impacto de negocio",
     },
     footer: "Miguel Eduardo Bayter Quintana - 2026",
   },

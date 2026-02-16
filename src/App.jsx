@@ -1,31 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { content } from './data/content';
 import overviewPhoto from './img/overview.png';
 import profilePhoto from './img/Profile.jpg';
-
-const HEALTH = {
-  up: {
-    shadow: 'shadow-[inset_3px_0_0_#2dd4bf]',
-    selectedShadow: 'shadow-[inset_3px_0_0_#2dd4bf,inset_0_0_0_1px_rgba(45,212,191,0.16)]',
-    selectedBorder: 'border-signal-mint/50',
-    text: 'text-signal-mint',
-    fill: 'bg-signal-mint',
-  },
-  stable: {
-    shadow: 'shadow-[inset_3px_0_0_#3bb0f2]',
-    selectedShadow: 'shadow-[inset_3px_0_0_#3bb0f2,inset_0_0_0_1px_rgba(59,176,242,0.16)]',
-    selectedBorder: 'border-signal-cyan/50',
-    text: 'text-signal-cyan',
-    fill: 'bg-signal-cyan',
-  },
-  progress: {
-    shadow: 'shadow-[inset_3px_0_0_#f0bb58]',
-    selectedShadow: 'shadow-[inset_3px_0_0_#f0bb58,inset_0_0_0_1px_rgba(240,187,88,0.16)]',
-    selectedBorder: 'border-signal-amber/50',
-    text: 'text-signal-amber',
-    fill: 'bg-signal-amber',
-  },
-};
 
 const sections = ['overview', 'projects', 'caseStudy', 'stack', 'contact'];
 
@@ -46,12 +22,9 @@ function App() {
   const [theme, setTheme] = useState(getInitialTheme);
   const [activeSection, setActiveSection] = useState('overview');
   const [selectedProjectId, setSelectedProjectId] = useState('impostor');
-  const [isPulseOpen, setIsPulseOpen] = useState(false);
-  const pulsePanelRef = useRef(null);
 
   const t = useMemo(() => content[language], [language]);
   const projects = t.projects.items;
-  const selectedProject = projects.find((p) => p.id === selectedProjectId) ?? projects[0];
   const linkedInUrl = t.contact.channels.find((channel) => channel.icon === 'linkedin')?.href;
 
   useEffect(() => {
@@ -59,24 +32,6 @@ function App() {
       setSelectedProjectId(projects[0].id);
     }
   }, [projects, selectedProjectId]);
-
-  useEffect(() => {
-    if (activeSection !== 'projects' && isPulseOpen) {
-      setIsPulseOpen(false);
-    }
-  }, [activeSection, isPulseOpen]);
-
-  useEffect(() => {
-    if (!isPulseOpen || activeSection !== 'projects') return;
-    if (typeof window === 'undefined') return;
-    if (window.innerWidth > 900) return;
-
-    const timer = window.setTimeout(() => {
-      pulsePanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-    }, 40);
-
-    return () => window.clearTimeout(timer);
-  }, [isPulseOpen, activeSection, selectedProjectId]);
 
   useEffect(() => {
     window.localStorage.setItem('portfolio-lang', language);
@@ -108,8 +63,6 @@ function App() {
       return 'dark';
     });
   };
-
-  const healthToken = HEALTH[selectedProject.statusKey];
 
   return (
     <div className="app-shell relative w-[min(1440px,95vw)] mx-auto my-5 border border-line/20 rounded-[20px] overflow-hidden bg-gradient-to-b from-[rgba(34,60,82,0.9)] to-[rgba(16,29,43,0.95)] shadow-[0_20px_58px_rgba(10,19,30,0.42),inset_0_1px_0_rgba(226,240,248,0.06)] max-md:mx-2.5 max-md:my-2.5 max-md:rounded-[14px]">
@@ -196,10 +149,8 @@ function App() {
             t={t}
             projects={projects}
             isVisible={activeSection === 'projects'}
-            selectedProjectId={selectedProject.id}
+            selectedProjectId={selectedProjectId}
             setSelectedProjectId={setSelectedProjectId}
-            isPulseOpen={isPulseOpen}
-            setIsPulseOpen={setIsPulseOpen}
           />
           <CaseStudySection t={t} isVisible={activeSection === 'caseStudy'} />
           <StackSection t={t} isVisible={activeSection === 'stack'} />
@@ -211,91 +162,6 @@ function App() {
         </main>
 
       </div>
-
-      {activeSection === 'projects' && isPulseOpen && (
-        <>
-          <button
-            type="button"
-            className="pulse-backdrop"
-            aria-label={t.drawer.close}
-            onClick={() => setIsPulseOpen(false)}
-          />
-          <aside ref={pulsePanelRef} className="project-pulse-panel" aria-label={t.a11y.projectPulse}>
-            <div className="project-pulse border border-line/20 rounded-md p-5 bg-gradient-to-b from-surface-3/92 to-surface-1/96 flex flex-col h-full overflow-y-auto">
-              <div className="project-pulse-media">
-                <img
-                  src={selectedProject.previewImage}
-                  alt={`${selectedProject.name} pulse preview`}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                />
-              </div>
-
-              <p className="m-0 mt-4 text-ink-3 font-mono uppercase tracking-[0.1em] text-[0.68rem] font-medium">
-                {t.drawer.title}
-              </p>
-              <h2 className={`mt-2 mb-0 text-[1.1rem] font-semibold tracking-[-0.01em] ${healthToken.text}`}>
-                {selectedProject.name}
-              </h2>
-              <p className="mt-2 mb-4 text-ink-2 text-[0.86rem] leading-[1.55]">{selectedProject.summary}</p>
-
-              <div className="grid grid-cols-2 gap-3 mb-1">
-                <article className="border border-line/20 rounded-sm bg-surface-1/60 p-3">
-                  <p className="m-0 text-ink-3 text-[0.72rem] font-mono tracking-[0.06em] uppercase">{t.drawer.status}</p>
-                  <strong className={`block mt-2 font-mono text-[0.9rem] font-medium ${healthToken.text}`}>
-                    {selectedProject.health}
-                  </strong>
-                </article>
-
-                <article className="border border-line/20 rounded-sm bg-surface-1/60 p-3">
-                  <p className="m-0 text-ink-3 text-[0.72rem] font-mono tracking-[0.06em] uppercase">{t.drawer.completion}</p>
-                  <strong className="block mt-2 font-mono text-[0.9rem] font-medium text-ink">{selectedProject.completion}</strong>
-                  <div className="mt-2 h-[3px] rounded-full bg-line/12 overflow-hidden" aria-hidden="true">
-                    <div
-                      className={`h-full rounded-full transition-all duration-[400ms] ease-out ${healthToken.fill}`}
-                      style={{ width: selectedProject.completion }}
-                    />
-                  </div>
-                </article>
-              </div>
-
-              <div className="mt-4 pt-4 border-t border-line/10">
-                <h3 className="m-0 mb-3 text-[0.72rem] font-mono font-medium tracking-[0.1em] uppercase text-ink-3">
-                  {t.drawer.decisions}
-                </h3>
-                <ul className="m-0 p-0 list-none grid gap-2">
-                  {selectedProject.decisions.map((decision) => (
-                    <li key={decision} className="text-ink-2 text-[0.83rem] leading-[1.5] pl-4 relative drawer-li">
-                      {decision}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="mt-4 pt-4 border-t border-line/10">
-                <h3 className="m-0 mb-3 text-[0.72rem] font-mono font-medium tracking-[0.1em] uppercase text-ink-3">
-                  {t.drawer.metrics}
-                </h3>
-                <ul className="m-0 p-0 list-none grid gap-2">
-                  {selectedProject.metrics.map((metric) => (
-                    <li key={metric.label} className="flex justify-between items-baseline gap-3 text-ink-2 text-[0.83rem] leading-[1.5]">
-                      <span>{metric.label}</span>
-                      <strong className="font-mono text-[0.8rem] font-medium text-ink whitespace-nowrap">{metric.value}</strong>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="mt-4 pt-4 border-t border-line/10">
-                <h3 className="m-0 mb-3 text-[0.72rem] font-mono font-medium tracking-[0.1em] uppercase text-ink-3">
-                  {t.drawer.impact}
-                </h3>
-                <p className="m-0 text-ink-2 text-[0.84rem] leading-[1.55]">{selectedProject.impact}</p>
-              </div>
-            </div>
-          </aside>
-        </>
-      )}
     </div>
   );
 }
@@ -378,9 +244,6 @@ function OverviewSection({ t, language, projects, isVisible, onNavigate, onSelec
 
         <div className="proof-strip-track md:grid md:grid-cols-2 md:gap-4">
           {projects.slice(0, 2).map((project) => {
-            const projectHealth = HEALTH[project.statusKey];
-            const completionPctRaw = Number.parseInt(project.completion, 10);
-            const completionPct = Number.isFinite(completionPctRaw) ? Math.max(0, Math.min(100, completionPctRaw)) : 0;
             return (
               <button
                 key={project.id}
@@ -389,31 +252,20 @@ function OverviewSection({ t, language, projects, isVisible, onNavigate, onSelec
                   onSelectProject(project.id);
                   onNavigate('projects');
                 }}
-                className={`proof-card text-left border border-line/20 rounded-md p-4 bg-surface-4 transition-all duration-150 hover:-translate-y-0.5 hover:border-line/30 ${projectHealth.shadow}`}
+                className="proof-card text-left border border-line/20 rounded-md p-4 bg-surface-4 transition-all duration-150 hover:-translate-y-0.5 hover:border-line/30 h-full flex flex-col"
               >
                 <div className="proof-card-head flex items-center justify-between gap-2 mb-2">
                   <p className="proof-card-type m-0 text-ink-3 text-[0.68rem] font-mono tracking-[0.08em] uppercase">{project.type}</p>
-                  <span className={`proof-card-status inline-flex items-center gap-1 text-[0.66rem] font-mono tracking-[0.08em] uppercase px-2 py-[2px] border border-line/20 rounded-xs bg-surface-2 ${projectHealth.text}`}>
-                    <span className="proof-status-dot" aria-hidden="true" />
-                    {project.health}
-                  </span>
                 </div>
                 <h4 className="proof-card-title mt-0 mb-0 text-ink text-[1.05rem] font-semibold tracking-[-0.01em]">{project.name}</h4>
                 <p className="proof-card-impact mt-2 mb-0 text-ink-2 text-[0.9rem] leading-[1.48]">{project.impact}</p>
-                <div className="proof-progress mt-3" aria-hidden="true">
-                  <div className={`proof-progress-fill ${projectHealth.fill}`} style={{ width: `${completionPct}%` }} />
-                </div>
-                <div className="proof-card-meta mt-3 pt-3 border-t border-line/10 text-[0.72rem] font-mono text-ink-3">
-                  <div className="proof-card-meta-grid">
-                    <article className="proof-meta-cell">
-                      <p className="proof-meta-label">{t.drawer.completion}</p>
-                      <strong className="proof-meta-value">{project.completion}</strong>
-                    </article>
-                    <article className="proof-meta-cell proof-meta-cell-facet">
-                      <p className="proof-meta-label">{project.type}</p>
-                      <strong className="proof-meta-value">{project.facets[0]}</strong>
-                    </article>
-                  </div>
+                <div className="proof-card-tech mt-3 flex flex-wrap gap-2">
+                  {project.facets.slice(0, 4).map((facet) => (
+                    <span key={facet} className={`project-tech-pill project-tech-pill-${resolveFacetTone(facet)}`}>
+                      <TechIcon tech={resolveFacetTechIcon(facet)} className="project-tech-pill-icon" />
+                      <span>{facet}</span>
+                    </span>
+                  ))}
                 </div>
               </button>
             );
@@ -583,6 +435,34 @@ function TechIcon({ tech, className }) {
     );
   }
 
+  if (tech === 'prisma') {
+    return (
+      <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M8.1 4.2 16.8 6.4 11.6 19.7 4.5 11.2 8.1 4.2Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
+        <path d="m16.8 6.4-5.2 13.3 7.6-5.8-2.4-7.5Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
+  if (tech === 'socketio') {
+    return (
+      <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="6.2" stroke="currentColor" strokeWidth="1.7" />
+        <circle cx="12" cy="12" r="1.3" fill="currentColor" />
+        <path d="M12 2.8v2.5M12 18.7v2.5M21.2 12h-2.5M5.3 12H2.8M18.2 5.8l-1.8 1.8M7.6 16.4l-1.8 1.8M18.2 18.2l-1.8-1.8M7.6 7.6 5.8 5.8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+      </svg>
+    );
+  }
+
+  if (tech === 'i18n') {
+    return (
+      <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="7.2" stroke="currentColor" strokeWidth="1.6" />
+        <path d="M4.8 12h14.4M12 4.8c1.6 2 2.4 4.4 2.4 7.2S13.6 17.2 12 19.2M12 4.8c-1.6 2-2.4 4.4-2.4 7.2s.8 5.2 2.4 7.2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    );
+  }
+
   if (tech === 'javascript') {
     return (
       <svg className={className} viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -608,7 +488,38 @@ function TechIcon({ tech, className }) {
   return null;
 }
 
-function ProjectsSection({ t, projects, isVisible, selectedProjectId, setSelectedProjectId, isPulseOpen, setIsPulseOpen }) {
+function resolveFacetTechIcon(facet) {
+  const normalized = facet.toLowerCase();
+
+  if (normalized.includes('node')) return 'nodejs';
+  if (normalized.includes('express')) return 'express';
+  if (normalized.includes('socket')) return 'socketio';
+  if (normalized.includes('javascript')) return 'javascript';
+  if (normalized.includes('react')) return 'react';
+  if (normalized.includes('typescript')) return 'typescript';
+  if (normalized.includes('prisma')) return 'prisma';
+  if (normalized.includes('i18n')) return 'i18n';
+  if (normalized.includes('mongo')) return 'mongodb';
+  if (normalized.includes('docker')) return 'docker';
+  if (normalized.includes('git')) return 'git';
+
+  return null;
+}
+
+function resolveFacetTone(facet) {
+  const normalized = facet.toLowerCase();
+
+  if (normalized.includes('node') || normalized.includes('express') || normalized.includes('socket')) return 'runtime';
+  if (normalized.includes('react')) return 'framework';
+  if (normalized.includes('typescript')) return 'typed';
+  if (normalized.includes('javascript')) return 'language';
+  if (normalized.includes('prisma') || normalized.includes('mongo')) return 'data';
+  if (normalized.includes('i18n')) return 'global';
+
+  return 'default';
+}
+
+function ProjectsSection({ t, projects, isVisible, selectedProjectId, setSelectedProjectId }) {
   if (!isVisible) return null;
 
   return (
@@ -618,10 +529,9 @@ function ProjectsSection({ t, projects, isVisible, selectedProjectId, setSelecte
         <p className="mt-2 mb-0 text-ink-2 text-[0.88rem] leading-[1.55]">{t.projects.subtitle}</p>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="projects-grid grid grid-cols-1 lg:grid-cols-2 gap-4">
         {projects.map((project) => {
           const isSelected = selectedProjectId === project.id;
-          const projectHealth = HEALTH[project.statusKey];
           const hasDemo = Boolean(project.links.demo);
 
           return (
@@ -629,8 +539,8 @@ function ProjectsSection({ t, projects, isVisible, selectedProjectId, setSelecte
               key={project.id}
               className={`project-card project-showcase border border-line/20 rounded-lg transition-all duration-150 h-full flex flex-col overflow-hidden ${
                 isSelected
-                  ? `bg-surface-4 ${projectHealth.selectedBorder} ${projectHealth.selectedShadow} shadow-[0_14px_30px_rgba(10,19,30,0.18)]`
-                  : `bg-surface-3 hover:border-line/40 hover:bg-surface-4 ${projectHealth.shadow}`
+                  ? 'bg-surface-4 border-signal-cyan/50 shadow-[inset_0_0_0_1px_rgba(59,176,242,0.16),0_14px_30px_rgba(10,19,30,0.18)]'
+                  : 'bg-surface-3 hover:border-line/40 hover:bg-surface-4'
               }`}
             >
               <button type="button" onClick={() => setSelectedProjectId(project.id)} className="w-full text-left bg-transparent border-0 p-0 cursor-pointer">
@@ -638,28 +548,26 @@ function ProjectsSection({ t, projects, isVisible, selectedProjectId, setSelecte
                   <img
                     src={project.previewImage}
                     alt={`${project.name} preview`}
-                    className="w-full h-full object-cover"
+                    className={`project-showcase-image project-showcase-image-${project.id}`}
                     loading="lazy"
                   />
                 </div>
 
-                <div className="p-4 md:p-5">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <p className="m-0 text-ink-3 text-[0.66rem] font-mono tracking-[0.08em] uppercase">{project.type}</p>
-                      <h3 className="mt-2 mb-0 text-[1.08rem] font-semibold tracking-[-0.01em] text-ink">{project.name}</h3>
+                <div className="project-card-body p-4 md:p-5">
+                  <div className="project-title-row flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="project-card-type m-0 text-ink-3 text-[0.66rem] font-mono tracking-[0.08em] uppercase">{project.type}</p>
+                      <h3 className="project-card-title mt-2 mb-0 text-[1.08rem] font-semibold tracking-[-0.01em] text-ink">{project.name}</h3>
                     </div>
-                    <span className={`text-[0.68rem] font-mono tracking-[0.08em] uppercase px-2 py-[2px] border border-line/20 rounded-xs bg-surface-2 whitespace-nowrap ${projectHealth.text}`}>
-                      {project.health}
-                    </span>
                   </div>
 
-                  <p className="mt-3 mb-0 text-ink-2 text-[0.86rem] leading-[1.52]">{project.summary}</p>
+                  <p className="project-summary mt-3 mb-0 text-ink-2 text-[0.86rem] leading-[1.52]">{project.summary}</p>
 
-                  <div className="mt-4 flex flex-wrap gap-2">
+                  <div className="project-tech-list mt-4 flex flex-wrap gap-2">
                     {project.facets.slice(0, 4).map((facet) => (
-                      <span key={facet} className="project-tech-pill">
-                        {facet}
+                      <span key={facet} className={`project-tech-pill project-tech-pill-${resolveFacetTone(facet)}`}>
+                        <TechIcon tech={resolveFacetTechIcon(facet)} className="project-tech-pill-icon" />
+                        <span>{facet}</span>
                       </span>
                     ))}
                   </div>
@@ -667,28 +575,7 @@ function ProjectsSection({ t, projects, isVisible, selectedProjectId, setSelecte
               </button>
 
               <div className="px-4 md:px-5 pb-4 md:pb-5 mt-auto">
-                <div className="mt-1 grid grid-cols-2 gap-3 border-t border-line/10 pt-3">
-                <article className="border border-line/15 rounded-xs p-2.5 bg-surface-2/60">
-                  <p className="m-0 text-ink-3 text-[0.66rem] font-mono tracking-[0.08em] uppercase">{t.drawer.completion}</p>
-                  <strong className="block mt-1 text-ink text-[0.83rem] font-medium">{project.completion}</strong>
-                </article>
-                <article className="border border-line/15 rounded-xs p-2.5 bg-surface-2/60">
-                  <p className="m-0 text-ink-3 text-[0.66rem] font-mono tracking-[0.08em] uppercase">{t.drawer.status}</p>
-                  <strong className={`block mt-1 text-[0.83rem] font-medium ${projectHealth.text}`}>{project.health}</strong>
-                </article>
-                </div>
-
-                <div className="mt-3 border-t border-line/10 pt-3 flex flex-wrap gap-2">
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSelectedProjectId(project.id);
-                      setIsPulseOpen(isSelected ? !isPulseOpen : true);
-                    }}
-                    className="project-action project-action-pulse"
-                  >
-                    {isSelected && isPulseOpen ? t.drawer.close : t.drawer.open}
-                  </button>
+                <div className="project-actions mt-3 border-t border-line/10 pt-3 flex flex-wrap gap-2">
                   <a
                     href={project.links.repo}
                     target="_blank"
