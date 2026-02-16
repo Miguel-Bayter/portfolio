@@ -17,7 +17,7 @@
 
 - [x] Replace old overview cards with a technology carousel section
 - [x] Keep technology carousel i18n-ready in EN/ES
-- [ ] Run final visual QA for technology carousel in desktop/mobile and all themes
+- [x] Run final visual QA for technology carousel in desktop/mobile and all themes
 
 ## Presentation readiness snapshot
 

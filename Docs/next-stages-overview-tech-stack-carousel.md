@@ -18,7 +18,7 @@ Replace the old overview snapshot cards with a technology carousel and rename th
 - [x] Add previous/next controls and pagination dots.
 - [x] Add responsive behavior (desktop/tablet/mobile visible item count).
 - [x] Add theme-aware visual styles for carousel and orbs.
-- [ ] Run final visual QA in EN/ES + dark/light/system on live page.
+- [x] Run final visual QA in EN/ES + dark/light/system on live page.
 
 ## Validation criteria
 

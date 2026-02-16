@@ -1,25 +1,26 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { content } from './data/content';
 import overviewPhoto from './img/overview.png';
+import profilePhoto from './img/Profile.jpg';
 
 const HEALTH = {
   up: {
-    shadow: 'shadow-[inset_3px_0_0_#75d8b8]',
-    selectedShadow: 'shadow-[inset_3px_0_0_#75d8b8,inset_0_0_0_1px_rgba(117,216,184,0.15)]',
+    shadow: 'shadow-[inset_3px_0_0_#2dd4bf]',
+    selectedShadow: 'shadow-[inset_3px_0_0_#2dd4bf,inset_0_0_0_1px_rgba(45,212,191,0.16)]',
     selectedBorder: 'border-signal-mint/50',
     text: 'text-signal-mint',
     fill: 'bg-signal-mint',
   },
   stable: {
-    shadow: 'shadow-[inset_3px_0_0_#6dbfdd]',
-    selectedShadow: 'shadow-[inset_3px_0_0_#6dbfdd,inset_0_0_0_1px_rgba(109,191,221,0.15)]',
+    shadow: 'shadow-[inset_3px_0_0_#3bb0f2]',
+    selectedShadow: 'shadow-[inset_3px_0_0_#3bb0f2,inset_0_0_0_1px_rgba(59,176,242,0.16)]',
     selectedBorder: 'border-signal-cyan/50',
     text: 'text-signal-cyan',
     fill: 'bg-signal-cyan',
   },
   progress: {
-    shadow: 'shadow-[inset_3px_0_0_#e6b66a]',
-    selectedShadow: 'shadow-[inset_3px_0_0_#e6b66a,inset_0_0_0_1px_rgba(230,182,106,0.15)]',
+    shadow: 'shadow-[inset_3px_0_0_#f0bb58]',
+    selectedShadow: 'shadow-[inset_3px_0_0_#f0bb58,inset_0_0_0_1px_rgba(240,187,88,0.16)]',
     selectedBorder: 'border-signal-amber/50',
     text: 'text-signal-amber',
     fill: 'bg-signal-amber',
@@ -51,6 +52,7 @@ function App() {
   const t = useMemo(() => content[language], [language]);
   const projects = t.projects.items;
   const selectedProject = projects.find((p) => p.id === selectedProjectId) ?? projects[0];
+  const linkedInUrl = t.contact.channels.find((channel) => channel.icon === 'linkedin')?.href;
 
   useEffect(() => {
     if (!projects.some((p) => p.id === selectedProjectId)) {
@@ -111,28 +113,34 @@ function App() {
 
   return (
     <div className="app-shell relative w-[min(1440px,95vw)] mx-auto my-5 border border-line/20 rounded-[20px] overflow-hidden bg-gradient-to-b from-[rgba(34,60,82,0.9)] to-[rgba(16,29,43,0.95)] shadow-[0_20px_58px_rgba(10,19,30,0.42),inset_0_1px_0_rgba(226,240,248,0.06)] max-md:mx-2.5 max-md:my-2.5 max-md:rounded-[14px]">
-      <header className="flex flex-col gap-4 p-5 border-b border-line/20 bg-gradient-to-r from-surface-4/20 to-transparent md:flex-row md:justify-between md:items-center md:px-8 md:py-5 md:gap-0">
+      <header className="topbar-band flex flex-col gap-3 p-4 border-b border-line/20 bg-gradient-to-r from-surface-4/20 to-transparent md:flex-row md:justify-between md:items-center md:px-8 md:py-4 md:gap-0">
         <div>
-          <p className="m-0 font-mono text-signal-cyan tracking-[0.12em] text-[0.7rem] font-medium uppercase">
-            Miguel Bayter
-          </p>
-          <h1 className="mt-2 mb-0 text-[1.42rem] font-semibold tracking-[-0.01em] leading-[1.2] text-ink">
-            {t.topbar.title}
-          </h1>
-          <p className="mt-2 mb-0 text-ink-2 text-[0.88rem] leading-[1.4]">
-            {t.topbar.subtitle}
-          </p>
+          <a
+            href={linkedInUrl}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={t.topbar.profileLinkLabel}
+            className="topbar-identity-link"
+          >
+            <img src={profilePhoto} alt="Miguel Bayter" className="topbar-avatar" loading="lazy" />
+            <span className="topbar-identity-name">Miguel Bayter</span>
+            <span className="topbar-verified" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" className="topbar-verified-icon">
+                <path d="M6.4 8.5a1.45 1.45 0 1 0 0-2.9 1.45 1.45 0 0 0 0 2.9ZM5.2 9.8h2.4V18H5.2V9.8ZM9 9.8h2.3v1.1h.04c.31-.58 1.08-1.2 2.22-1.2 2.37 0 2.8 1.56 2.8 3.58V18h-2.4v-3.63c0-.87-.01-1.98-1.2-1.98-1.21 0-1.4.95-1.4 1.92V18H9V9.8Z" fill="currentColor" />
+              </svg>
+            </span>
+          </a>
         </div>
 
-        <div className="flex flex-wrap gap-3 items-center flex-shrink-0">
-          <span className="inline-flex items-center gap-2 border border-signal-mint/35 text-signal-mint bg-signal-mint/10 px-4 py-1.5 rounded-full text-[0.8rem] font-mono tracking-[0.04em]">
+        <div className="topbar-controls flex flex-wrap gap-2.5 items-center flex-shrink-0">
+          <span className="topbar-status-pill inline-flex items-center gap-2 border border-line/30 text-ink-2 bg-surface-4/45 px-3.5 py-1 rounded-full text-[0.75rem] font-mono tracking-[0.04em]">
             <span className="relative w-[7px] h-[7px] rounded-full bg-signal-mint flex-shrink-0 status-dot" aria-hidden="true" />
             {t.topbar.status}
           </span>
 
           <button
             type="button"
-            className="border border-line/30 bg-surface-5 text-ink rounded-xs px-4 py-1.5 cursor-pointer font-mono text-[0.78rem] font-medium tracking-[0.06em] transition-all duration-150 hover:border-signal-cyan hover:bg-signal-cyan/10 hover:-translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-cyan focus-visible:outline-offset-2"
+            className="border border-line/30 bg-surface-4/65 text-ink-2 rounded-xs px-3 py-1 cursor-pointer font-mono text-[0.72rem] font-medium tracking-[0.05em] transition-all duration-150 hover:border-signal-cyan/50 hover:bg-surface-5 hover:text-ink hover:-translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-cyan focus-visible:outline-offset-2"
             aria-label={t.a11y.toggleLanguage}
             onClick={() => setLanguage((prev) => (prev === 'en' ? 'es' : 'en'))}
           >
@@ -141,7 +149,7 @@ function App() {
 
           <button
             type="button"
-            className="border border-line/30 bg-surface-5 text-ink rounded-xs px-4 py-1.5 cursor-pointer font-mono text-[0.78rem] font-medium tracking-[0.06em] transition-all duration-150 hover:border-signal-coral hover:bg-signal-coral/10 hover:-translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-coral focus-visible:outline-offset-2"
+            className="border border-line/30 bg-surface-4/65 text-ink-2 rounded-xs px-3 py-1 cursor-pointer font-mono text-[0.72rem] font-medium tracking-[0.05em] transition-all duration-150 hover:border-signal-cyan/50 hover:bg-surface-5 hover:text-ink hover:-translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-cyan focus-visible:outline-offset-2"
             aria-label={t.a11y.toggleTheme}
             onClick={cycleTheme}
           >
@@ -163,7 +171,7 @@ function App() {
                   type="button"
                   className={`text-left bg-transparent border rounded-sm px-3 py-2.5 cursor-pointer text-[0.86rem] font-medium font-sans transition-all duration-150 focus-visible:outline-none md:w-full ${
                     isActive
-                      ? 'border-signal-cyan/30 bg-signal-cyan/10 text-ink shadow-[inset_3px_0_0_#6dbfdd]'
+                      ? 'border-signal-cyan/28 bg-surface-5/70 text-ink shadow-[inset_2px_0_0_rgb(59,176,242)]'
                       : 'border-transparent text-ink-2 hover:border-line/30 hover:bg-signal-cyan/10 hover:text-ink'
                   }`}
                   onClick={() => setActiveSection(section)}
@@ -175,7 +183,7 @@ function App() {
           </nav>
         </aside>
 
-        <main className="p-5 flex flex-col gap-5 md:p-6">
+        <main className="p-4 flex flex-col gap-4 md:p-5 md:gap-5">
           <OverviewSection
             t={t}
             language={language}
@@ -223,7 +231,7 @@ function App() {
                 />
               </div>
 
-              <p className="m-0 mt-4 text-signal-coral font-mono uppercase tracking-[0.1em] text-[0.68rem] font-medium">
+              <p className="m-0 mt-4 text-ink-3 font-mono uppercase tracking-[0.1em] text-[0.68rem] font-medium">
                 {t.drawer.title}
               </p>
               <h2 className={`mt-2 mb-0 text-[1.1rem] font-semibold tracking-[-0.01em] ${healthToken.text}`}>
@@ -252,7 +260,7 @@ function App() {
               </div>
 
               <div className="mt-4 pt-4 border-t border-line/10">
-                <h3 className="m-0 mb-3 text-[0.72rem] font-mono font-medium tracking-[0.1em] uppercase text-signal-coral">
+                <h3 className="m-0 mb-3 text-[0.72rem] font-mono font-medium tracking-[0.1em] uppercase text-ink-3">
                   {t.drawer.decisions}
                 </h3>
                 <ul className="m-0 p-0 list-none grid gap-2">
@@ -265,7 +273,7 @@ function App() {
               </div>
 
               <div className="mt-4 pt-4 border-t border-line/10">
-                <h3 className="m-0 mb-3 text-[0.72rem] font-mono font-medium tracking-[0.1em] uppercase text-signal-coral">
+                <h3 className="m-0 mb-3 text-[0.72rem] font-mono font-medium tracking-[0.1em] uppercase text-ink-3">
                   {t.drawer.metrics}
                 </h3>
                 <ul className="m-0 p-0 list-none grid gap-2">
@@ -279,7 +287,7 @@ function App() {
               </div>
 
               <div className="mt-4 pt-4 border-t border-line/10">
-                <h3 className="m-0 mb-3 text-[0.72rem] font-mono font-medium tracking-[0.1em] uppercase text-signal-coral">
+                <h3 className="m-0 mb-3 text-[0.72rem] font-mono font-medium tracking-[0.1em] uppercase text-ink-3">
                   {t.drawer.impact}
                 </h3>
                 <p className="m-0 text-ink-2 text-[0.84rem] leading-[1.55]">{selectedProject.impact}</p>
@@ -296,7 +304,7 @@ function OverviewSection({ t, language, projects, isVisible, onNavigate, onSelec
   if (!isVisible) return null;
 
   return (
-    <section className="border border-line/20 rounded-md p-5 md:p-6 animate-panel-in bg-surface-2/75 section-rhythm-light">
+    <section className="border border-line/20 rounded-md p-4 md:p-5 animate-panel-in bg-surface-2/75 section-rhythm-light">
       <article className="overview-hero-showcase relative overflow-hidden rounded-md border">
         <span className="overview-accent-dot overview-accent-amber absolute left-7 top-6" aria-hidden="true" />
         <span className="overview-accent-dot overview-accent-mint overview-accent-optional absolute left-[52%] top-8" aria-hidden="true" />
@@ -307,20 +315,20 @@ function OverviewSection({ t, language, projects, isVisible, onNavigate, onSelec
         <div className="overview-hero-overlay" aria-hidden="true" />
 
         <div
-          className={`overview-hero-layout relative z-10 px-6 py-7 md:px-8 md:py-8 lg:px-10 lg:py-10 ${
+          className={`overview-hero-layout relative z-10 px-5 py-6 md:px-7 md:py-7 lg:px-8 lg:py-8 ${
             language === 'en' ? 'overview-hero-layout-en' : ''
           }`}
         >
           <div className="overview-hero-content max-w-[35rem]">
-            <p className="overview-hero-name m-0 text-[1.52rem] md:text-[1.9rem] font-semibold tracking-[-0.02em] leading-[1.08]">
+            <p className="overview-hero-name m-0 text-[1.45rem] md:text-[1.78rem] font-semibold tracking-[-0.018em] leading-[1.1]">
               {t.overview.hero.nameLine}
             </p>
-            <h2 className="overview-hero-title mt-2 mb-0 text-[1.9rem] md:text-[2.2rem] font-bold tracking-[-0.025em] leading-[1.03]">
+            <h2 className="overview-hero-title mt-2 mb-0 text-[1.72rem] md:text-[2.04rem] font-bold tracking-[-0.022em] leading-[1.05]">
               {t.overview.hero.roleLinePrefix ? `${t.overview.hero.roleLinePrefix} ` : ''}
               <span className="overview-hero-highlight">{t.overview.hero.roleLineHighlight}</span>
               {t.overview.hero.roleLineSuffix ? ` ${t.overview.hero.roleLineSuffix}` : ''}
             </h2>
-            <p className="overview-hero-copy mt-4 mb-0 max-w-[32rem] text-[0.94rem] md:text-[0.98rem] leading-[1.58]">
+            <p className="overview-hero-copy mt-4 mb-0 max-w-[31rem] text-[0.93rem] md:text-[0.97rem] leading-[1.62]">
               {t.overview.hero.description}
             </p>
 
@@ -328,7 +336,7 @@ function OverviewSection({ t, language, projects, isVisible, onNavigate, onSelec
               <button
                 type="button"
                 onClick={() => onNavigate('projects')}
-                className="overview-hero-btn-primary inline-flex items-center gap-2 border font-mono text-[0.74rem] tracking-[0.07em] uppercase px-4 py-2 rounded-xs cursor-pointer transition-all duration-150 hover:-translate-y-px whitespace-nowrap"
+                className="overview-hero-btn-primary inline-flex items-center gap-2 border font-mono text-[0.72rem] tracking-[0.07em] uppercase px-3.5 py-2 rounded-xs cursor-pointer transition-all duration-150 hover:-translate-y-px whitespace-nowrap"
               >
                 {t.overview.hero.ctaPrimary}
                 <span aria-hidden="true">-&gt;</span>
@@ -336,7 +344,7 @@ function OverviewSection({ t, language, projects, isVisible, onNavigate, onSelec
               <button
                 type="button"
                 onClick={() => onNavigate('contact')}
-                className="overview-hero-btn-secondary inline-flex items-center gap-2 border font-mono text-[0.74rem] tracking-[0.07em] uppercase px-4 py-2 rounded-xs cursor-pointer transition-all duration-150 hover:-translate-y-px whitespace-nowrap"
+                className="overview-hero-btn-secondary inline-flex items-center gap-2 border font-mono text-[0.72rem] tracking-[0.07em] uppercase px-3.5 py-2 rounded-xs cursor-pointer transition-all duration-150 hover:-translate-y-px whitespace-nowrap"
               >
                 {t.overview.hero.ctaSecondary}
               </button>
@@ -349,28 +357,30 @@ function OverviewSection({ t, language, projects, isVisible, onNavigate, onSelec
         </div>
       </article>
 
-      <header className="pt-6 pb-5 mb-5 border-b border-line/10">
-        <h3 className="m-0 text-[1.05rem] font-semibold tracking-[-0.01em] text-ink">{t.overview.title}</h3>
+      <header className="pt-5 pb-4 mb-4 border-b border-line/10">
+        <h3 className="section-title-emphasis m-0 text-[1.02rem] font-semibold tracking-[-0.01em] text-ink">{t.overview.title}</h3>
         <p className="mt-2 mb-0 text-ink-2 text-[0.88rem] leading-[1.55]">{t.overview.subtitle}</p>
       </header>
 
       <TechCarousel t={t} />
 
-      <div className="mt-6 pt-5 border-t border-line/10">
-        <div className="flex items-center justify-between gap-3 mb-4">
-          <h3 className="m-0 text-[0.8rem] font-mono font-medium tracking-[0.1em] uppercase text-signal-coral">{t.overview.proofTitle}</h3>
+      <div className="mt-5 pt-4 border-t border-line/10">
+        <div className="flex items-center justify-between gap-3 mb-3">
+          <h3 className="section-kicker m-0 text-[0.8rem] font-mono font-medium tracking-[0.1em] uppercase text-ink-3">{t.overview.proofTitle}</h3>
           <button
             type="button"
             onClick={() => onNavigate('projects')}
-            className="border border-line/20 rounded-xs px-3 py-[3px] bg-surface-5 text-ink-2 text-[0.72rem] font-mono tracking-[0.06em] uppercase cursor-pointer transition-all duration-150 hover:border-signal-cyan hover:text-signal-cyan"
+            className="section-action-ghost border border-line/20 rounded-xs px-3 py-[3px] bg-surface-4/68 text-ink-3 text-[0.72rem] font-mono tracking-[0.06em] uppercase cursor-pointer transition-all duration-150 hover:border-signal-cyan/55 hover:bg-surface-5 hover:text-ink"
           >
             {t.overview.proofAction}
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {projects.slice(0, 3).map((project) => {
+        <div className="proof-strip-track md:grid md:grid-cols-2 md:gap-4">
+          {projects.slice(0, 2).map((project) => {
             const projectHealth = HEALTH[project.statusKey];
+            const completionPctRaw = Number.parseInt(project.completion, 10);
+            const completionPct = Number.isFinite(completionPctRaw) ? Math.max(0, Math.min(100, completionPctRaw)) : 0;
             return (
               <button
                 key={project.id}
@@ -379,11 +389,32 @@ function OverviewSection({ t, language, projects, isVisible, onNavigate, onSelec
                   onSelectProject(project.id);
                   onNavigate('projects');
                 }}
-                className={`text-left border border-line/20 rounded-sm p-4 bg-surface-4 transition-all duration-150 hover:-translate-y-0.5 hover:border-line/30 ${projectHealth.shadow}`}
+                className={`proof-card text-left border border-line/20 rounded-md p-4 bg-surface-4 transition-all duration-150 hover:-translate-y-0.5 hover:border-line/30 ${projectHealth.shadow}`}
               >
-                <p className="m-0 text-ink-3 text-[0.7rem] font-mono tracking-[0.07em] uppercase">{project.type}</p>
-                <h4 className="mt-2 mb-0 text-ink text-[0.92rem] font-semibold tracking-[-0.01em]">{project.name}</h4>
-                <p className="mt-2 mb-0 text-ink-2 text-[0.82rem] leading-[1.5]">{project.impact}</p>
+                <div className="proof-card-head flex items-center justify-between gap-2 mb-2">
+                  <p className="proof-card-type m-0 text-ink-3 text-[0.68rem] font-mono tracking-[0.08em] uppercase">{project.type}</p>
+                  <span className={`proof-card-status inline-flex items-center gap-1 text-[0.66rem] font-mono tracking-[0.08em] uppercase px-2 py-[2px] border border-line/20 rounded-xs bg-surface-2 ${projectHealth.text}`}>
+                    <span className="proof-status-dot" aria-hidden="true" />
+                    {project.health}
+                  </span>
+                </div>
+                <h4 className="proof-card-title mt-0 mb-0 text-ink text-[1.05rem] font-semibold tracking-[-0.01em]">{project.name}</h4>
+                <p className="proof-card-impact mt-2 mb-0 text-ink-2 text-[0.9rem] leading-[1.48]">{project.impact}</p>
+                <div className="proof-progress mt-3" aria-hidden="true">
+                  <div className={`proof-progress-fill ${projectHealth.fill}`} style={{ width: `${completionPct}%` }} />
+                </div>
+                <div className="proof-card-meta mt-3 pt-3 border-t border-line/10 text-[0.72rem] font-mono text-ink-3">
+                  <div className="proof-card-meta-grid">
+                    <article className="proof-meta-cell">
+                      <p className="proof-meta-label">{t.drawer.completion}</p>
+                      <strong className="proof-meta-value">{project.completion}</strong>
+                    </article>
+                    <article className="proof-meta-cell proof-meta-cell-facet">
+                      <p className="proof-meta-label">{project.type}</p>
+                      <strong className="proof-meta-value">{project.facets[0]}</strong>
+                    </article>
+                  </div>
+                </div>
               </button>
             );
           })}
@@ -408,7 +439,7 @@ function TechCarousel({ t }) {
 
   return (
     <section
-      className="tech-stack-carousel"
+      className="tech-stack-carousel overview-rhythm-band"
       aria-label={t.overview.techStack.a11yLabel}
       onMouseEnter={() => setIsAutoPlayPaused(true)}
       onMouseLeave={() => setIsAutoPlayPaused(false)}
@@ -581,9 +612,9 @@ function ProjectsSection({ t, projects, isVisible, selectedProjectId, setSelecte
   if (!isVisible) return null;
 
   return (
-    <section className="border border-line/20 rounded-md p-5 md:p-6 animate-panel-in bg-gradient-to-b from-surface-4/45 to-surface-2/78">
+    <section className="border border-line/20 rounded-md p-5 md:p-6 animate-panel-in bg-gradient-to-b from-surface-4/45 to-surface-2/78 section-rhythm-light">
       <header className="pb-5 mb-5 border-b border-line/10">
-        <h2 className="m-0 text-[1.15rem] font-semibold tracking-[-0.01em] text-ink">{t.projects.title}</h2>
+        <h2 className="section-title-emphasis m-0 text-[1.15rem] font-semibold tracking-[-0.01em] text-ink">{t.projects.title}</h2>
         <p className="mt-2 mb-0 text-ink-2 text-[0.88rem] leading-[1.55]">{t.projects.subtitle}</p>
       </header>
 
@@ -696,13 +727,13 @@ function CaseStudySection({ t, isVisible }) {
   return (
     <section className="border border-line/20 rounded-md p-5 md:p-6 animate-panel-in bg-surface-2/75 section-rhythm-light">
       <header className="pb-5 mb-5 border-b border-line/10">
-        <h2 className="m-0 text-[1.15rem] font-semibold tracking-[-0.01em] text-ink">{t.caseStudy.title}</h2>
+        <h2 className="section-title-emphasis m-0 text-[1.15rem] font-semibold tracking-[-0.01em] text-ink">{t.caseStudy.title}</h2>
         <p className="mt-2 mb-0 text-ink-2 text-[0.88rem] leading-[1.55]">{t.caseStudy.subtitle}</p>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {t.caseStudy.signals.map((signal) => (
-          <article key={signal.label} className="border border-line/20 rounded-sm p-4 bg-surface-4">
+          <article key={signal.label} className="insight-signal-card border border-line/20 rounded-sm p-4 bg-surface-4">
             <p className="m-0 text-ink-3 text-[0.72rem] font-mono tracking-[0.07em] uppercase">{signal.label}</p>
             <strong className="block mt-2 text-ink text-[1rem] font-semibold tracking-[-0.01em]">{signal.value}</strong>
             <p className="mt-2 mb-0 text-ink-2 text-[0.82rem] leading-[1.55]">{signal.note}</p>
@@ -712,7 +743,7 @@ function CaseStudySection({ t, isVisible }) {
 
       <div className="mt-5 grid grid-cols-1 md:grid-cols-2 gap-4">
         {t.caseStudy.panels.map((panel) => (
-          <article key={panel.title} className="border border-line/20 rounded-sm p-4 bg-surface-4">
+          <article key={panel.title} className="insight-panel-card border border-line/20 rounded-sm p-4 bg-surface-4">
             <h3 className="m-0 text-[0.8rem] font-mono tracking-[0.08em] uppercase text-signal-coral">{panel.title}</h3>
             <ul className="mt-3 mb-0 p-0 list-none grid gap-2">
               {panel.bullets.map((bullet) => (
@@ -732,15 +763,15 @@ function StackSection({ t, isVisible }) {
   if (!isVisible) return null;
 
   return (
-    <section className="border border-line/20 rounded-md p-5 md:p-6 animate-panel-in bg-gradient-to-b from-surface-4/45 to-surface-2/78">
+    <section className="border border-line/20 rounded-md p-5 md:p-6 animate-panel-in bg-gradient-to-b from-surface-4/45 to-surface-2/78 section-rhythm-light">
       <header className="pb-5 mb-5 border-b border-line/10">
-        <h2 className="m-0 text-[1.15rem] font-semibold tracking-[-0.01em] text-ink">{t.stack.title}</h2>
+        <h2 className="section-title-emphasis m-0 text-[1.15rem] font-semibold tracking-[-0.01em] text-ink">{t.stack.title}</h2>
         <p className="mt-2 mb-0 text-ink-2 text-[0.88rem] leading-[1.55]">{t.stack.subtitle}</p>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {t.stack.items.map((item) => (
-          <article key={item.area} className="border border-line/20 [border-top:2px_solid_rgba(158,193,213,0.35)] rounded-sm p-4 bg-surface-4">
+          <article key={item.area} className="capability-card border border-line/20 [border-top:2px_solid_rgba(158,193,213,0.35)] rounded-sm p-4 bg-surface-4">
             <h3 className="m-0 text-[0.84rem] font-semibold tracking-[0.04em] uppercase text-ink-2 font-mono">{item.area}</h3>
             <p className="mt-2 mb-0 text-ink-3 text-[0.78rem] leading-[1.55]">{item.criterion}</p>
             <ul className="mt-3 mb-0 p-0 list-none grid gap-2">
@@ -879,11 +910,11 @@ function ContactSection({ t, isVisible }) {
   return (
     <section className="border border-line/20 rounded-md p-5 md:p-6 animate-panel-in bg-surface-2/75 section-rhythm-light">
       <header className="pb-5 mb-5 border-b border-line/10">
-        <h2 className="m-0 text-[1.15rem] font-semibold tracking-[-0.01em] text-ink">{t.contact.title}</h2>
+        <h2 className="section-title-emphasis m-0 text-[1.15rem] font-semibold tracking-[-0.01em] text-ink">{t.contact.title}</h2>
         <p className="mt-2 mb-0 text-ink-2 text-[0.88rem] leading-[1.55]">{t.contact.subtitle}</p>
       </header>
 
-      <article className="border border-signal-mint/30 rounded-sm bg-signal-mint/10 p-4 md:p-5">
+      <article className="contact-highlight-card border border-signal-mint/30 rounded-sm bg-signal-mint/10 p-4 md:p-5">
         <p className="m-0 text-signal-mint text-[0.7rem] font-mono tracking-[0.08em] uppercase">{t.contact.hiringKicker}</p>
         <h3 className="mt-2 mb-0 text-ink text-[1.05rem] font-semibold tracking-[-0.01em]">{t.contact.hiringTitle}</h3>
         <p className="mt-2 mb-0 text-ink-2 text-[0.86rem] leading-[1.55]">{t.contact.hiringSubtitle}</p>
@@ -902,7 +933,7 @@ function ContactSection({ t, isVisible }) {
                   setShowForm((prev) => !prev);
                   resetFormState();
                 }}
-                className={`flex flex-col items-start gap-3 border rounded-sm px-4 py-5 w-full text-left cursor-pointer transition-all duration-150 ${
+                className={`contact-channel-card flex flex-col items-start gap-3 border rounded-sm px-4 py-5 w-full text-left cursor-pointer transition-all duration-150 ${
                   showForm
                     ? 'border-signal-mint/50 bg-signal-mint/10 text-ink'
                     : 'border-line/20 bg-surface-4 text-ink hover:border-signal-mint hover:bg-surface-5 hover:-translate-y-0.5'
@@ -920,7 +951,7 @@ function ContactSection({ t, isVisible }) {
               href={channel.href}
               target={channel.external ? '_blank' : undefined}
               rel={channel.external ? 'noreferrer' : undefined}
-              className="flex flex-col items-start gap-3 border border-line/20 rounded-sm px-4 py-5 bg-surface-4 text-ink no-underline transition-all duration-150 hover:border-signal-mint hover:bg-surface-5 hover:-translate-y-0.5"
+              className="contact-channel-card flex flex-col items-start gap-3 border border-line/20 rounded-sm px-4 py-5 bg-surface-4 text-ink no-underline transition-all duration-150 hover:border-signal-mint hover:bg-surface-5 hover:-translate-y-0.5"
             >
               <Icon className="w-5 h-5 text-signal-mint" />
               <span className="text-[0.92rem] font-medium leading-[1.3]">{channel.label}</span>

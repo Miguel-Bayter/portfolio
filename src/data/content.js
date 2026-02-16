@@ -1,6 +1,6 @@
 export const content = {
   en: {
-    role: "Fullstack Developer",
+    role: "Fullstack Software Developer | Software Analysis and Development Technologist",
     focus: "I ship production-ready products from UX to API architecture.",
     availability: "Open to full-time roles · LATAM / Remote",
     a11y: {
@@ -16,9 +16,15 @@ export const content = {
       contact: "Contact",
     },
     topbar: {
-      title: "Product Delivery Portfolio",
+      title: "Fullstack Software Developer Portfolio",
       subtitle:
-        "Evidence-first interface for technical and hiring conversations.",
+        "End-to-end product delivery with measurable business outcomes.",
+      profileLinkLabel: "Open LinkedIn profile",
+      proofLabel: "Hiring evidence highlights",
+      proofItems: [
+        "Ownership of scope and execution",
+        "Business-aligned impact metrics",
+      ],
       status: "Available for interviews",
       darkMode: "Dark",
       lightMode: "Light",
@@ -29,7 +35,7 @@ export const content = {
       title:
         "I design and build software that moves from concept to production with clear technical tradeoffs.",
       subtitle:
-        "This portfolio is structured for recruiters and engineering leads: fast proof, real constraints, and measurable outcomes.",
+        "This portfolio is structured for recruiters and technical leads: fast proof, real constraints, and measurable outcomes.",
       ctaPrimary: "View Projects",
       ctaSecondary: "Contact Me",
       metrics: [
@@ -39,12 +45,12 @@ export const content = {
       ],
     },
     overview: {
-      title: "Technology Stack",
+      title: "Stack Tecnologico",
       hero: {
         nameLine: "I'm Miguel Bayter",
         roleLinePrefix: "",
         roleLineHighlight: "Fullstack",
-        roleLineSuffix: "Developer",
+        roleLineSuffix: "Software Developer",
         description:
           "I build reliable product experiences across frontend and backend, balancing delivery speed, quality, and communication for real team workflows.",
         ctaPrimary: "View Projects",
@@ -75,12 +81,12 @@ export const content = {
     projects: {
       title: "Project Portfolio",
       subtitle:
-        "Real repositories with delivery context, stack, and execution quality.",
+        "Production-oriented projects with delivery context, technical decisions, and measurable impact.",
       linksLabel: "Links",
       repo: "Repository",
       demo: "Live Demo",
       noDemo: "No live demo",
-      caseStudy: "Case Study",
+      caseStudy: "Details",
       problemLabel: "Problem",
       solutionLabel: "Solution",
       impactLabel: "Impact",
@@ -156,23 +162,23 @@ export const content = {
       ],
     },
     caseStudy: {
-      title: "Hiring Fit Snapshot",
+      title: "Hiring Readiness Snapshot",
       subtitle:
-        "The signals companies usually check before moving candidates to interviews.",
+        "The signals technical teams review before moving candidates to interview loops.",
       signals: [
         {
           label: "Ownership",
-          value: "Feature to release",
+          value: "Scope to release",
           note: "I cover interface flow, API logic, data model decisions, and deployment notes.",
         },
         {
           label: "Execution",
-          value: "Predictable delivery",
+          value: "Reliable delivery",
           note: "I work in feature slices with clear acceptance criteria and progress visibility.",
         },
         {
           label: "Communication",
-          value: "Technical clarity",
+          value: "Cross-team clarity",
           note: "I explain tradeoffs in plain language for product, design, and engineering.",
         },
       ],
@@ -212,9 +218,9 @@ export const content = {
       ],
     },
     stack: {
-      title: "Capabilities and Engineering Practices",
+      title: "Capabilities and Development Practices",
       subtitle:
-        "Tools mapped to concrete delivery behavior, not only technology labels.",
+        "Capabilities mapped to delivery behavior, not just technology labels.",
       items: [
         {
           area: "Frontend Delivery",
@@ -264,7 +270,7 @@ export const content = {
     contact: {
       title: "Hiring and Contact",
       subtitle:
-        "Open to fullstack product roles where quality, ownership, and collaboration matter.",
+        "Open to fullstack product roles where ownership, quality, and business impact matter.",
       hiringKicker: "Available now",
       hiringTitle:
         "Ready for technical interviews and practical coding assessments.",
@@ -313,14 +319,14 @@ export const content = {
       close: "Close Pulse",
       status: "Status",
       completion: "Completion",
-      decisions: "Engineering Decisions",
+      decisions: "Technical Decisions",
       metrics: "Delivery Metrics",
       impact: "Business Impact",
     },
     footer: "Miguel Eduardo Bayter Quintana - 2026",
   },
   es: {
-    role: "Desarrollador Fullstack",
+    role: "Desarrollador Fullstack | Tecnologo en Analisis y Desarrollo de Software",
     focus:
       "Entrego productos listos para produccion desde UX hasta arquitectura de API.",
     availability: "Disponible para roles full-time · LATAM / Remoto",
@@ -337,9 +343,15 @@ export const content = {
       contact: "Contacto",
     },
     topbar: {
-      title: "Portafolio de Entrega de Producto",
+      title: "Portafolio de Desarrollador Fullstack",
       subtitle:
-        "Interfaz orientada a evidencia para entrevistas tecnicas y de contratacion.",
+        "Entrega end-to-end de producto con resultados medibles para negocio.",
+      profileLinkLabel: "Abrir perfil de LinkedIn",
+      proofLabel: "Evidencia para contratacion",
+      proofItems: [
+        "Responsabilidad de alcance y ejecucion",
+        "Metricas de impacto alineadas al negocio",
+      ],
       status: "Disponible para entrevistas",
       darkMode: "Oscuro",
       lightMode: "Claro",
@@ -350,7 +362,7 @@ export const content = {
       title:
         "Diseno y construyo software que pasa de concepto a produccion con tradeoffs tecnicos claros.",
       subtitle:
-        "Este portafolio esta estructurado para reclutadores y lideres de ingenieria: evidencia rapida, restricciones reales y resultados medibles.",
+        "Este portafolio esta estructurado para reclutadores y lideres tecnicos: evidencia rapida, restricciones reales y resultados medibles.",
       ctaPrimary: "Ver Proyectos",
       ctaSecondary: "Contactarme",
       metrics: [
@@ -363,11 +375,11 @@ export const content = {
       title: "Technology Stack",
       hero: {
         nameLine: "Soy Miguel Bayter",
-        roleLinePrefix: "Desarrollador",
+        roleLinePrefix: "Desarrollador de Software",
         roleLineHighlight: "Fullstack",
         roleLineSuffix: "",
         description:
-          "Construyo experiencias de producto confiables en frontend y backend, equilibrando velocidad de entrega, calidad y comunicacion para equipos reales.",
+          "Construyo experiencias de Software confiables en frontend y backend, equilibrando velocidad de entrega, calidad y comunicacion para equipos reales.",
         ctaPrimary: "Ver Proyectos",
         ctaSecondary: "Contactarme",
       },
@@ -396,12 +408,12 @@ export const content = {
     projects: {
       title: "Portafolio de Proyectos",
       subtitle:
-        "Repositorios reales con contexto de entrega, stack y calidad de ejecucion.",
+        "Proyectos orientados a produccion con contexto de entrega, decisiones tecnicas e impacto medible.",
       linksLabel: "Enlaces",
       repo: "Repositorio",
       demo: "Demo",
       noDemo: "Sin demo",
-      caseStudy: "Caso",
+      caseStudy: "Detalle",
       problemLabel: "Problema",
       solutionLabel: "Solucion",
       impactLabel: "Impacto",
@@ -479,22 +491,22 @@ export const content = {
     caseStudy: {
       title: "Resumen de encaje para contratacion",
       subtitle:
-        "Senales que las empresas suelen revisar antes de pasar a entrevista.",
+        "Senales que los equipos tecnicos revisan antes de avanzar a entrevistas.",
       signals: [
         {
-          label: "Ownership",
-          value: "Feature a release",
+          label: "Responsabilidad",
+          value: "Alcance a release",
           note: "Cubro flujo de interfaz, logica API, decisiones de datos y notas de despliegue.",
         },
         {
           label: "Ejecucion",
-          value: "Entrega predecible",
+          value: "Entrega confiable",
           note: "Trabajo por feature slices con criterio de aceptacion y visibilidad de avance.",
         },
         {
           label: "Comunicacion",
-          value: "Claridad tecnica",
-          note: "Explico tradeoffs en lenguaje claro para producto, diseno e ingenieria.",
+          value: "Claridad entre equipos",
+          note: "Explico tradeoffs en lenguaje claro para Software, diseño y tecnologia.",
         },
       ],
       panels: [
@@ -525,7 +537,7 @@ export const content = {
         {
           title: "Primeros 30 dias",
           bullets: [
-            "Mapear flujos de producto y restricciones tecnicas rapido",
+            "Mapear flujos de Software y restricciones tecnicas rapido",
             "Entregar una feature acotada de UI a API",
             "Dejar patrones reutilizables para escalar en equipo",
           ],
@@ -533,9 +545,9 @@ export const content = {
       ],
     },
     stack: {
-      title: "Capacidades y practicas de ingenieria",
+      title: "Capacidades y practicas de desarrollo",
       subtitle:
-        "Herramientas mapeadas a habitos de entrega concretos, no solo etiquetas.",
+        "Capacidades mapeadas a habitos de entrega concretos, no solo etiquetas tecnicas.",
       items: [
         {
           area: "Entrega Frontend",
@@ -584,7 +596,7 @@ export const content = {
     contact: {
       title: "Contratacion y contacto",
       subtitle:
-        "Disponible para roles fullstack de producto con foco en calidad y ownership.",
+        "Disponible para roles fullstack de producto con foco en responsabilidad, calidad e impacto de negocio.",
       hiringKicker: "Disponible ahora",
       hiringTitle:
         "Listo para entrevistas tecnicas y pruebas practicas de codigo.",
@@ -634,7 +646,7 @@ export const content = {
       close: "Cerrar Pulso",
       status: "Estado",
       completion: "Avance",
-      decisions: "Decisiones de ingenieria",
+      decisions: "Decisiones tecnicas",
       metrics: "Metricas de entrega",
       impact: "Impacto de negocio",
     },
