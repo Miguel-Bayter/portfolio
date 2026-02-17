@@ -21,12 +21,12 @@
 
 | Viewport | Effective Rules | Media Height | Image Framing | Text/Body | Actions |
 | --- | --- | --- | --- | --- | --- |
-| 1024px | `<=1200` | `172px` | base per-project framing | `project-card-body: 198px`, summary clamp 3 | inline/wrap |
-| 768px | `<=900` | `176px` | base per-project framing | body/title/summary min-heights reset to auto | inline/wrap |
-| 480px | `<=640` + `<=480` | `156px` | base per-project framing | smaller pill typography | 2-column action grid |
-| 390px | `<=640` + `<=480` | `156px` | base per-project framing | compact pills/icons | 2-column action grid |
-| 360px | `<=640` + `<=480` + `<=360` | `156px` | base per-project framing | same project sizing as 390 | 2-column action grid |
-| 320px | `<=640` + `<=480` + `<=360` + `<=320` | `142px` | unified framing (`center 18%`, `scale(1.02)`) | tighter body padding + summary clamp 4 | tighter 2-column action grid |
+| 1024px | `<=1200` | `108px` | calibrated per-project framing (`center 14%`) | ultra-compact body and single-line summary | inline/wrap compact |
+| 768px | `<=900` | `116px` | same framing + compact cards | auto body heights with condensed chips | inline/wrap compact |
+| 480px | `<=640` + `<=480` | `110px` | same framing | smaller typography with readable contrast | 2-column action grid |
+| 390px | `<=640` + `<=480` | `110px` | same framing | compact pills/icons + technical CTA clamp | 2-column action grid |
+| 360px | `<=640` + `<=480` + `<=360` | `110px` | same framing | maintained compact rhythm | 2-column action grid |
+| 320px | `<=640` + `<=480` + `<=360` + `<=320` | `102px` | unified framing (`center 18%`, `scale(1.02)`) | tighter body padding + summary clamp 2 | tighter 2-column action grid |
 
 ## Next Improvements (Analysis)
 
@@ -49,3 +49,9 @@
 - [Done] Start filters fully collapsed by default and refine spacing/color hierarchy for a cleaner first scan.
 - [Done] Add smooth accordion transition for filter groups and tighten top spacing in Projects header.
 - [Done] Redesign filter groups as compact dropdown toggles to remove stretched empty spaces.
+- [Done] Refine cards to an ultra-compact premium layout (less width, less visual weight, stronger hierarchy).
+- [Done] Add dynamic technical microcopy per filter group and per exact facet (e.g. `TypeScript`, `Prisma`, `Socket.io`) in EN/ES.
+- [Done] Improve dark-mode readability by increasing critical card text sizes and contrast.
+- [Done] Highlight active facet tags inside cards and add a subtle accent rail for filtered cards.
+- [Done] Add subtle desktop spotlight hover effect with reduced-motion fallback.
+- [Done] Run visual QA pass (desktop/mobile) and increase small typography in filters/topbar for better dark-mode readability.

@@ -13,14 +13,18 @@ function getInitialLanguage() {
 }
 
 function getInitialTheme() {
-  if (typeof window === 'undefined') return 'system';
-  const saved = window.localStorage.getItem('portfolio-theme');
-  return saved === 'light' || saved === 'dark' || saved === 'system' ? saved : 'system';
+  return 'light';
+}
+
+function getSystemPrefersDark() {
+  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return false;
+  return window.matchMedia('(prefers-color-scheme: dark)').matches;
 }
 
 function App() {
   const [language, setLanguage] = useState(getInitialLanguage);
   const [theme, setTheme] = useState(getInitialTheme);
+  const [systemPrefersDark, setSystemPrefersDark] = useState(getSystemPrefersDark);
   const [activeSection, setActiveSection] = useState('overview');
   const [selectedProjectId, setSelectedProjectId] = useState('impostor');
   const [projectFilter, setProjectFilter] = useState('all');
@@ -41,21 +45,56 @@ function App() {
   }, [language]);
 
   useEffect(() => {
-    window.localStorage.setItem('portfolio-theme', theme);
+    const mediaQuery = typeof window.matchMedia === 'function'
+      ? window.matchMedia('(prefers-color-scheme: dark)')
+      : null;
 
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    if (!mediaQuery) return undefined;
+
+    const syncPreference = () => setSystemPrefersDark(mediaQuery.matches);
+    syncPreference();
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', syncPreference);
+      return () => mediaQuery.removeEventListener('change', syncPreference);
+    }
+
+    if (typeof mediaQuery.addListener === 'function') {
+      mediaQuery.addListener(syncPreference);
+      return () => mediaQuery.removeListener(syncPreference);
+    }
+
+    return undefined;
+  }, []);
+
+  useEffect(() => {
+    const mediaQuery = typeof window.matchMedia === 'function'
+      ? window.matchMedia('(prefers-color-scheme: dark)')
+      : null;
     const applyTheme = () => {
-      const useLight = theme === 'light' || (theme === 'system' && !mediaQuery.matches);
+      const prefersDark = mediaQuery ? mediaQuery.matches : getSystemPrefersDark();
+      const useLight = theme === 'light' || (theme === 'system' && !prefersDark);
       document.documentElement.classList.toggle('theme-light', useLight);
       document.documentElement.classList.toggle('theme-dark', !useLight);
     };
 
     applyTheme();
 
-    if (theme !== 'system') return undefined;
+    if (theme !== 'system' || !mediaQuery) return undefined;
 
-    mediaQuery.addEventListener('change', applyTheme);
-    return () => mediaQuery.removeEventListener('change', applyTheme);
+    const handleChange = () => applyTheme();
+
+    if (typeof mediaQuery.addEventListener === 'function') {
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
+    }
+
+    if (typeof mediaQuery.addListener === 'function') {
+      mediaQuery.addListener(handleChange);
+      return () => mediaQuery.removeListener(handleChange);
+    }
+
+    return undefined;
   }, [theme]);
 
   const cycleTheme = () => {
@@ -88,14 +127,14 @@ function App() {
         </div>
 
         <div className="topbar-controls flex flex-wrap gap-2.5 items-center flex-shrink-0">
-          <span className="topbar-status-pill inline-flex items-center gap-2 border border-line/30 text-ink-2 bg-surface-4/45 px-3.5 py-1 rounded-full text-[0.75rem] font-mono tracking-[0.04em]">
+          <span className="topbar-status-pill inline-flex items-center gap-2 border border-line/30 text-ink-2 bg-surface-4/45 px-3.5 py-1 rounded-full text-[0.78rem] font-mono tracking-[0.04em]">
             <span className="relative w-[7px] h-[7px] rounded-full bg-signal-mint flex-shrink-0 status-dot" aria-hidden="true" />
             {t.topbar.status}
           </span>
 
           <button
             type="button"
-            className="border border-line/30 bg-surface-4/65 text-ink-2 rounded-xs px-3 py-1 cursor-pointer font-mono text-[0.72rem] font-medium tracking-[0.05em] transition-all duration-150 hover:border-signal-cyan/50 hover:bg-surface-5 hover:text-ink hover:-translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-cyan focus-visible:outline-offset-2"
+            className="border border-line/30 bg-surface-4/65 text-ink-2 rounded-xs px-3 py-1 cursor-pointer font-mono text-[0.76rem] font-medium tracking-[0.05em] transition-all duration-150 hover:border-signal-cyan/50 hover:bg-surface-5 hover:text-ink hover:-translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-cyan focus-visible:outline-offset-2"
             aria-label={t.a11y.toggleLanguage}
             onClick={() => setLanguage((prev) => (prev === 'en' ? 'es' : 'en'))}
           >
@@ -104,11 +143,15 @@ function App() {
 
           <button
             type="button"
-            className="border border-line/30 bg-surface-4/65 text-ink-2 rounded-xs px-3 py-1 cursor-pointer font-mono text-[0.72rem] font-medium tracking-[0.05em] transition-all duration-150 hover:border-signal-cyan/50 hover:bg-surface-5 hover:text-ink hover:-translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-cyan focus-visible:outline-offset-2"
+            className="border border-line/30 bg-surface-4/65 text-ink-2 rounded-xs px-3 py-1 cursor-pointer font-mono text-[0.76rem] font-medium tracking-[0.05em] transition-all duration-150 hover:border-signal-cyan/50 hover:bg-surface-5 hover:text-ink hover:-translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-cyan focus-visible:outline-offset-2"
             aria-label={t.a11y.toggleTheme}
             onClick={cycleTheme}
           >
-            {theme === 'dark' ? t.topbar.darkMode : theme === 'light' ? t.topbar.lightMode : t.topbar.systemMode}
+            {theme === 'dark'
+              ? t.topbar.darkMode
+              : theme === 'light'
+                ? t.topbar.lightMode
+                : `${t.topbar.systemMode} (${systemPrefersDark ? t.topbar.darkMode : t.topbar.lightMode})`}
           </button>
         </div>
       </header>
@@ -656,6 +699,25 @@ function ProjectsSection({ t, projects, isVisible, selectedProjectId, setSelecte
     setOpenFilterGroup(null);
   };
 
+  const handleProjectCardPointerMove = (event) => {
+    if (window.innerWidth < 900) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const card = event.currentTarget;
+    const bounds = card.getBoundingClientRect();
+    const x = event.clientX - bounds.left;
+    const y = event.clientY - bounds.top;
+
+    card.style.setProperty('--spotlight-x', `${x}px`);
+    card.style.setProperty('--spotlight-y', `${y}px`);
+  };
+
+  const handleProjectCardPointerLeave = (event) => {
+    const card = event.currentTarget;
+    card.style.removeProperty('--spotlight-x');
+    card.style.removeProperty('--spotlight-y');
+  };
+
   return (
     <section className="border border-line/20 rounded-md p-5 md:p-6 animate-panel-in bg-gradient-to-b from-surface-4/45 to-surface-2/78 section-rhythm-light">
       <header className="mb-1">
@@ -753,7 +815,10 @@ function ProjectsSection({ t, projects, isVisible, selectedProjectId, setSelecte
                   ? 'bg-surface-4 border-signal-cyan/50 shadow-[inset_0_0_0_1px_rgba(59,176,242,0.16),0_14px_30px_rgba(10,19,30,0.18)]'
                   : 'bg-surface-3 hover:border-line/40 hover:bg-surface-4'
               }`}
+              onMouseMove={handleProjectCardPointerMove}
+              onMouseLeave={handleProjectCardPointerLeave}
             >
+              <span className="project-spotlight" aria-hidden="true" />
               <button
                 type="button"
                 onClick={() => setSelectedProjectId(project.id)}
@@ -783,15 +848,15 @@ function ProjectsSection({ t, projects, isVisible, selectedProjectId, setSelecte
                     </div>
                   </div>
 
-                  <p className="project-summary mt-2 mb-0 text-ink-2 text-[0.84rem] leading-[1.48]">{project.previewLabel || project.summary}</p>
+                  <p className="project-summary mt-2.5 mb-0 text-ink-2 text-[0.84rem] leading-[1.48]">{project.previewLabel || project.summary}</p>
                   <p
                     key={`cta-${project.id}-${activeFacet ?? 'all'}`}
-                    className="project-cta-note mt-1 mb-0 text-ink-2 text-[0.78rem] leading-[1.45]"
+                    className="project-cta-note mt-1.5 mb-0 text-ink-2 text-[0.78rem] leading-[1.54]"
                   >
                     {projectCta}
                   </p>
 
-                  <div className="project-meta-row mt-1.5 flex flex-wrap gap-1.5">
+                  <div className="project-meta-row mt-2.5 flex flex-wrap gap-1.5">
                     {project.metrics.slice(0, 1).map((metric) => (
                       <span key={metric.label} className="project-meta-chip">
                         <strong>{metric.label}:</strong>
@@ -804,7 +869,7 @@ function ProjectsSection({ t, projects, isVisible, selectedProjectId, setSelecte
                     </span>
                   </div>
 
-                  <div className="project-tech-list mt-1.5 flex flex-wrap gap-1.5">
+                  <div className="project-tech-list mt-2.5 flex flex-wrap gap-1.5">
                     {project.facets.slice(0, 3).map((facet) => {
                       const isActiveFacetTag = Boolean(activeFacet) && facet.toLowerCase() === activeFacet;
 
@@ -823,7 +888,7 @@ function ProjectsSection({ t, projects, isVisible, selectedProjectId, setSelecte
               </button>
 
               <div className="px-3 md:px-3.5 pb-3 md:pb-3.5 mt-auto">
-                <div className="project-actions mt-1.5 border-t border-line/10 pt-1.5 flex flex-wrap gap-1.5">
+                <div className="project-actions mt-2.5 border-t border-line/10 pt-2.5 flex flex-wrap gap-2">
                   <a
                     href={project.links.repo}
                     target="_blank"

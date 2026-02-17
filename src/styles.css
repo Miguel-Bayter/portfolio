@@ -397,8 +397,8 @@ body {
   background: linear-gradient(180deg, rgb(var(--surface-2) / 0.72) 0%, rgb(var(--surface-1) / 0.56) 100%);
   color: rgb(var(--ink-2));
   border-radius: 999px;
-  padding: 0.24rem 0.64rem;
-  font-size: 0.64rem;
+  padding: 0.28rem 0.72rem;
+  font-size: 0.68rem;
   font-family: 'JetBrains Mono', monospace;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -419,8 +419,9 @@ body {
   align-content: flex-start;
   gap: 0.34rem;
   flex-wrap: wrap;
-  min-width: min(84vw, 340px);
-  max-width: min(86vw, 460px);
+  width: max-content;
+  min-width: min(68vw, 220px);
+  max-width: min(84vw, 360px);
   padding: 0.42rem;
   border-radius: 12px;
   border: 1px solid rgb(var(--line) / 0.28);
@@ -430,6 +431,11 @@ body {
   opacity: 0;
   transform: translateY(-4px);
   transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.projects-filter-row .projects-filter-group:nth-last-child(-n + 2) .projects-filter-group-chips {
+  left: auto;
+  right: 0;
 }
 
 .projects-filter-group-toggle {
@@ -473,7 +479,7 @@ body {
 
 .projects-filter-group-label {
   color: rgb(var(--ink-4));
-  font-size: 0.56rem;
+  font-size: 0.6rem;
   font-family: 'JetBrains Mono', monospace;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -522,7 +528,7 @@ body {
   color: rgb(var(--ink-3));
   border-radius: 999px;
   padding: 0.24rem 0.62rem;
-  font-size: 0.66rem;
+  font-size: 0.69rem;
   font-family: 'JetBrains Mono', monospace;
   letter-spacing: 0.02em;
   cursor: pointer;
@@ -553,7 +559,7 @@ body {
   background: rgb(var(--surface-0) / 0.66);
   border: 1px solid rgb(var(--line) / 0.26);
   color: rgb(var(--ink-2));
-  font-size: 0.58rem;
+  font-size: 0.62rem;
   line-height: 1;
 }
 
@@ -716,6 +722,15 @@ body {
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04), 0 10px 24px rgb(5 14 24 / 0.16);
 }
 
+.project-showcase > * {
+  position: relative;
+  z-index: 1;
+}
+
+.project-spotlight {
+  display: none;
+}
+
 .project-showcase::before {
   content: '';
   position: absolute;
@@ -739,6 +754,29 @@ body {
   pointer-events: none;
   background: linear-gradient(180deg, rgb(var(--signal-cyan) / 0.12) 0%, rgb(var(--signal-cyan) / 0.86) 42%, rgb(var(--signal-mint) / 0.72) 100%);
   box-shadow: 0 0 12px rgb(var(--signal-cyan) / 0.24);
+}
+
+@media (min-width: 900px) {
+  .project-spotlight {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(
+      circle 160px at var(--spotlight-x, 50%) var(--spotlight-y, 50%),
+      rgb(165 223 255 / 0.14) 0%,
+      rgb(124 210 255 / 0.08) 36%,
+      rgb(124 210 255 / 0) 72%
+    );
+    transition: opacity 160ms ease-out;
+  }
+
+  .project-card:hover .project-spotlight,
+  .project-card:focus-within .project-spotlight {
+    opacity: 1;
+  }
 }
 
 .project-card-body {
@@ -921,7 +959,7 @@ html[lang='es'] .project-cta-note {
 .project-tech-pill {
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.38rem;
   border: 1px solid rgb(var(--line) / 0.2);
   background: rgb(var(--surface-2) / 0.66);
   color: rgb(var(--ink-2));
@@ -933,11 +971,21 @@ html[lang='es'] .project-cta-note {
 }
 
 .project-tech-pill-icon {
-  width: 12px;
-  height: 12px;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
   color: rgb(var(--signal-cyan));
-  filter: drop-shadow(0 0 5px rgb(var(--signal-cyan) / 0.36));
+  filter: drop-shadow(0 0 7px rgb(var(--signal-cyan) / 0.48));
   flex-shrink: 0;
+}
+
+.project-tech-pill-icon path,
+.project-tech-pill-icon circle,
+.project-tech-pill-icon rect,
+.project-tech-pill-icon ellipse,
+.project-tech-pill-icon line,
+.project-tech-pill-icon polyline {
+  stroke-width: 1.95;
 }
 
 .project-tech-pill-runtime {
@@ -1057,7 +1105,7 @@ html[lang='es'] .project-cta-note {
 
 .projects-grid {
   align-items: stretch;
-  max-width: 800px;
+  max-width: 840px;
   margin-inline: auto;
 }
 
@@ -1737,18 +1785,18 @@ html.theme-light .topbar-proof-pill {
   }
 
   .projects-filter-chip {
-    font-size: 0.6rem;
+    font-size: 0.64rem;
     padding: 0.18rem 0.46rem;
   }
 
   .projects-filter-group-label {
-    font-size: 0.53rem;
+    font-size: 0.57rem;
   }
 
   .projects-filter-count {
     min-width: 0.92rem;
     height: 0.92rem;
-    font-size: 0.54rem;
+    font-size: 0.58rem;
   }
 
   .project-meta-chip {
@@ -1856,6 +1904,10 @@ html.theme-light .topbar-proof-pill {
     animation: none;
   }
 
+  .project-spotlight {
+    display: none !important;
+  }
+
   .topbar-status-pill::before,
   .status-dot::after {
     animation: none;
@@ -1923,8 +1975,9 @@ html.theme-light .topbar-proof-pill {
   }
 
   .project-tech-pill-icon {
-    width: 9px;
-    height: 9px;
+    width: 13px;
+    height: 13px;
+    min-width: 13px;
   }
 
   .tech-carousel-head {
@@ -2676,7 +2729,7 @@ html.theme-light .overview-hero-image {
   }
 
   .topbar-identity-name {
-    font-size: 0.64rem;
+    font-size: 0.68rem;
     letter-spacing: 0.095em;
   }
 
@@ -2685,7 +2738,7 @@ html.theme-light .overview-hero-image {
   }
 
   .topbar-proof-pill {
-    font-size: 0.58rem;
+    font-size: 0.62rem;
     padding: 0.14rem 0.4rem;
   }
 
