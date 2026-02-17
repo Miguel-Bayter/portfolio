@@ -851,7 +851,7 @@ function ProjectsSection({ t, projects, isVisible, selectedProjectId, setSelecte
                   <p className="project-summary mt-2.5 mb-0 text-ink-2 text-[0.84rem] leading-[1.48]">{project.previewLabel || project.summary}</p>
                   <p
                     key={`cta-${project.id}-${activeFacet ?? 'all'}`}
-                    className="project-cta-note mt-1.5 mb-0 text-ink-2 text-[0.78rem] leading-[1.54]"
+                    className="project-cta-note mt-1.5 mb-0 text-ink-2 text-[0.78rem] leading-[1.58] max-sm:leading-[1.5]"
                   >
                     {projectCta}
                   </p>
