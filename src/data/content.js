@@ -79,13 +79,40 @@ export const content = {
       },
     },
     projects: {
-      title: "Project Portfolio",
-      subtitle:
-        "Production-oriented projects with delivery context, technical decisions, and measurable impact.",
       linksLabel: "Links",
       repo: "Repository",
       demo: "Live Demo",
       noDemo: "Maintenance",
+      languageLabel: "Language",
+      facetCta: {
+        language: "Typed language decisions keep domain logic explicit and reduce ambiguity across client-server boundaries.",
+        framework: "Component and rendering structure prioritize predictable state transitions and composable UI behavior.",
+        backend: "Service boundaries and request flow are organized for deterministic behavior under concurrent interactions.",
+        data: "Data access is modeled with integrity-first operations and predictable transactional behavior.",
+        cross: "Cross-cutting concerns are handled with explicit conventions for localization, consistency, and maintainability.",
+      },
+      facetSpecificCta: {
+        "node.js": "Node.js runtime is used for non-blocking event loops and stable websocket throughput during concurrent sessions.",
+        express: "Express handles routing and middleware layering with explicit request validation boundaries.",
+        "socket.io": "Socket.io channels coordinate room lifecycle, role events, and real-time synchronization guarantees.",
+        javascript: "Core gameplay and interaction logic is implemented in JavaScript with event-driven control paths.",
+        "react 19": "React 19 powers interactive UI states with predictable rendering and scalable component composition.",
+        typescript: "TypeScript enforces explicit contracts across UI and service boundaries to reduce runtime ambiguity.",
+        prisma: "Prisma models relational integrity and transactional data operations for critical checkout and return flows.",
+        i18n: "Internationalization is integrated at the UI flow level to keep content, routes, and labels consistent across locales.",
+      },
+      filterAll: "All",
+      filtersOpen: "Show filters",
+      filtersClose: "Hide filters",
+      emptyStateTitle: "No matches",
+      emptyStateText: "No projects match this filter yet. Try another stack.",
+      filterGroups: {
+        language: "Language",
+        framework: "Framework",
+        backend: "Backend",
+        data: "Data",
+        cross: "Cross",
+      },
       caseStudy: "Details",
       problemLabel: "Problem",
       solutionLabel: "Solution",
@@ -97,7 +124,8 @@ export const content = {
           type: "Multiplayer Fullstack Game",
           previewImage:
             "https://opengraph.githubassets.com/1/Miguel-Bayter/Impostor",
-          previewLabel: "Real-time social deduction architecture",
+          previewLabel: "Realtime rooms and role synchronization",
+          cta: "Event-driven architecture with Socket.io room lifecycle control, deterministic role state, and latency-aware interaction handling.",
           summary:
             "Online multiplayer social deduction game with real-time rooms, role logic, and synchronized interactions.",
           problem:
@@ -106,6 +134,7 @@ export const content = {
             "Designed a split frontend/backend architecture with Socket.io channels, room lifecycle control, and auth boundaries.",
           impact:
             "Established a production-shaped foundation for real-time game flows and progressive feature delivery.",
+          category: "Realtime Product",
           facets: ["Node.js", "Express", "Socket.io", "JavaScript"],
           decisions: [
             "Event-driven room orchestration for real-time consistency",
@@ -128,7 +157,8 @@ export const content = {
           type: "Library Management System",
           previewImage:
             "https://opengraph.githubassets.com/1/Miguel-Bayter/TuGestionAmiga",
-          previewLabel: "Commerce + rentals + admin operations",
+          previewLabel: "Catalog, loans, and admin workflows",
+          cta: "Monorepo setup with typed contracts, Prisma-backed transactional flows, and route-level role enforcement for operational consistency.",
           summary:
             "Library management platform handling catalog, shopping cart, rentals, returns, and admin supervision.",
           problem:
@@ -137,6 +167,7 @@ export const content = {
             "Implemented monorepo frontend/backend with i18n-first UX, protected routes, and transactional checkout/loan flows.",
           impact:
             "Improved operational reliability for inventory and returns while supporting multilingual product growth.",
+          category: "Operations Platform",
           facets: ["React 19", "TypeScript", "Prisma", "i18n"],
           decisions: [
             "Strict ADMIN/USER role boundaries across routes and actions",
@@ -397,6 +428,38 @@ export const content = {
       repo: "Repositorio",
       demo: "Demo",
       noDemo: "Mantenimiento",
+      languageLabel: "Lenguaje",
+      facetCta: {
+        language: "Las decisiones de lenguaje tipado mantienen la logica de dominio explicita y reducen ambiguedad entre cliente y servidor.",
+        framework: "La estructura de componentes y renderizado prioriza transiciones de estado predecibles y composicion reutilizable.",
+        backend: "Los limites de servicio y flujo de requests se organizan para comportamiento deterministico bajo concurrencia.",
+        data: "El acceso a datos se modela con operaciones orientadas a integridad y comportamiento transaccional predecible.",
+        cross: "Los concerns transversales se resuelven con convenciones explicitas de localizacion, consistencia y mantenibilidad.",
+      },
+      facetSpecificCta: {
+        "node.js": "Node.js se usa por su event loop no bloqueante y throughput estable en sesiones concurrentes con websockets.",
+        express: "Express organiza rutas y capas de middleware con limites explicitos de validacion por request.",
+        "socket.io": "Socket.io coordina ciclo de salas, eventos por rol y garantias de sincronizacion en tiempo real.",
+        javascript: "La logica central de juego e interaccion se implementa en JavaScript con control orientado a eventos.",
+        "react 19": "React 19 soporta estados interactivos con renderizado predecible y composicion escalable de componentes.",
+        typescript: "TypeScript aplica contratos explicitos entre UI y servicios para reducir ambiguedad en runtime.",
+        prisma: "Prisma modela integridad relacional y operaciones transaccionales para flujos criticos de checkout y devolucion.",
+        i18n: "La internacionalizacion se integra en el flujo de UI para mantener consistencia de contenido, rutas y etiquetas entre idiomas.",
+      },
+      filterAll: "Todos",
+      filtersOpen: "Mostrar filtros",
+      filtersClose: "Ocultar filtros",
+      emptyStateTitle: "Sin resultados",
+      emptyStateText: "No hay proyectos para este filtro. Prueba con otro stack.",
+      filterGroups: {
+        language: "Lenguajes",
+        framework: "Frameworks",
+        backend: "Backend",
+        data: "Datos",
+        cross: "Transversal",
+      },
+      detailHint:
+        "Los resumenes de tarjeta son intencionalmente breves. Ve a Perfil para empresas para mas contexto.",
       caseStudy: "Detalle",
       problemLabel: "Problema",
       solutionLabel: "Solucion",
@@ -408,7 +471,8 @@ export const content = {
           type: "Juego Fullstack Multijugador",
           previewImage:
             "https://opengraph.githubassets.com/1/Miguel-Bayter/Impostor",
-          previewLabel: "Arquitectura social en tiempo real",
+          previewLabel: "Salas en tiempo real y sincronizacion de roles",
+          cta: "Arquitectura orientada a eventos con control de ciclo de salas en Socket.io, estado de roles deterministico y manejo sensible a latencia.",
           summary:
             "Juego social multijugador online con salas en tiempo real, logica de roles y sincronizacion de estado.",
           problem:
@@ -417,6 +481,7 @@ export const content = {
             "Disene una arquitectura separada frontend/backend con canales Socket.io y control de ciclo de salas.",
           impact:
             "Dejo una base real de produccion para evolucionar flujos multijugador con menor riesgo tecnico.",
+          category: "Producto en tiempo real",
           facets: ["Node.js", "Express", "Socket.io", "JavaScript"],
           decisions: [
             "Orquestacion por eventos para consistencia en tiempo real",
@@ -439,7 +504,8 @@ export const content = {
           type: "Sistema de Gestion Bibliotecaria",
           previewImage:
             "https://opengraph.githubassets.com/1/Miguel-Bayter/TuGestionAmiga",
-          previewLabel: "Compras + prestamos + panel admin",
+          previewLabel: "Catalogo, prestamos y flujos administrativos",
+          cta: "Estructura monorepo con contratos tipados, flujos transaccionales sobre Prisma y enforcement de roles a nivel de rutas para consistencia operativa.",
           summary:
             "Plataforma de gestion bibliotecaria para catalogo, carrito, prestamos, devoluciones y supervision administrativa.",
           problem:
@@ -448,6 +514,7 @@ export const content = {
             "Implemente monorepo frontend/backend con i18n-first, rutas protegidas y operaciones criticas transaccionales.",
           impact:
             "Mejoro la confiabilidad operativa de inventario y devoluciones, habilitando crecimiento multilenguaje.",
+          category: "Plataforma operativa",
           facets: ["React 19", "TypeScript", "Prisma", "i18n"],
           decisions: [
             "Limites estrictos entre roles ADMIN y USER",

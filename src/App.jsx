@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { content } from './data/content';
 import overviewPhoto from './img/overview.png';
 import profilePhoto from './img/Profile.jpg';
+import projectPlaceholder from './img/project-placeholder.svg';
 
 const sections = ['overview', 'projects', 'caseStudy', 'stack', 'contact'];
 
@@ -22,6 +23,7 @@ function App() {
   const [theme, setTheme] = useState(getInitialTheme);
   const [activeSection, setActiveSection] = useState('overview');
   const [selectedProjectId, setSelectedProjectId] = useState('impostor');
+  const [projectFilter, setProjectFilter] = useState('all');
 
   const t = useMemo(() => content[language], [language]);
   const projects = t.projects.items;
@@ -151,6 +153,8 @@ function App() {
             isVisible={activeSection === 'projects'}
             selectedProjectId={selectedProjectId}
             setSelectedProjectId={setSelectedProjectId}
+            projectFilter={projectFilter}
+            setProjectFilter={setProjectFilter}
           />
           <CaseStudySection t={t} isVisible={activeSection === 'caseStudy'} />
           <StackSection t={t} isVisible={activeSection === 'stack'} />
@@ -519,63 +523,307 @@ function resolveFacetTone(facet) {
   return 'default';
 }
 
-function ProjectsSection({ t, projects, isVisible, selectedProjectId, setSelectedProjectId }) {
+function resolveFacetGroup(facet) {
+  const normalized = facet.toLowerCase();
+
+  if (normalized.includes('typescript') || normalized.includes('javascript')) return 'language';
+  if (normalized.includes('react')) return 'framework';
+  if (normalized.includes('node') || normalized.includes('express') || normalized.includes('socket')) return 'backend';
+  if (normalized.includes('prisma') || normalized.includes('mongo')) return 'data';
+  return 'cross';
+}
+
+function resolvePrimaryLanguage(facets) {
+  const normalized = facets.map((facet) => facet.toLowerCase());
+  if (normalized.some((facet) => facet.includes('typescript'))) return 'TypeScript';
+  if (normalized.some((facet) => facet.includes('javascript'))) return 'JavaScript';
+  return facets[0] || 'N/A';
+}
+
+function resolveProjectFacetCta(project, activeFacet, facetCta, facetSpecificCta) {
+  if (!activeFacet) return project.cta;
+
+  const hasExactFacet = project.facets.some((facet) => facet.toLowerCase() === activeFacet);
+  const exactFacetCta = facetSpecificCta?.[activeFacet];
+  if (hasExactFacet && exactFacetCta) return exactFacetCta;
+
+  if (!facetCta) return project.cta;
+
+  const selectedGroup = resolveFacetGroup(activeFacet);
+  const hasFacetInGroup = project.facets.some((facet) => resolveFacetGroup(facet) === selectedGroup);
+
+  if (!hasFacetInGroup) return project.cta;
+  return facetCta[selectedGroup] || project.cta;
+}
+
+function ProjectsSection({ t, projects, isVisible, selectedProjectId, setSelectedProjectId, projectFilter, setProjectFilter }) {
   if (!isVisible) return null;
+
+  const [areFiltersOpen, setAreFiltersOpen] = useState(false);
+  const [openFilterGroup, setOpenFilterGroup] = useState(null);
+
+  const facetOptions = Array.from(
+    new Map(
+      projects.flatMap((project) => project.facets.map((facet) => [facet.toLowerCase(), facet])),
+    ).values(),
+  )
+    .sort((left, right) => {
+      const priority = {
+        typescript: 0,
+        javascript: 1,
+        'react 19': 2,
+        'node.js': 3,
+        express: 4,
+        prisma: 5,
+        'socket.io': 6,
+        i18n: 7,
+      };
+
+      const leftPriority = priority[left.toLowerCase()] ?? 20;
+      const rightPriority = priority[right.toLowerCase()] ?? 20;
+
+      if (leftPriority !== rightPriority) return leftPriority - rightPriority;
+      return left.localeCompare(right);
+    });
+
+  const filterCountByFacet = new Map(
+    facetOptions.map((facet) => [
+      facet.toLowerCase(),
+      projects.filter((project) => project.facets.some((projectFacet) => projectFacet.toLowerCase() === facet.toLowerCase())).length,
+    ]),
+  );
+
+  const projectFilters = [
+    { key: 'all', label: t.projects.filterAll, icon: null, count: projects.length },
+    ...facetOptions.map((facet) => ({
+      key: `facet:${facet.toLowerCase()}`,
+      label: facet,
+      icon: resolveFacetTechIcon(facet),
+      group: resolveFacetGroup(facet),
+      count: filterCountByFacet.get(facet.toLowerCase()) ?? 0,
+    })),
+  ];
+
+  const groupedFilters = {
+    language: projectFilters.filter((filterOption) => filterOption.group === 'language'),
+    framework: projectFilters.filter((filterOption) => filterOption.group === 'framework'),
+    backend: projectFilters.filter((filterOption) => filterOption.group === 'backend'),
+    data: projectFilters.filter((filterOption) => filterOption.group === 'data'),
+    cross: projectFilters.filter((filterOption) => filterOption.group === 'cross'),
+  };
+  const filterGroupOrder = ['language', 'framework', 'backend', 'data', 'cross'];
+  const totalStackFilters = facetOptions.length;
+  const openGroupFilters = openFilterGroup ? groupedFilters[openFilterGroup] ?? [] : [];
+  const openGroupRows = openGroupFilters.length > 2 ? 2 : openGroupFilters.length > 0 ? 1 : 0;
+  const openGroupSpace = openGroupRows === 2 ? '4.4rem' : openGroupRows === 1 ? '3.2rem' : '0rem';
+
+  const filterKeySet = new Set(projectFilters.map((filterOption) => filterOption.key));
+  const effectiveFilter = filterKeySet.has(projectFilter) ? projectFilter : 'all';
+
+  const activeFacet = effectiveFilter.startsWith('facet:') ? effectiveFilter.replace('facet:', '') : null;
+
+  const visibleProjects = activeFacet
+    ? projects
+      .filter((project) => project.facets.some((facet) => facet.toLowerCase() === activeFacet))
+      .sort((left, right) => {
+        const leftIsSelected = left.id === selectedProjectId;
+        const rightIsSelected = right.id === selectedProjectId;
+        if (leftIsSelected !== rightIsSelected) return leftIsSelected ? -1 : 1;
+
+        const leftFacetIndex = left.facets.findIndex((facet) => facet.toLowerCase() === activeFacet);
+        const rightFacetIndex = right.facets.findIndex((facet) => facet.toLowerCase() === activeFacet);
+
+        if (leftFacetIndex !== rightFacetIndex) return leftFacetIndex - rightFacetIndex;
+
+        const leftHasDemo = Boolean(left.links.demo);
+        const rightHasDemo = Boolean(right.links.demo);
+        if (leftHasDemo !== rightHasDemo) return leftHasDemo ? -1 : 1;
+
+        return left.name.localeCompare(right.name);
+      })
+    : projects;
+
+  const applyFilter = (filterOption) => {
+    const nextVisible = filterOption.key === 'all'
+      ? projects
+      : projects.filter((project) => project.facets.some((facet) => facet.toLowerCase() === filterOption.label.toLowerCase()));
+
+    if (nextVisible.length && !nextVisible.some((project) => project.id === selectedProjectId)) {
+      setSelectedProjectId(nextVisible[0].id);
+    }
+
+    setProjectFilter(filterOption.key);
+    setOpenFilterGroup(null);
+  };
 
   return (
     <section className="border border-line/20 rounded-md p-5 md:p-6 animate-panel-in bg-gradient-to-b from-surface-4/45 to-surface-2/78 section-rhythm-light">
-      <header className="pb-5 mb-5 border-b border-line/10">
-        <h2 className="section-title-emphasis m-0 text-[1.15rem] font-semibold tracking-[-0.01em] text-ink">{t.projects.title}</h2>
-        <p className="mt-2 mb-0 text-ink-2 text-[0.88rem] leading-[1.55]">{t.projects.subtitle}</p>
+      <header className="mb-1">
+        <button
+          type="button"
+          className="projects-filter-toggle mt-0"
+          onClick={() => setAreFiltersOpen((previous) => !previous)}
+          aria-expanded={areFiltersOpen}
+        >
+          {areFiltersOpen ? t.projects.filtersClose : t.projects.filtersOpen} ({totalStackFilters})
+        </button>
+        <div
+          className={`projects-filter-row mt-0 flex flex-wrap gap-2 ${areFiltersOpen ? 'is-open' : ''} ${openFilterGroup ? 'has-open-group' : ''}`}
+          style={{ '--filters-open-space': openGroupSpace }}
+        >
+          {projectFilters.slice(0, 1).map((filterOption) => {
+            const isActiveFilter = effectiveFilter === filterOption.key;
+
+            return (
+              <button
+                key={filterOption.key}
+                type="button"
+                onClick={() => applyFilter(filterOption)}
+                className={`projects-filter-chip projects-filter-chip-all ${isActiveFilter ? 'is-active' : ''}`}
+              >
+                {filterOption.icon ? <TechIcon tech={filterOption.icon} className="projects-filter-icon" /> : null}
+                <span>{filterOption.label}</span>
+                <span className="projects-filter-count">{filterOption.count}</span>
+              </button>
+            );
+          })}
+
+          {filterGroupOrder.map((groupKey) => {
+            const filters = groupedFilters[groupKey] ?? [];
+            if (!filters.length) return null;
+            const isGroupOpen = openFilterGroup === groupKey;
+
+            return (
+              <div key={groupKey} className={`projects-filter-group ${isGroupOpen ? 'is-open' : 'is-collapsed'}`}>
+                <button
+                  type="button"
+                  className="projects-filter-group-toggle"
+                  aria-expanded={isGroupOpen}
+                  onClick={() => {
+                    setOpenFilterGroup((previous) => (previous === groupKey ? null : groupKey));
+                  }}
+                >
+                  <span className="projects-filter-group-label">{t.projects.filterGroups?.[groupKey] ?? groupKey}</span>
+                  <span className="projects-filter-group-meta">{filters.length}</span>
+                  <span className={`projects-filter-group-caret ${isGroupOpen ? 'is-open' : ''}`}>▾</span>
+                </button>
+                <div className="projects-filter-group-chips">
+                  {filters.map((filterOption) => {
+                    const isActiveFilter = effectiveFilter === filterOption.key;
+
+                    return (
+                      <button
+                        key={filterOption.key}
+                        type="button"
+                        onClick={() => applyFilter(filterOption)}
+                        className={`projects-filter-chip ${isActiveFilter ? 'is-active' : ''}`}
+                      >
+                        {filterOption.icon ? <TechIcon tech={filterOption.icon} className="projects-filter-icon" /> : null}
+                        <span>{filterOption.label}</span>
+                        <span className="projects-filter-count">{filterOption.count}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </header>
 
-      <div className="projects-grid grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {projects.map((project) => {
+      <div className="projects-grid mt-3 md:mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {visibleProjects.length === 0 ? (
+          <article className="project-empty-state border border-line/20 rounded-md p-5 bg-surface-3/58 text-ink-2">
+            <p className="m-0 text-[0.82rem] font-mono tracking-[0.05em] uppercase text-ink-3">{t.projects.emptyStateTitle}</p>
+            <p className="mt-2 mb-0 text-[0.9rem] leading-[1.52]">{t.projects.emptyStateText}</p>
+          </article>
+        ) : visibleProjects.map((project) => {
           const isSelected = selectedProjectId === project.id;
           const hasDemo = Boolean(project.links.demo);
+          const previewSrc = project.previewImage;
+          const projectLanguage = resolvePrimaryLanguage(project.facets);
+          const projectCta = resolveProjectFacetCta(project, activeFacet, t.projects.facetCta, t.projects.facetSpecificCta);
+          const hasActiveFacet = Boolean(activeFacet) && project.facets.some((facet) => facet.toLowerCase() === activeFacet);
 
           return (
             <article
               key={project.id}
-              className={`project-card project-showcase border border-line/20 rounded-lg transition-all duration-150 h-full flex flex-col overflow-hidden ${
+              className={`project-card project-showcase border border-line/20 rounded-lg transition-all duration-150 h-full flex flex-col overflow-hidden ${hasActiveFacet ? 'project-card-filter-accent' : ''} ${
                 isSelected
                   ? 'bg-surface-4 border-signal-cyan/50 shadow-[inset_0_0_0_1px_rgba(59,176,242,0.16),0_14px_30px_rgba(10,19,30,0.18)]'
                   : 'bg-surface-3 hover:border-line/40 hover:bg-surface-4'
               }`}
             >
-              <button type="button" onClick={() => setSelectedProjectId(project.id)} className="w-full text-left bg-transparent border-0 p-0 cursor-pointer">
+              <button
+                type="button"
+                onClick={() => setSelectedProjectId(project.id)}
+                className="project-card-select w-full text-left bg-transparent border-0 p-0 cursor-pointer"
+              >
                 <div className="project-showcase-media">
                   <img
-                    src={project.previewImage}
+                    src={previewSrc}
                     alt={`${project.name} preview`}
                     className={`project-showcase-image project-showcase-image-${project.id}`}
                     loading="lazy"
+                    onError={(event) => {
+                      const image = event.currentTarget;
+                      if (image.dataset.fallback === '1') return;
+                      image.dataset.fallback = '1';
+                      image.src = projectPlaceholder;
+                    }}
                   />
                 </div>
 
-                <div className="project-card-body p-4 md:p-5">
+                <div className="project-card-body p-3 md:p-3.5">
                   <div className="project-title-row flex items-start justify-between gap-3">
                     <div className="min-w-0">
-                      <p className="project-card-type m-0 text-ink-3 text-[0.66rem] font-mono tracking-[0.08em] uppercase">{project.type}</p>
-                      <h3 className="project-card-title mt-2 mb-0 text-[1.08rem] font-semibold tracking-[-0.01em] text-ink">{project.name}</h3>
+                      <p className="project-card-type m-0 text-ink-2 text-[0.66rem] font-mono tracking-[0.08em] uppercase">{project.type}</p>
+                      {project.category ? <span className="project-category-badge">{project.category}</span> : null}
+                      <h3 className="project-card-title mt-1 mb-0 text-[1rem] font-semibold tracking-[-0.01em] text-ink">{project.name}</h3>
                     </div>
                   </div>
 
-                  <p className="project-summary mt-3 mb-0 text-ink-2 text-[0.86rem] leading-[1.52]">{project.summary}</p>
+                  <p className="project-summary mt-2 mb-0 text-ink-2 text-[0.84rem] leading-[1.48]">{project.previewLabel || project.summary}</p>
+                  <p
+                    key={`cta-${project.id}-${activeFacet ?? 'all'}`}
+                    className="project-cta-note mt-1 mb-0 text-ink-2 text-[0.78rem] leading-[1.45]"
+                  >
+                    {projectCta}
+                  </p>
 
-                  <div className="project-tech-list mt-4 flex flex-wrap gap-2">
-                    {project.facets.slice(0, 4).map((facet) => (
-                      <span key={facet} className={`project-tech-pill project-tech-pill-${resolveFacetTone(facet)}`}>
-                        <TechIcon tech={resolveFacetTechIcon(facet)} className="project-tech-pill-icon" />
-                        <span>{facet}</span>
+                  <div className="project-meta-row mt-1.5 flex flex-wrap gap-1.5">
+                    {project.metrics.slice(0, 1).map((metric) => (
+                      <span key={metric.label} className="project-meta-chip">
+                        <strong>{metric.label}:</strong>
+                        <span>{metric.value}</span>
                       </span>
                     ))}
+                    <span className="project-meta-chip">
+                      <strong>{t.projects.languageLabel}:</strong>
+                      <span>{projectLanguage}</span>
+                    </span>
+                  </div>
+
+                  <div className="project-tech-list mt-1.5 flex flex-wrap gap-1.5">
+                    {project.facets.slice(0, 3).map((facet) => {
+                      const isActiveFacetTag = Boolean(activeFacet) && facet.toLowerCase() === activeFacet;
+
+                      return (
+                        <span
+                          key={facet}
+                          className={`project-tech-pill project-tech-pill-${resolveFacetTone(facet)} ${isActiveFacetTag ? 'is-active' : ''}`}
+                        >
+                          <TechIcon tech={resolveFacetTechIcon(facet)} className="project-tech-pill-icon" />
+                          <span>{facet}</span>
+                        </span>
+                      );
+                    })}
                   </div>
                 </div>
               </button>
 
-              <div className="px-4 md:px-5 pb-4 md:pb-5 mt-auto">
-                <div className="project-actions mt-3 border-t border-line/10 pt-3 flex flex-wrap gap-2">
+              <div className="px-3 md:px-3.5 pb-3 md:pb-3.5 mt-auto">
+                <div className="project-actions mt-1.5 border-t border-line/10 pt-1.5 flex flex-wrap gap-1.5">
                   <a
                     href={project.links.repo}
                     target="_blank"
