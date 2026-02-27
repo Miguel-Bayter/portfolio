@@ -463,6 +463,19 @@ body {
 .project-front-badge-icon {
   width: 1.18rem;
   height: 1.18rem;
+  color: rgb(var(--signal-cyan));
+  filter: drop-shadow(0 0 8px rgb(var(--signal-cyan) / 0.4));
+}
+
+html.theme-dark .project-front-badge {
+  border-color: rgb(var(--signal-cyan) / 0.46);
+  background: linear-gradient(180deg, rgb(8 26 45 / 0.96) 0%, rgb(8 20 36 / 0.94) 100%);
+  box-shadow: 0 10px 18px rgb(5 14 24 / 0.44), inset 0 1px 0 rgb(150 217 255 / 0.2);
+}
+
+html.theme-dark .project-front-badge-icon {
+  color: rgb(111 211 255);
+  filter: drop-shadow(0 0 10px rgb(111 211 255 / 0.46));
 }
 
 .project-front-title {
@@ -1801,6 +1814,17 @@ html.theme-light .project-front-overlay {
 
 html.theme-light .project-front-title {
   color: rgb(17 43 72 / 0.95);
+}
+
+html.theme-light .project-front-badge {
+  border-color: rgb(52 123 186 / 0.34);
+  background: linear-gradient(180deg, rgb(245 252 255 / 0.96) 0%, rgb(227 241 252 / 0.94) 100%);
+  box-shadow: 0 8px 16px rgb(58 98 140 / 0.16), inset 0 1px 0 rgb(255 255 255 / 0.72);
+}
+
+html.theme-light .project-front-badge-icon {
+  color: rgb(34 122 191);
+  filter: drop-shadow(0 0 6px rgb(34 122 191 / 0.24));
 }
 
 html.theme-light .project-front-subtitle,
