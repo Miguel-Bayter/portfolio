@@ -1,4 +1,9 @@
-export const content = {
+import type { Content } from '../types';
+import impostorRealPreview from '../img/projects/impostor-real.png';
+import tuGestionAmigaRealPreview from '../img/projects/tugestionamiga-real.png';
+import invygoRealPreview from '../img/projects/invygo-real.jpg';
+
+export const content: Content = {
   en: {
     role: "Fullstack Software Developer | Software Analysis and Development Technologist",
     focus: "I ship production-ready products from UX to API architecture.",
@@ -6,6 +11,7 @@ export const content = {
     a11y: {
       toggleLanguage: "Switch language",
       toggleTheme: "Switch color theme",
+      navigation: "Navigation",
     },
     nav: {
       overview: "Overview",
@@ -44,7 +50,7 @@ export const content = {
       ],
     },
     overview: {
-      title: "Stack Tecnologico",
+      title: "Technology Stack",
       hero: {
         nameLine: "I'm Miguel Bayter",
         roleLinePrefix: "",
@@ -84,6 +90,9 @@ export const content = {
       demo: "Live Demo",
       noDemo: "Maintenance",
       languageLabel: "Language",
+      pulseMetrics: "Metrics",
+      pulseDecisions: "Architecture",
+      pulseImpact: "Impact",
       facetCta: {
         language: "Typed language decisions keep domain logic explicit and reduce ambiguity across client-server boundaries.",
         framework: "Component and rendering structure prioritize predictable state transitions and composable UI behavior.",
@@ -122,8 +131,7 @@ export const content = {
           id: "impostor",
           name: "Impostor",
           type: "Multiplayer Fullstack Game",
-          previewImage:
-            "https://opengraph.githubassets.com/1/Miguel-Bayter/Impostor",
+          previewImage: impostorRealPreview,
           previewLabel: "Realtime rooms and role synchronization",
           cta: "Event-driven architecture with Socket.io room lifecycle control, deterministic role state, and latency-aware interaction handling.",
           summary:
@@ -155,8 +163,7 @@ export const content = {
           id: "tugestionamiga",
           name: "TuGestionAmiga",
           type: "Library Management System",
-          previewImage:
-            "https://opengraph.githubassets.com/1/Miguel-Bayter/TuGestionAmiga",
+          previewImage: tuGestionAmigaRealPreview,
           previewLabel: "Catalog, loans, and admin workflows",
           cta: "Monorepo setup with typed contracts, Prisma-backed transactional flows, and route-level role enforcement for operational consistency.",
           summary:
@@ -182,6 +189,38 @@ export const content = {
           links: {
             repo: "https://github.com/Miguel-Bayter/TuGestionAmiga",
             demo: "",
+          },
+        },
+        {
+          id: "invygo",
+          name: "InvYGO",
+          type: "Inventory and Catalog Platform",
+          previewImage: invygoRealPreview,
+          previewLabel: "Interactive catalog flows and configurable carousel behavior",
+          cta: "Feature-oriented frontend architecture with route-level separation, i18n-ready UI, and configurable state-driven interactions.",
+          summary:
+            "Product-style React platform for catalog and inventory views with dynamic carousel configuration and localized UX.",
+          problem:
+            "The catalog experience needed structured routing, reusable UI layers, and predictable state updates for configurable interactions.",
+          solution:
+            "Built a TypeScript monorepo workspace with modular pages, typed state flows, and internationalization support integrated into navigation and views.",
+          impact:
+            "Delivers a cleaner baseline for scaling product modules while preserving consistency in interaction patterns and multilingual presentation.",
+          category: "Product Interface Platform",
+          facets: ["React 19", "TypeScript", "i18n", "JavaScript"],
+          decisions: [
+            "Route-based page boundaries for clearer ownership and feature scaling",
+            "Centralized state transitions for carousel configurability",
+            "Translation-first UI structure for language-safe expansion",
+          ],
+          metrics: [
+            { label: "Architecture", value: "Workspace web app" },
+            { label: "Core Flows", value: "Catalog + inventory + carousel" },
+            { label: "Language", value: "TypeScript-first" },
+          ],
+          links: {
+            repo: "https://github.com/Miguel-Bayter/InvYGO",
+            demo: "https://invygo.netlify.app",
           },
         },
       ],
@@ -341,13 +380,14 @@ export const content = {
     footer: "Miguel Eduardo Bayter Quintana - 2026",
   },
   es: {
-    role: "Desarrollador Fullstack | Tecnologo en Analisis y Desarrollo de Software",
+    role: "Desarrollador Fullstack | Tecnólogo en Análisis y Desarrollo de Software",
     focus:
-      "Entrego productos listos para produccion desde UX hasta arquitectura de API.",
+      "Entrego productos listos para producción desde UX hasta arquitectura de API.",
     availability: "Disponible para roles full-time · LATAM / Remoto",
     a11y: {
       toggleLanguage: "Cambiar idioma",
       toggleTheme: "Cambiar tema de color",
+      navigation: "Navegación",
     },
     nav: {
       overview: "Resumen",
@@ -361,10 +401,10 @@ export const content = {
       subtitle:
         "Entrega end-to-end de producto con resultados medibles para negocio.",
       profileLinkLabel: "Abrir perfil de LinkedIn",
-      proofLabel: "Evidencia para contratacion",
+      proofLabel: "Evidencia para contratación",
       proofItems: [
-        "Responsabilidad de alcance y ejecucion",
-        "Metricas de impacto alineadas al negocio",
+        "Responsabilidad de alcance y ejecución",
+        "Métricas de impacto alineadas al negocio",
       ],
       status: "Disponible para entrevistas",
       darkMode: "Oscuro",
@@ -374,35 +414,35 @@ export const content = {
     hero: {
       kicker: "Consola Fullstack de Entrega",
       title:
-        "Diseno y construyo software que pasa de concepto a produccion con tradeoffs tecnicos claros.",
+        "Diseño y construyo software que pasa de concepto a producción con tradeoffs técnicos claros.",
       subtitle:
-        "Este portafolio esta estructurado para reclutadores y lideres tecnicos: evidencia rapida, restricciones reales y resultados medibles.",
+        "Este portafolio está estructurado para reclutadores y líderes técnicos: evidencia rápida, restricciones reales y resultados medibles.",
       ctaPrimary: "Ver Proyectos",
       ctaSecondary: "Contactarme",
       metrics: [
         { label: "Rutas clave", value: "3 flujos de producto" },
         { label: "Stack principal", value: "React + Node + PostgreSQL" },
-        { label: "Metodo de entrega", value: "Feature slices + QA" },
+        { label: "Método de entrega", value: "Feature slices + QA" },
       ],
     },
     overview: {
-      title: "Technology Stack",
+      title: "Stack Tecnológico",
       hero: {
         nameLine: "Soy Miguel Bayter",
         roleLinePrefix: "Desarrollador de Software",
         roleLineHighlight: "Fullstack",
         roleLineSuffix: "",
         description:
-          "Construyo experiencias de Software confiables en frontend y backend, equilibrando velocidad de entrega, calidad y comunicacion para equipos reales.",
+          "Construyo experiencias de software confiables en frontend y backend, equilibrando velocidad de entrega, calidad y comunicación para equipos reales.",
         ctaPrimary: "Ver Proyectos",
         ctaSecondary: "Contactarme",
       },
       proofTitle: "Franja de evidencia",
       proofAction: "Abrir tablero de proyectos",
       techStack: {
-        a11yLabel: "Carrusel de stack tecnologico",
-        prev: "Tecnologias anteriores",
-        next: "Siguientes tecnologias",
+        a11yLabel: "Carrusel de stack tecnológico",
+        prev: "Tecnologías anteriores",
+        next: "Siguientes tecnologías",
         items: [
           { name: "HTML5", icon: "html", tone: "orange", rank: 1 },
           { name: "CSS3", icon: "css", tone: "blue", rank: 2 },
@@ -423,28 +463,31 @@ export const content = {
     projects: {
       title: "Portafolio de Proyectos",
       subtitle:
-        "Proyectos orientados a produccion con contexto de entrega, decisiones tecnicas e impacto medible.",
+        "Proyectos orientados a producción con contexto de entrega, decisiones técnicas e impacto medible.",
       linksLabel: "Enlaces",
       repo: "Repositorio",
       demo: "Demo",
       noDemo: "Mantenimiento",
       languageLabel: "Lenguaje",
+      pulseMetrics: "Métricas",
+      pulseDecisions: "Arquitectura",
+      pulseImpact: "Impacto",
       facetCta: {
-        language: "Las decisiones de lenguaje tipado mantienen la logica de dominio explicita y reducen ambiguedad entre cliente y servidor.",
-        framework: "La estructura de componentes y renderizado prioriza transiciones de estado predecibles y composicion reutilizable.",
-        backend: "Los limites de servicio y flujo de requests se organizan para comportamiento deterministico bajo concurrencia.",
+        language: "Las decisiones de lenguaje tipado mantienen la lógica de dominio explícita y reducen ambigüedad entre cliente y servidor.",
+        framework: "La estructura de componentes y renderizado prioriza transiciones de estado predecibles y composición reutilizable.",
+        backend: "Los límites de servicio y flujo de requests se organizan para comportamiento determinístico bajo concurrencia.",
         data: "El acceso a datos se modela con operaciones orientadas a integridad y comportamiento transaccional predecible.",
-        cross: "Los concerns transversales se resuelven con convenciones explicitas de localizacion, consistencia y mantenibilidad.",
+        cross: "Los concerns transversales se resuelven con convenciones explícitas de localización, consistencia y mantenibilidad.",
       },
       facetSpecificCta: {
         "node.js": "Node.js se usa por su event loop no bloqueante y throughput estable en sesiones concurrentes con websockets.",
-        express: "Express organiza rutas y capas de middleware con limites explicitos de validacion por request.",
-        "socket.io": "Socket.io coordina ciclo de salas, eventos por rol y garantias de sincronizacion en tiempo real.",
-        javascript: "La logica central de juego e interaccion se implementa en JavaScript con control orientado a eventos.",
-        "react 19": "React 19 soporta estados interactivos con renderizado predecible y composicion escalable de componentes.",
-        typescript: "TypeScript aplica contratos explicitos entre UI y servicios para reducir ambiguedad en runtime.",
-        prisma: "Prisma modela integridad relacional y operaciones transaccionales para flujos criticos de checkout y devolucion.",
-        i18n: "La internacionalizacion se integra en el flujo de UI para mantener consistencia de contenido, rutas y etiquetas entre idiomas.",
+        express: "Express organiza rutas y capas de middleware con límites explícitos de validación por request.",
+        "socket.io": "Socket.io coordina ciclo de salas, eventos por rol y garantías de sincronización en tiempo real.",
+        javascript: "La lógica central de juego e interacción se implementa en JavaScript con control orientado a eventos.",
+        "react 19": "React 19 soporta estados interactivos con renderizado predecible y composición escalable de componentes.",
+        typescript: "TypeScript aplica contratos explícitos entre UI y servicios para reducir ambigüedad en runtime.",
+        prisma: "Prisma modela integridad relacional y operaciones transaccionales para flujos críticos de checkout y devolución.",
+        i18n: "La internacionalización se integra en el flujo de UI para mantener consistencia de contenido, rutas y etiquetas entre idiomas.",
       },
       filterAll: "Todos",
       filtersOpen: "Mostrar filtros",
@@ -459,34 +502,33 @@ export const content = {
         cross: "Transversal",
       },
       detailHint:
-        "Los resumenes de tarjeta son intencionalmente breves. Ve a Perfil para empresas para mas contexto.",
+        "Los resúmenes de tarjeta son intencionalmente breves. Ve a Perfil para empresas para más contexto.",
       caseStudy: "Detalle",
       problemLabel: "Problema",
-      solutionLabel: "Solucion",
+      solutionLabel: "Solución",
       impactLabel: "Impacto",
       items: [
         {
           id: "impostor",
           name: "Impostor",
           type: "Juego Fullstack Multijugador",
-          previewImage:
-            "https://opengraph.githubassets.com/1/Miguel-Bayter/Impostor",
-          previewLabel: "Salas en tiempo real y sincronizacion de roles",
-          cta: "Arquitectura orientada a eventos con control de ciclo de salas en Socket.io, estado de roles deterministico y manejo sensible a latencia.",
+          previewImage: impostorRealPreview,
+          previewLabel: "Salas en tiempo real y sincronización de roles",
+          cta: "Arquitectura orientada a eventos con control de ciclo de salas en Socket.io, estado de roles determinístico y manejo sensible a latencia.",
           summary:
-            "Juego social multijugador online con salas en tiempo real, logica de roles y sincronizacion de estado.",
+            "Juego social multijugador online con salas en tiempo real, lógica de roles y sincronización de estado.",
           problem:
-            "El prototipo local no tenia una base estable para coordinar jugadores y reglas por rol.",
+            "El prototipo local no tenía una base estable para coordinar jugadores y reglas por rol.",
           solution:
-            "Disene una arquitectura separada frontend/backend con canales Socket.io y control de ciclo de salas.",
+            "Diseñé una arquitectura separada frontend/backend con canales Socket.io y control de ciclo de salas.",
           impact:
-            "Dejo una base real de produccion para evolucionar flujos multijugador con menor riesgo tecnico.",
+            "Dejó una base real de producción para evolucionar flujos multijugador con menor riesgo técnico.",
           category: "Producto en tiempo real",
           facets: ["Node.js", "Express", "Socket.io", "JavaScript"],
           decisions: [
-            "Orquestacion por eventos para consistencia en tiempo real",
-            "Validacion de acciones antes de ejecutar jugadas",
-            "Arquitectura incremental separando logica de juego y transporte",
+            "Orquestación por eventos para consistencia en tiempo real",
+            "Validación de acciones antes de ejecutar jugadas",
+            "Arquitectura incremental separando lógica de juego y transporte",
           ],
           metrics: [
             { label: "Modo", value: "Tiempo real multijugador" },
@@ -501,29 +543,28 @@ export const content = {
         {
           id: "tugestionamiga",
           name: "TuGestionAmiga",
-          type: "Sistema de Gestion Bibliotecaria",
-          previewImage:
-            "https://opengraph.githubassets.com/1/Miguel-Bayter/TuGestionAmiga",
-          previewLabel: "Catalogo, prestamos y flujos administrativos",
+          type: "Sistema de Gestión Bibliotecaria",
+          previewImage: tuGestionAmigaRealPreview,
+          previewLabel: "Catálogo, préstamos y flujos administrativos",
           cta: "Estructura monorepo con contratos tipados, flujos transaccionales sobre Prisma y enforcement de roles a nivel de rutas para consistencia operativa.",
           summary:
-            "Plataforma de gestion bibliotecaria para catalogo, carrito, prestamos, devoluciones y supervision administrativa.",
+            "Plataforma de gestión bibliotecaria para catálogo, carrito, préstamos, devoluciones y supervisión administrativa.",
           problem:
-            "Los flujos de venta y renta requerian mayor control de roles, persistencia de estado e integridad transaccional.",
+            "Los flujos de venta y renta requerían mayor control de roles, persistencia de estado e integridad transaccional.",
           solution:
-            "Implemente monorepo frontend/backend con i18n-first, rutas protegidas y operaciones criticas transaccionales.",
+            "Implementé monorepo frontend/backend con i18n-first, rutas protegidas y operaciones críticas transaccionales.",
           impact:
-            "Mejoro la confiabilidad operativa de inventario y devoluciones, habilitando crecimiento multilenguaje.",
+            "Mejoró la confiabilidad operativa de inventario y devoluciones, habilitando crecimiento multilenguaje.",
           category: "Plataforma operativa",
           facets: ["React 19", "TypeScript", "Prisma", "i18n"],
           decisions: [
-            "Limites estrictos entre roles ADMIN y USER",
+            "Límites estrictos entre roles ADMIN y USER",
             "Checkout y devoluciones con integridad transaccional",
-            "Frontend preparado para localizacion completa EN/ES",
+            "Frontend preparado para localización completa EN/ES",
           ],
           metrics: [
             { label: "Arquitectura", value: "Monorepo frontend/backend" },
-            { label: "Flujos", value: "Catalogo + carrito + prestamos" },
+            { label: "Flujos", value: "Catálogo + carrito + préstamos" },
             { label: "Auth", value: "Rutas protegidas por rol" },
           ],
           links: {
@@ -531,48 +572,80 @@ export const content = {
             demo: "",
           },
         },
+        {
+          id: "invygo",
+          name: "InvYGO",
+          type: "Plataforma de Inventario y Catálogo",
+          previewImage: invygoRealPreview,
+          previewLabel: "Flujos de catálogo interactivos y carrusel configurable",
+          cta: "Arquitectura frontend orientada a features con separación por rutas, UI preparada para i18n e interacciones configurables por estado.",
+          summary:
+            "Plataforma React estilo producto para catálogo e inventario con configuración dinámica de carrusel y experiencia localizada.",
+          problem:
+            "La experiencia de catálogo requería rutas claras, capas UI reutilizables y actualizaciones de estado predecibles para interacciones configurables.",
+          solution:
+            "Construí un workspace TypeScript con páginas modulares, flujos de estado tipados y soporte de internacionalización integrado en navegación y vistas.",
+          impact:
+            "Entrega una base más limpia para escalar módulos de producto manteniendo consistencia en patrones de interacción y presentación multilenguaje.",
+          category: "Plataforma de interfaz de producto",
+          facets: ["React 19", "TypeScript", "i18n", "JavaScript"],
+          decisions: [
+            "Límites por rutas para ownership más claro y escalado por feature",
+            "Transiciones de estado centralizadas para configurar el carrusel",
+            "Estructura UI translation-first para expansión segura por idioma",
+          ],
+          metrics: [
+            { label: "Arquitectura", value: "Workspace web app" },
+            { label: "Flujos", value: "Catálogo + inventario + carrusel" },
+            { label: "Lenguaje", value: "TypeScript-first" },
+          ],
+          links: {
+            repo: "https://github.com/Miguel-Bayter/InvYGO",
+            demo: "https://invygo.netlify.app",
+          },
+        },
       ],
     },
     caseStudy: {
-      title: "Resumen de encaje para contratacion",
+      title: "Resumen de encaje para contratación",
       subtitle:
-        "Senales que los equipos tecnicos revisan antes de avanzar a entrevistas.",
+        "Señales que los equipos técnicos revisan antes de avanzar a entrevistas.",
       signals: [
         {
           label: "Responsabilidad",
           value: "Alcance a release",
-          note: "Cubro flujo de interfaz, logica API, decisiones de datos y notas de despliegue.",
+          note: "Cubro flujo de interfaz, lógica API, decisiones de datos y notas de despliegue.",
         },
         {
-          label: "Ejecucion",
+          label: "Ejecución",
           value: "Entrega confiable",
-          note: "Trabajo por feature slices con criterio de aceptacion y visibilidad de avance.",
+          note: "Trabajo por feature slices con criterio de aceptación y visibilidad de avance.",
         },
         {
-          label: "Comunicacion",
+          label: "Comunicación",
           value: "Claridad entre equipos",
-          note: "Explico tradeoffs en lenguaje claro para Software, diseño y tecnologia.",
+          note: "Explico tradeoffs en lenguaje claro para producto, diseño y tecnología.",
         },
       ],
       panels: [
         {
           title: "Lo que recibe el equipo",
           bullets: [
-            "Estados de UI claros para carga, vacio y error",
+            "Estados de UI claros para carga, vacío y error",
             "Estructura backend alineada al dominio de negocio",
-            "Documentacion legible para handoff y onboarding",
+            "Documentación legible para handoff y onboarding",
           ],
         },
         {
-          title: "Como colaboro",
+          title: "Cómo colaboro",
           bullets: [
-            "Updates asincronos frecuentes con contexto tecnico",
+            "Updates asincrónos frecuentes con contexto técnico",
             "Riesgos identificados temprano, no al final",
-            "Ownership claro y limites de entrega definidos",
+            "Ownership claro y límites de entrega definidos",
           ],
         },
         {
-          title: "Habitos de calidad",
+          title: "Hábitos de calidad",
           bullets: [
             "Validaciones consistentes en formularios y API",
             "Patrones de componentes y nombres uniformes",
@@ -580,9 +653,9 @@ export const content = {
           ],
         },
         {
-          title: "Primeros 30 dias",
+          title: "Primeros 30 días",
           bullets: [
-            "Mapear flujos de Software y restricciones tecnicas rapido",
+            "Mapear flujos de producto y restricciones técnicas rápido",
             "Entregar una feature acotada de UI a API",
             "Dejar patrones reutilizables para escalar en equipo",
           ],
@@ -590,14 +663,14 @@ export const content = {
       ],
     },
     stack: {
-      title: "Capacidades y practicas de desarrollo",
+      title: "Capacidades y prácticas de desarrollo",
       subtitle:
-        "Capacidades mapeadas a habitos de entrega concretos, no solo etiquetas tecnicas.",
+        "Capacidades mapeadas a hábitos de entrega concretos, no solo etiquetas técnicas.",
       items: [
         {
           area: "Entrega Frontend",
           criterion:
-            "Priorizo patrones reutilizables, jerarquia clara y estados de UI resilientes.",
+            "Priorizo patrones reutilizables, jerarquía clara y estados de UI resilientes.",
           tools: [
             "React",
             "Vite",
@@ -606,13 +679,13 @@ export const content = {
           ],
         },
         {
-          area: "Backend y diseno de API",
-          criterion: "Estructuro servicios por dominio y contratos explicitos.",
+          area: "Backend y diseño de API",
+          criterion: "Estructuro servicios por dominio y contratos explícitos.",
           tools: [
             "Node.js",
             "Express",
-            "Diseno REST API",
-            "Patrones de autenticacion",
+            "Diseño REST API",
+            "Patrones de autenticación",
           ],
         },
         {
@@ -622,31 +695,31 @@ export const content = {
           tools: [
             "PostgreSQL",
             "Modelo relacional",
-            "Base de optimizacion de consultas",
+            "Base de optimización de consultas",
           ],
         },
         {
           area: "Calidad y entrega",
           criterion:
-            "Mantengo releases confiables con workflows repetibles y documentacion clara.",
+            "Mantengo releases confiables con workflows repetibles y documentación clara.",
           tools: [
             "GitHub",
             "Actions CI/CD",
             "GitHub Pages",
-            "Estandares de README",
+            "Estándares de README",
           ],
         },
       ],
     },
     contact: {
-      title: "Contratacion y contacto",
+      title: "Contratación y contacto",
       subtitle:
         "Disponible para roles fullstack de producto con foco en responsabilidad, calidad e impacto de negocio.",
       hiringKicker: "Disponible ahora",
       hiringTitle:
-        "Listo para entrevistas tecnicas y pruebas practicas de codigo.",
+        "Listo para entrevistas técnicas y pruebas prácticas de código.",
       hiringSubtitle:
-        "Me acoplo mejor a equipos que valoran arquitectura limpia, comunicacion y consistencia de entrega.",
+        "Me acoplo mejor a equipos que valoran arquitectura limpia, comunicación y consistencia de entrega.",
       channels: [
         {
           label: "GitHub",
@@ -674,14 +747,14 @@ export const content = {
         message: "Mensaje",
         namePlaceholder: "Tu nombre",
         emailPlaceholder: "tu@correo.com",
-        messagePlaceholder: "Cuentame sobre el rol o proyecto",
+        messagePlaceholder: "Cuéntame sobre el rol o proyecto",
         submit: "Enviar",
         sending: "Enviando...",
         cancel: "Cancelar",
-        sent: "Mensaje enviado correctamente. Te respondere pronto.",
+        sent: "Mensaje enviado correctamente. Te responderé pronto.",
         error:
-          "No se pudo enviar el mensaje. Intentalo de nuevo en un momento.",
-        invalidEmail: "Ingresa un correo valido.",
+          "No se pudo enviar el mensaje. Inténtalo de nuevo en un momento.",
+        invalidEmail: "Ingresa un correo válido.",
         required: "Completa todos los campos obligatorios.",
       },
     },

@@ -23,3 +23,16 @@
 - **Proof strip cards**: modular cards with status chip, progress bar, and two-cell metadata row.
 - **Section titles**: high-contrast heading with subtle accent underline, not heavy glow.
 - **Interaction timing**: 140-220ms, ease-out/deceleration curves, no spring effects.
+
+## Projects Dense Mode (2xl)
+- **Grid scaling**: `1/2/3/4/5` columns by breakpoint (`base/sm/lg/xl/2xl`) with tighter gap at `2xl` for dashboard density.
+- **Card hierarchy**: prioritize title, language chip, and top 1-2 tech facets; hide low-priority narrative text on `2xl`.
+- **Actions**: use icon-only compact buttons on `2xl` with accessible labels and hover/focus tooltips.
+- **State emphasis**: active facet tag gets soft cyan glow; filtered cards get subtle vertical accent rail.
+- **Motion**: keep transitions subtle (`120-160ms`) and disable decorative effects under `prefers-reduced-motion`.
+
+## Dense Pattern Reuse (Stack + Hiring Fit)
+- **Shared premium cards**: `capability`, `signal`, and `panel` cards use the same top accent rail and subtle layered surface treatment.
+- **2xl compaction**: tighten paddings and typography while preserving hierarchy (`title > value > short rationale > bullets`).
+- **Content density control**: clamp long explanatory lines and keep bullets readable without vertical sprawl.
+- **Grid behavior**: increase card count per row only on large canvases (`stack` up to 4 cols, hiring panels up to 4 cols).
