@@ -17,6 +17,7 @@ export interface ProjectLinks {
 
 export interface Project {
   id: string;
+  order: number;
   name: string;
   type: string;
   previewImage: string;
@@ -41,15 +42,23 @@ export interface ContactChannel {
   type?: string;
 }
 
-export interface Signal {
-  label: string;
-  value: string;
-  note: string;
+export interface ProfileEntry {
+  title: string;
+  institution: string;
+  period?: string;
+  note?: string;
 }
 
-export interface Panel {
+export interface ProfileGroup {
   title: string;
-  bullets: string[];
+  subtitle?: string;
+  items: string[];
+  certificates?: ProfileCertificate[];
+}
+
+export interface ProfileCertificate {
+  label: string;
+  href: string;
 }
 
 export interface StackItem {
@@ -70,7 +79,7 @@ export interface ContentLocale {
   nav: {
     overview: string;
     projects: string;
-    caseStudy: string;
+    profile: string;
     stack: string;
     contact: string;
   };
@@ -152,11 +161,22 @@ export interface ContentLocale {
     pulseImpact: string;
     items: Project[];
   };
-  caseStudy: {
+  profile: {
     title: string;
     subtitle: string;
-    signals: Signal[];
-    panels: Panel[];
+    statusLabel: string;
+    statusValue: string;
+    summary: string;
+    schoolingTitle: string;
+    cvLabel: string;
+    certificatesLabel: string;
+    skills: {
+      title: string;
+      items: string[];
+    };
+    education: ProfileEntry[];
+    programs: ProfileGroup[];
+    schooling: ProfileEntry[];
   };
   stack: {
     title: string;
@@ -196,5 +216,5 @@ export interface Content {
 
 export type Language = 'en' | 'es';
 export type Theme = 'light' | 'dark' | 'system';
-export type SectionId = 'overview' | 'projects' | 'caseStudy' | 'stack' | 'contact';
+export type SectionId = 'overview' | 'projects' | 'profile' | 'stack' | 'contact';
 export type FacetGroup = 'language' | 'framework' | 'backend' | 'data' | 'cross';

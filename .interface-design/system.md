@@ -31,8 +31,8 @@
 - **State emphasis**: active facet tag gets soft cyan glow; filtered cards get subtle vertical accent rail.
 - **Motion**: keep transitions subtle (`120-160ms`) and disable decorative effects under `prefers-reduced-motion`.
 
-## Dense Pattern Reuse (Stack + Hiring Fit)
-- **Shared premium cards**: `capability`, `signal`, and `panel` cards use the same top accent rail and subtle layered surface treatment.
+## Dense Pattern Reuse (Stack + Profile)
+- **Shared premium cards**: profile and stack cards share the same top accent rail and layered surface treatment.
 - **2xl compaction**: tighten paddings and typography while preserving hierarchy (`title > value > short rationale > bullets`).
 - **Content density control**: clamp long explanatory lines and keep bullets readable without vertical sprawl.
-- **Grid behavior**: increase card count per row only on large canvases (`stack` up to 4 cols, hiring panels up to 4 cols).
+- **Grid behavior**: increase card count per row only on large canvases (`stack` up to 4 cols, profile grid two-column split on desktop).

@@ -1,7 +1,13 @@
-import type { Content } from '../types';
-import impostorRealPreview from '../img/projects/impostor-real.png';
-import tuGestionAmigaRealPreview from '../img/projects/tugestionamiga-real.png';
-import invygoRealPreview from '../img/projects/invygo-real.jpg';
+import type { Content } from "../types";
+import impostorRealPreview from "../img/projects/impostor-real.png";
+import tuGestionAmigaRealPreview from "../img/projects/tugestionamiga-real.png";
+import invygoRealPreview from "../img/projects/invygo-real.jpg";
+import misionTicGeneral from "../certifications/MISION TIC 2022/Curso y terminó exitosamente el programa Misión TIC .pdf";
+import misionTicPython from "../certifications/MISION TIC 2022/Fundamentos de Programacion con Python.pdf";
+import misionTicJavaBasic from "../certifications/MISION TIC 2022/Programacion Basica con Lenguaje de Programacion Java.pdf";
+import misionTicJavaDev from "../certifications/MISION TIC 2022/Desarrollo de Software con Lenguaje de Programacion Java.pdf";
+import misionTicWeb from "../certifications/MISION TIC 2022/Habilidades en Programacion con Enfasis en Aplicaciones Web.pdf";
+import senaMobile from "../certifications/CURSOS SENA/Programacion de Dispositivos Moviles.pdf";
 
 export const content: Content = {
   en: {
@@ -16,7 +22,7 @@ export const content: Content = {
     nav: {
       overview: "Overview",
       projects: "Projects",
-      caseStudy: "Hiring Fit",
+      profile: "Profile",
       stack: "Capabilities",
       contact: "Contact",
     },
@@ -94,20 +100,31 @@ export const content: Content = {
       pulseDecisions: "Architecture",
       pulseImpact: "Impact",
       facetCta: {
-        language: "Typed language decisions keep domain logic explicit and reduce ambiguity across client-server boundaries.",
-        framework: "Component and rendering structure prioritize predictable state transitions and composable UI behavior.",
-        backend: "Service boundaries and request flow are organized for deterministic behavior under concurrent interactions.",
+        language:
+          "Typed language decisions keep domain logic explicit and reduce ambiguity across client-server boundaries.",
+        framework:
+          "Component and rendering structure prioritize predictable state transitions and composable UI behavior.",
+        backend:
+          "Service boundaries and request flow are organized for deterministic behavior under concurrent interactions.",
         data: "Data access is modeled with integrity-first operations and predictable transactional behavior.",
-        cross: "Cross-cutting concerns are handled with explicit conventions for localization, consistency, and maintainability.",
+        cross:
+          "Cross-cutting concerns are handled with explicit conventions for localization, consistency, and maintainability.",
       },
       facetSpecificCta: {
-        "node.js": "Node.js runtime is used for non-blocking event loops and stable websocket throughput during concurrent sessions.",
-        express: "Express handles routing and middleware layering with explicit request validation boundaries.",
-        "socket.io": "Socket.io channels coordinate room lifecycle, role events, and real-time synchronization guarantees.",
-        javascript: "Core gameplay and interaction logic is implemented in JavaScript with event-driven control paths.",
-        "react 19": "React 19 powers interactive UI states with predictable rendering and scalable component composition.",
-        typescript: "TypeScript enforces explicit contracts across UI and service boundaries to reduce runtime ambiguity.",
-        prisma: "Prisma models relational integrity and transactional data operations for critical checkout and return flows.",
+        "node.js":
+          "Node.js runtime is used for non-blocking event loops and stable websocket throughput during concurrent sessions.",
+        express:
+          "Express handles routing and middleware layering with explicit request validation boundaries.",
+        "socket.io":
+          "Socket.io channels coordinate room lifecycle, role events, and real-time synchronization guarantees.",
+        javascript:
+          "Core gameplay and interaction logic is implemented in JavaScript with event-driven control paths.",
+        "react 19":
+          "React 19 powers interactive UI states with predictable rendering and scalable component composition.",
+        typescript:
+          "TypeScript enforces explicit contracts across UI and service boundaries to reduce runtime ambiguity.",
+        prisma:
+          "Prisma models relational integrity and transactional data operations for critical checkout and return flows.",
         i18n: "Internationalization is integrated at the UI flow level to keep content, routes, and labels consistent across locales.",
       },
       filterAll: "All",
@@ -129,6 +146,7 @@ export const content: Content = {
       items: [
         {
           id: "impostor",
+          order: 1,
           name: "Impostor",
           type: "Multiplayer Fullstack Game",
           previewImage: impostorRealPreview,
@@ -161,6 +179,7 @@ export const content: Content = {
         },
         {
           id: "tugestionamiga",
+          order: 2,
           name: "TuGestionAmiga",
           type: "Library Management System",
           previewImage: tuGestionAmigaRealPreview,
@@ -193,10 +212,12 @@ export const content: Content = {
         },
         {
           id: "invygo",
+          order: 3,
           name: "InvYGO",
           type: "Inventory and Catalog Platform",
           previewImage: invygoRealPreview,
-          previewLabel: "Interactive catalog flows and configurable carousel behavior",
+          previewLabel:
+            "Interactive catalog flows and configurable carousel behavior",
           cta: "Feature-oriented frontend architecture with route-level separation, i18n-ready UI, and configurable state-driven interactions.",
           summary:
             "Product-style React platform for catalog and inventory views with dynamic carousel configuration and localized UX.",
@@ -225,59 +246,76 @@ export const content: Content = {
         },
       ],
     },
-    caseStudy: {
-      title: "Hiring Readiness Snapshot",
+    profile: {
+      title: "Professional Profile",
       subtitle:
-        "The signals technical teams review before moving candidates to interview loops.",
-      signals: [
+        "Resume-style snapshot focused on education and technical training.",
+      statusLabel: "Education",
+      statusValue: "Internship-ready",
+      summary:
+        "Technologist student in Software Analysis and Development with applied training in requirements analysis, data/process modeling, software design, development, testing, databases, APIs, and documentation. Seeking internship opportunities to contribute to real product delivery.",
+      schoolingTitle: "Schooling",
+      cvLabel: "Download CV",
+      certificatesLabel: "Download certificates",
+      skills: {
+        title: "Key skills",
+        items: [
+          "React + TypeScript",
+          "Node.js + Express",
+          "REST API design",
+          "SQL fundamentals",
+          "Frontend architecture",
+          "Git + GitHub workflows",
+          "Responsive UI",
+          "i18n-ready interfaces",
+        ],
+      },
+      education: [
         {
-          label: "Ownership",
-          value: "Scope to release",
-          note: "I cover interface flow, API logic, data model decisions, and deployment notes.",
-        },
-        {
-          label: "Execution",
-          value: "Reliable delivery",
-          note: "I work in feature slices with clear acceptance criteria and progress visibility.",
-        },
-        {
-          label: "Communication",
-          value: "Cross-team clarity",
-          note: "I explain tradeoffs in plain language for product, design, and engineering.",
+          title: "Software Analysis and Development (Technologist)",
+          institution: "SENA",
+          period: "In progress",
+          note:
+            "Curriculum covers requirements analysis, data/process modeling, software design, development, testing, databases, APIs, documentation, and version control through applied projects.",
         },
       ],
-      panels: [
+      programs: [
         {
-          title: "What teams get",
-          bullets: [
-            "Clean UI states for loading, empty, and error paths",
-            "Backend structure aligned with business domains",
-            "Readable documentation for handoff and onboarding",
+          title: "MISION TIC 2022",
+          subtitle: "Ministerio TIC",
+          items: [
+            "Programming Fundamentals with Python",
+            "Basic Programming with Java",
+            "Software Development with Java",
+            "Programming Skills with Emphasis on Web Applications",
+          ],
+          certificates: [
+            { label: "Mision TIC completion", href: misionTicGeneral },
+            { label: "Python fundamentals", href: misionTicPython },
+            { label: "Java programming basics", href: misionTicJavaBasic },
+            { label: "Java software development", href: misionTicJavaDev },
+            { label: "Web app programming skills", href: misionTicWeb },
           ],
         },
         {
-          title: "How I collaborate",
-          bullets: [
-            "Frequent async updates with concise technical context",
-            "Early risk flags instead of late surprises",
-            "Clear task ownership and delivery boundaries",
+          title: "SENA Courses",
+          subtitle: "Technical training",
+          items: ["Mobile device programming"],
+          certificates: [
+            { label: "Mobile device programming", href: senaMobile },
           ],
         },
+      ],
+      schooling: [
         {
-          title: "Quality habits",
-          bullets: [
-            "Validation-first forms and API input checks",
-            "Consistent component patterns and naming conventions",
-            "Manual QA passes before release candidates",
-          ],
+          title: "Academic High School Diploma",
+          institution: "Corporacion Educativa Soledad Acosta de Samper",
+          period: "Secondary",
         },
         {
-          title: "First 30 days",
-          bullets: [
-            "Map product flows and technical constraints quickly",
-            "Deliver one scoped feature from UI to API",
-            "Leave reusable patterns the team can scale",
-          ],
+          title: "Primary Education",
+          institution: "Corporacion Educativa Colegio Alter - Alteris",
+          period: "Primary",
         },
       ],
     },
@@ -392,7 +430,7 @@ export const content: Content = {
     nav: {
       overview: "Resumen",
       projects: "Proyectos",
-      caseStudy: "Perfil para empresas",
+      profile: "Perfil",
       stack: "Capacidades",
       contact: "Contacto",
     },
@@ -473,27 +511,39 @@ export const content: Content = {
       pulseDecisions: "Arquitectura",
       pulseImpact: "Impacto",
       facetCta: {
-        language: "Las decisiones de lenguaje tipado mantienen la lógica de dominio explícita y reducen ambigüedad entre cliente y servidor.",
-        framework: "La estructura de componentes y renderizado prioriza transiciones de estado predecibles y composición reutilizable.",
-        backend: "Los límites de servicio y flujo de requests se organizan para comportamiento determinístico bajo concurrencia.",
+        language:
+          "Las decisiones de lenguaje tipado mantienen la lógica de dominio explícita y reducen ambigüedad entre cliente y servidor.",
+        framework:
+          "La estructura de componentes y renderizado prioriza transiciones de estado predecibles y composición reutilizable.",
+        backend:
+          "Los límites de servicio y flujo de requests se organizan para comportamiento determinístico bajo concurrencia.",
         data: "El acceso a datos se modela con operaciones orientadas a integridad y comportamiento transaccional predecible.",
-        cross: "Los concerns transversales se resuelven con convenciones explícitas de localización, consistencia y mantenibilidad.",
+        cross:
+          "Los concerns transversales se resuelven con convenciones explícitas de localización, consistencia y mantenibilidad.",
       },
       facetSpecificCta: {
-        "node.js": "Node.js se usa por su event loop no bloqueante y throughput estable en sesiones concurrentes con websockets.",
-        express: "Express organiza rutas y capas de middleware con límites explícitos de validación por request.",
-        "socket.io": "Socket.io coordina ciclo de salas, eventos por rol y garantías de sincronización en tiempo real.",
-        javascript: "La lógica central de juego e interacción se implementa en JavaScript con control orientado a eventos.",
-        "react 19": "React 19 soporta estados interactivos con renderizado predecible y composición escalable de componentes.",
-        typescript: "TypeScript aplica contratos explícitos entre UI y servicios para reducir ambigüedad en runtime.",
-        prisma: "Prisma modela integridad relacional y operaciones transaccionales para flujos críticos de checkout y devolución.",
+        "node.js":
+          "Node.js se usa por su event loop no bloqueante y throughput estable en sesiones concurrentes con websockets.",
+        express:
+          "Express organiza rutas y capas de middleware con límites explícitos de validación por request.",
+        "socket.io":
+          "Socket.io coordina ciclo de salas, eventos por rol y garantías de sincronización en tiempo real.",
+        javascript:
+          "La lógica central de juego e interacción se implementa en JavaScript con control orientado a eventos.",
+        "react 19":
+          "React 19 soporta estados interactivos con renderizado predecible y composición escalable de componentes.",
+        typescript:
+          "TypeScript aplica contratos explícitos entre UI y servicios para reducir ambigüedad en runtime.",
+        prisma:
+          "Prisma modela integridad relacional y operaciones transaccionales para flujos críticos de checkout y devolución.",
         i18n: "La internacionalización se integra en el flujo de UI para mantener consistencia de contenido, rutas y etiquetas entre idiomas.",
       },
       filterAll: "Todos",
       filtersOpen: "Mostrar filtros",
       filtersClose: "Ocultar filtros",
       emptyStateTitle: "Sin resultados",
-      emptyStateText: "No hay proyectos para este filtro. Prueba con otro stack.",
+      emptyStateText:
+        "No hay proyectos para este filtro. Prueba con otro stack.",
       filterGroups: {
         language: "Lenguajes",
         framework: "Frameworks",
@@ -510,6 +560,7 @@ export const content: Content = {
       items: [
         {
           id: "impostor",
+          order: 1,
           name: "Impostor",
           type: "Juego Fullstack Multijugador",
           previewImage: impostorRealPreview,
@@ -542,6 +593,7 @@ export const content: Content = {
         },
         {
           id: "tugestionamiga",
+          order: 2,
           name: "TuGestionAmiga",
           type: "Sistema de Gestión Bibliotecaria",
           previewImage: tuGestionAmigaRealPreview,
@@ -574,10 +626,12 @@ export const content: Content = {
         },
         {
           id: "invygo",
+          order: 3,
           name: "InvYGO",
           type: "Plataforma de Inventario y Catálogo",
           previewImage: invygoRealPreview,
-          previewLabel: "Flujos de catálogo interactivos y carrusel configurable",
+          previewLabel:
+            "Flujos de catálogo interactivos y carrusel configurable",
           cta: "Arquitectura frontend orientada a features con separación por rutas, UI preparada para i18n e interacciones configurables por estado.",
           summary:
             "Plataforma React estilo producto para catálogo e inventario con configuración dinámica de carrusel y experiencia localizada.",
@@ -606,59 +660,76 @@ export const content: Content = {
         },
       ],
     },
-    caseStudy: {
-      title: "Resumen de encaje para contratación",
+    profile: {
+      title: "Perfil Profesional",
       subtitle:
-        "Señales que los equipos técnicos revisan antes de avanzar a entrevistas.",
-      signals: [
+        "Seccion tipo hoja de vida enfocada en estudios y formacion tecnica.",
+      statusLabel: "Estudios",
+      statusValue: "En busqueda de practicas",
+      summary:
+        "Tecnologo en Analisis y Desarrollo de Software en formacion, con entrenamiento aplicado en analisis de requerimientos, modelado de datos y procesos, diseno de software, desarrollo, pruebas, bases de datos, APIs y documentacion. En busqueda de practicas para aportar en productos reales.",
+      schoolingTitle: "Escolaridad",
+      cvLabel: "Descargar CV",
+      certificatesLabel: "Descargar certificados",
+      skills: {
+        title: "Skills clave",
+        items: [
+          "React + TypeScript",
+          "Node.js + Express",
+          "Diseno de API REST",
+          "Fundamentos de SQL",
+          "Arquitectura frontend",
+          "Git + GitHub",
+          "UI responsive",
+          "Interfaces con i18n",
+        ],
+      },
+      education: [
         {
-          label: "Responsabilidad",
-          value: "Alcance a release",
-          note: "Cubro flujo de interfaz, lógica API, decisiones de datos y notas de despliegue.",
-        },
-        {
-          label: "Ejecución",
-          value: "Entrega confiable",
-          note: "Trabajo por feature slices con criterio de aceptación y visibilidad de avance.",
-        },
-        {
-          label: "Comunicación",
-          value: "Claridad entre equipos",
-          note: "Explico tradeoffs en lenguaje claro para producto, diseño y tecnología.",
+          title: "Tecnologo en Analisis y Desarrollo de Software",
+          institution: "SENA",
+          period: "En curso",
+          note:
+            "Formacion en analisis de requerimientos, modelado de datos y procesos, diseno de software, desarrollo, pruebas, bases de datos, APIs, documentacion y control de versiones con proyectos aplicados.",
         },
       ],
-      panels: [
+      programs: [
         {
-          title: "Lo que recibe el equipo",
-          bullets: [
-            "Estados de UI claros para carga, vacío y error",
-            "Estructura backend alineada al dominio de negocio",
-            "Documentación legible para handoff y onboarding",
+          title: "MISION TIC 2022",
+          subtitle: "Ministerio TIC",
+          items: [
+            "Fundamentos de Programacion con Python",
+            "Programacion Basica con Lenguaje de Programacion Java",
+            "Desarrollo de Software con Lenguaje de Programacion Java",
+            "Habilidades en Programacion con Enfasis en Aplicaciones Web",
+          ],
+          certificates: [
+            { label: "Certificado general Mision TIC", href: misionTicGeneral },
+            { label: "Fundamentos de Python", href: misionTicPython },
+            { label: "Programacion basica en Java", href: misionTicJavaBasic },
+            { label: "Desarrollo de software en Java", href: misionTicJavaDev },
+            { label: "Aplicaciones web", href: misionTicWeb },
           ],
         },
         {
-          title: "Cómo colaboro",
-          bullets: [
-            "Updates asincrónos frecuentes con contexto técnico",
-            "Riesgos identificados temprano, no al final",
-            "Ownership claro y límites de entrega definidos",
+          title: "Cursos SENA",
+          subtitle: "Formacion tecnica",
+          items: ["Programacion de Dispositivos Moviles"],
+          certificates: [
+            { label: "Programacion de dispositivos moviles", href: senaMobile },
           ],
         },
+      ],
+      schooling: [
         {
-          title: "Hábitos de calidad",
-          bullets: [
-            "Validaciones consistentes en formularios y API",
-            "Patrones de componentes y nombres uniformes",
-            "Pasadas de QA manual antes de cada release",
-          ],
+          title: "Bachiller Academico",
+          institution: "Corporacion Educativa Soledad Acosta de Samper",
+          period: "Secundaria",
         },
         {
-          title: "Primeros 30 días",
-          bullets: [
-            "Mapear flujos de producto y restricciones técnicas rápido",
-            "Entregar una feature acotada de UI a API",
-            "Dejar patrones reutilizables para escalar en equipo",
-          ],
+          title: "Primaria",
+          institution: "Corporacion Educativa Colegio Alter - Alteris",
+          period: "Primaria",
         },
       ],
     },

@@ -4,11 +4,11 @@ import { content } from './data/content';
 import profilePhoto from './img/Profile.jpg';
 import OverviewSection from './components/OverviewSection';
 import ProjectsSection from './components/ProjectsSection';
-import CaseStudySection from './components/CaseStudySection';
+import ProfileSection from './components/ProfileSection';
 import StackSection from './components/StackSection';
 import ContactSection from './components/ContactSection';
 
-const sections: SectionId[] = ['overview', 'projects', 'caseStudy', 'stack', 'contact'];
+const sections: SectionId[] = ['overview', 'projects', 'profile', 'stack', 'contact'];
 
 function getInitialLanguage(): Language {
   if (typeof window === 'undefined') return 'en';
@@ -193,7 +193,7 @@ function App() {
             projectFilter={projectFilter}
             setProjectFilter={setProjectFilter}
           />
-          <CaseStudySection t={t} isVisible={activeSection === 'caseStudy'} />
+          <ProfileSection t={t} isVisible={activeSection === 'profile'} />
           <StackSection t={t} isVisible={activeSection === 'stack'} />
           <ContactSection t={t} isVisible={activeSection === 'contact'} />
 

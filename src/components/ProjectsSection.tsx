@@ -235,7 +235,7 @@ export default function ProjectsSection({
       </header>
 
       <div
-        className="projects-grid projects-grid-dynamic mt-3 md:mt-4 grid grid-cols-1 gap-3"
+        className={`projects-grid projects-grid-dynamic mt-3 md:mt-4 grid grid-cols-1 gap-3 ${projectCount === 1 ? 'projects-grid-single' : ''}`}
         style={{
           '--projects-columns-sm': smGridColumns,
           '--projects-columns-lg': lgGridColumns,

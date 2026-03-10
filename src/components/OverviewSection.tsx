@@ -97,7 +97,10 @@ export default function OverviewSection({
         </div>
 
         <div className="proof-strip-track md:grid md:grid-cols-2 md:gap-4">
-          {projects.slice(0, 2).map((project) => (
+          {[...projects]
+            .sort((a, b) => b.order - a.order)
+            .slice(0, 2)
+            .map((project) => (
             <button
               key={project.id}
               type="button"
