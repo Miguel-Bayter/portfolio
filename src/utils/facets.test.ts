@@ -20,6 +20,10 @@ describe('resolveFacetTechIcon', () => {
   it('returns prisma for Prisma', () => expect(resolveFacetTechIcon('Prisma')).toBe('prisma'));
   it('returns i18n for i18n', () => expect(resolveFacetTechIcon('i18n')).toBe('i18n'));
   it('returns mongodb for MongoDB', () => expect(resolveFacetTechIcon('MongoDB')).toBe('mongodb'));
+  it('returns mysql for MySQL', () => expect(resolveFacetTechIcon('MySQL')).toBe('mysql'));
+  it('returns nextjs for Next.js', () => expect(resolveFacetTechIcon('Next.js')).toBe('nextjs'));
+  it('returns nestjs for NestJS', () => expect(resolveFacetTechIcon('NestJS')).toBe('nestjs'));
+  it('returns vite for Vite', () => expect(resolveFacetTechIcon('Vite')).toBe('vite'));
   it('returns docker for Docker', () => expect(resolveFacetTechIcon('Docker')).toBe('docker'));
   it('returns git for Git', () => expect(resolveFacetTechIcon('Git')).toBe('git'));
   it('returns null for unknown facet', () => expect(resolveFacetTechIcon('Redis')).toBeNull());
@@ -74,6 +78,8 @@ describe('resolvePrimaryLanguage', () => {
 
 const mockProject: Project = {
   id: 'test',
+  order: 0,
+  createdAt: '2024-01-01',
   name: 'Test',
   type: 'Test Type',
   previewImage: '',

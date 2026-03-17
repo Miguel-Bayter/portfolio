@@ -5,10 +5,9 @@ import profilePhoto from './img/Profile.jpg';
 import OverviewSection from './components/OverviewSection';
 import ProjectsSection from './components/ProjectsSection';
 import ProfileSection from './components/ProfileSection';
-import StackSection from './components/StackSection';
 import ContactSection from './components/ContactSection';
 
-const sections: SectionId[] = ['overview', 'projects', 'profile', 'stack', 'contact'];
+const sections: SectionId[] = ['overview', 'projects', 'profile', 'contact'];
 
 function getInitialLanguage(): Language {
   if (typeof window === 'undefined') return 'en';
@@ -194,7 +193,6 @@ function App() {
             setProjectFilter={setProjectFilter}
           />
           <ProfileSection t={t} isVisible={activeSection === 'profile'} />
-          <StackSection t={t} isVisible={activeSection === 'stack'} />
           <ContactSection t={t} isVisible={activeSection === 'contact'} />
 
           <footer className="pt-4 border-t border-line/10 text-ink-4 text-[0.76rem] font-mono tracking-[0.04em]">

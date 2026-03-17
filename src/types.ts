@@ -18,6 +18,7 @@ export interface ProjectLinks {
 export interface Project {
   id: string;
   order: number;
+  createdAt: string;
   name: string;
   type: string;
   previewImage: string;
@@ -80,7 +81,6 @@ export interface ContentLocale {
     overview: string;
     projects: string;
     profile: string;
-    stack: string;
     contact: string;
   };
   topbar: {
@@ -164,12 +164,22 @@ export interface ContentLocale {
   profile: {
     title: string;
     subtitle: string;
+    sectionLabels: {
+      technicalTraining: string;
+      courses: string;
+    };
     statusLabel: string;
     statusValue: string;
     summary: string;
     schoolingTitle: string;
     cvLabel: string;
     certificatesLabel: string;
+    credentials: {
+      title: string;
+      tracksLabel: string;
+      coursesLabel: string;
+      certificatesLabel: string;
+    };
     skills: {
       title: string;
       items: string[];
@@ -177,6 +187,14 @@ export interface ContentLocale {
     education: ProfileEntry[];
     programs: ProfileGroup[];
     schooling: ProfileEntry[];
+    deliverySignals: {
+      title: string;
+      subtitle?: string;
+      items: Array<{
+        area: string;
+        tools: string[];
+      }>;
+    };
   };
   stack: {
     title: string;
@@ -216,5 +234,5 @@ export interface Content {
 
 export type Language = 'en' | 'es';
 export type Theme = 'light' | 'dark' | 'system';
-export type SectionId = 'overview' | 'projects' | 'profile' | 'stack' | 'contact';
+export type SectionId = 'overview' | 'projects' | 'profile' | 'contact';
 export type FacetGroup = 'language' | 'framework' | 'backend' | 'data' | 'cross';

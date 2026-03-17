@@ -98,7 +98,10 @@ export default function OverviewSection({
 
         <div className="proof-strip-track md:grid md:grid-cols-2 md:gap-4">
           {[...projects]
-            .sort((a, b) => b.order - a.order)
+            .sort((a, b) => {
+              const createdDiff = new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+              return createdDiff !== 0 ? createdDiff : b.order - a.order;
+            })
             .slice(0, 2)
             .map((project) => (
             <button

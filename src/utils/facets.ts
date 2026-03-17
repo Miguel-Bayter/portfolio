@@ -11,6 +11,11 @@ export function resolveFacetTechIcon(facet: string): string | null {
   if (normalized.includes('typescript')) return 'typescript';
   if (normalized.includes('prisma')) return 'prisma';
   if (normalized.includes('i18n')) return 'i18n';
+  if (normalized.includes('tailwind')) return 'tailwind';
+  if (normalized.includes('next')) return 'nextjs';
+  if (normalized.includes('nest')) return 'nestjs';
+  if (normalized.includes('vite')) return 'vite';
+  if (normalized.includes('mysql')) return 'mysql';
   if (normalized.includes('mongo')) return 'mongodb';
   if (normalized.includes('docker')) return 'docker';
   if (normalized.includes('git')) return 'git';
@@ -21,11 +26,11 @@ export function resolveFacetTechIcon(facet: string): string | null {
 export function resolveFacetTone(facet: string): string {
   const normalized = facet.toLowerCase();
 
-  if (normalized.includes('node') || normalized.includes('express') || normalized.includes('socket')) return 'runtime';
-  if (normalized.includes('react')) return 'framework';
+  if (normalized.includes('node') || normalized.includes('express') || normalized.includes('socket') || normalized.includes('nest')) return 'runtime';
+  if (normalized.includes('react') || normalized.includes('next') || normalized.includes('vite')) return 'framework';
   if (normalized.includes('typescript')) return 'typed';
   if (normalized.includes('javascript')) return 'language';
-  if (normalized.includes('prisma') || normalized.includes('mongo')) return 'data';
+  if (normalized.includes('prisma') || normalized.includes('mongo') || normalized.includes('mysql') || normalized.includes('postgres') || normalized.includes('supabase')) return 'data';
   if (normalized.includes('i18n')) return 'global';
 
   return 'default';
@@ -35,9 +40,9 @@ export function resolveFacetGroup(facet: string): FacetGroup {
   const normalized = facet.toLowerCase();
 
   if (normalized.includes('typescript') || normalized.includes('javascript')) return 'language';
-  if (normalized.includes('react')) return 'framework';
-  if (normalized.includes('node') || normalized.includes('express') || normalized.includes('socket')) return 'backend';
-  if (normalized.includes('prisma') || normalized.includes('mongo')) return 'data';
+  if (normalized.includes('react') || normalized.includes('next') || normalized.includes('vite')) return 'framework';
+  if (normalized.includes('node') || normalized.includes('express') || normalized.includes('socket') || normalized.includes('nest')) return 'backend';
+  if (normalized.includes('prisma') || normalized.includes('mongo') || normalized.includes('mysql') || normalized.includes('postgres') || normalized.includes('supabase')) return 'data';
   return 'cross';
 }
 

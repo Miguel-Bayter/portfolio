@@ -38,8 +38,37 @@ export default function ProjectsSection({
 }: ProjectsSectionProps) {
   const [areFiltersOpen, setAreFiltersOpen] = useState(false);
   const [openFilterGroup, setOpenFilterGroup] = useState<FacetGroup | null>(null);
+  const [facetSortDirection, setFacetSortDirection] = useState<Record<string, 'desc' | 'asc'>>({});
 
   if (!isVisible) return null;
+
+  const facetComplexityOrder: Record<string, number> = {
+    'next.js': 0,
+    nestjs: 1,
+    'socket.io': 2,
+    prisma: 3,
+    typescript: 4,
+    'react 19': 5,
+    react: 6,
+    vite: 7,
+    tailwind: 8,
+    'node.js': 9,
+    express: 10,
+    mongodb: 11,
+    mysql: 12,
+    i18n: 13,
+    javascript: 14,
+  };
+
+  const sortFacetsByComplexity = (facets: string[]) =>
+    facets.slice().sort((left, right) => {
+      const leftKey = left.toLowerCase();
+      const rightKey = right.toLowerCase();
+      const leftRank = facetComplexityOrder[leftKey] ?? 99;
+      const rightRank = facetComplexityOrder[rightKey] ?? 99;
+      if (leftRank !== rightRank) return leftRank - rightRank;
+      return left.localeCompare(right);
+    });
 
   const facetOptions = Array.from(
     new Map(
@@ -47,21 +76,9 @@ export default function ProjectsSection({
     ).values(),
   )
     .sort((left, right) => {
-      const priority: Record<string, number> = {
-        typescript: 0,
-        javascript: 1,
-        'react 19': 2,
-        'node.js': 3,
-        express: 4,
-        prisma: 5,
-        'socket.io': 6,
-        i18n: 7,
-      };
-
-      const leftPriority = priority[left.toLowerCase()] ?? 20;
-      const rightPriority = priority[right.toLowerCase()] ?? 20;
-
-      if (leftPriority !== rightPriority) return leftPriority - rightPriority;
+      const leftRank = facetComplexityOrder[left.toLowerCase()] ?? 99;
+      const rightRank = facetComplexityOrder[right.toLowerCase()] ?? 99;
+      if (leftRank !== rightRank) return leftRank - rightRank;
       return left.localeCompare(right);
     });
 
@@ -94,29 +111,22 @@ export default function ProjectsSection({
   const totalStackFilters = facetOptions.length;
   const openGroupFilters = openFilterGroup ? (groupedFilters[openFilterGroup] ?? []) : [];
   const openGroupRows = openGroupFilters.length > 2 ? 2 : openGroupFilters.length > 0 ? 1 : 0;
-  const openGroupSpace = openGroupRows === 2 ? '4.4rem' : openGroupRows === 1 ? '3.2rem' : '0rem';
+  const openGroupSpaceClass = `filters-space-${openGroupRows}`;
 
   const filterKeySet = new Set(projectFilters.map((f) => f.key));
   const effectiveFilter = filterKeySet.has(projectFilter) ? projectFilter : 'all';
   const activeFacet = effectiveFilter.startsWith('facet:') ? effectiveFilter.replace('facet:', '') : null;
+  const activeFacetSort = activeFacet ? (facetSortDirection[activeFacet] ?? 'desc') : 'desc';
 
   const visibleProjects = activeFacet
     ? projects
       .filter((project) => project.facets.some((facet) => facet.toLowerCase() === activeFacet))
       .sort((left, right) => {
-        const leftIsSelected = left.id === selectedProjectId;
-        const rightIsSelected = right.id === selectedProjectId;
-        if (leftIsSelected !== rightIsSelected) return leftIsSelected ? -1 : 1;
-
-        const leftFacetIndex = left.facets.findIndex((facet) => facet.toLowerCase() === activeFacet);
-        const rightFacetIndex = right.facets.findIndex((facet) => facet.toLowerCase() === activeFacet);
-
-        if (leftFacetIndex !== rightFacetIndex) return leftFacetIndex - rightFacetIndex;
-
-        const leftHasDemo = Boolean(left.links.demo);
-        const rightHasDemo = Boolean(right.links.demo);
-        if (leftHasDemo !== rightHasDemo) return leftHasDemo ? -1 : 1;
-
+        const leftDate = Date.parse(left.createdAt);
+        const rightDate = Date.parse(right.createdAt);
+        if (leftDate !== rightDate) {
+          return activeFacetSort === 'desc' ? rightDate - leftDate : leftDate - rightDate;
+        }
         return left.name.localeCompare(right.name);
       })
     : projects;
@@ -124,13 +134,22 @@ export default function ProjectsSection({
   const projectCount = Math.max(1, visibleProjects.length);
   const smGridColumns = Math.min(2, projectCount);
   const lgGridColumns = Math.min(3, projectCount);
-  const xlGridColumns = Math.min(4, projectCount);
-  const xxlGridColumns = Math.min(5, projectCount);
+  const xlGridColumns = Math.min(3, projectCount);
+  const xxlGridColumns = Math.min(3, projectCount);
 
   const applyFilter = (filterOption: FilterOption) => {
     const nextVisible = filterOption.key === 'all'
       ? projects
       : projects.filter((project) => project.facets.some((facet) => facet.toLowerCase() === filterOption.label.toLowerCase()));
+
+    if (filterOption.key.startsWith('facet:')) {
+      const facetKey = filterOption.key.replace('facet:', '');
+      setFacetSortDirection((prev) => {
+        const current = prev[facetKey] ?? 'desc';
+        const next = activeFacet === facetKey ? (current === 'desc' ? 'asc' : 'desc') : 'desc';
+        return { ...prev, [facetKey]: next };
+      });
+    }
 
     if (nextVisible.length && !nextVisible.some((project) => project.id === selectedProjectId)) {
       setSelectedProjectId(nextVisible[0].id);
@@ -139,6 +158,30 @@ export default function ProjectsSection({
     setProjectFilter(filterOption.key);
     setOpenFilterGroup(null);
   };
+
+  const handleTechNavClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const direction = event.currentTarget.dataset.direction === 'right' ? 1 : -1;
+    const carousel = event.currentTarget.closest('.project-back-tech-carousel');
+    if (!carousel) return;
+    const list = carousel.querySelector<HTMLDivElement>('.project-back-tech-list');
+    if (!list) return;
+    const firstPill = list.querySelector<HTMLElement>('.project-tech-pill');
+    const pillWidth = firstPill ? firstPill.offsetWidth : 72;
+    const gap = 8;
+    const step = (pillWidth + gap) * direction;
+    const maxScroll = list.scrollWidth - list.clientWidth;
+    const nextScroll = list.scrollLeft + step;
+    if (direction === 1 && nextScroll >= maxScroll - (pillWidth + gap)) {
+      list.scrollTo({ left: 0, behavior: 'auto' });
+      return;
+    }
+    if (direction === -1 && nextScroll <= 0) {
+      list.scrollTo({ left: Math.max(0, maxScroll / 2), behavior: 'auto' });
+      return;
+    }
+    list.scrollBy({ left: step, behavior: 'smooth' });
+  };
+
 
   const handleProjectCardPointerMove = (event: React.MouseEvent<HTMLElement>) => {
     if (window.innerWidth < 900) return;
@@ -171,8 +214,7 @@ export default function ProjectsSection({
           {areFiltersOpen ? t.projects.filtersClose : t.projects.filtersOpen} ({totalStackFilters})
         </button>
         <div
-          className={`projects-filter-row mt-0 flex flex-wrap gap-2 ${areFiltersOpen ? 'is-open' : ''} ${openFilterGroup ? 'has-open-group' : ''}`}
-          style={{ '--filters-open-space': openGroupSpace } as React.CSSProperties}
+          className={`projects-filter-row mt-0 flex flex-wrap gap-2 ${areFiltersOpen ? 'is-open' : ''} ${openFilterGroup ? 'has-open-group' : ''} ${openGroupSpaceClass}`}
         >
           {projectFilters.slice(0, 1).map((filterOption) => {
             const isActiveFilter = effectiveFilter === filterOption.key;
@@ -183,6 +225,7 @@ export default function ProjectsSection({
                 type="button"
                 onClick={() => applyFilter(filterOption)}
                 className={`projects-filter-chip projects-filter-chip-all ${isActiveFilter ? 'is-active' : ''}`}
+                data-group={filterOption.group ?? 'all'}
               >
                 {filterOption.icon ? <TechIcon tech={filterOption.icon} className="projects-filter-icon" /> : null}
                 <span>{filterOption.label}</span>
@@ -213,6 +256,10 @@ export default function ProjectsSection({
                 <div className="projects-filter-group-chips">
                   {filters.map((filterOption) => {
                     const isActiveFilter = effectiveFilter === filterOption.key;
+                    const facetKey = filterOption.key.startsWith('facet:')
+                      ? filterOption.key.replace('facet:', '')
+                      : null;
+                    const sortDirection = facetKey ? (facetSortDirection[facetKey] ?? 'desc') : 'desc';
 
                     return (
                       <button
@@ -220,9 +267,15 @@ export default function ProjectsSection({
                         type="button"
                         onClick={() => applyFilter(filterOption)}
                         className={`projects-filter-chip ${isActiveFilter ? 'is-active' : ''}`}
+                        data-group={filterOption.group ?? 'all'}
                       >
                         {filterOption.icon ? <TechIcon tech={filterOption.icon} className="projects-filter-icon" /> : null}
                         <span>{filterOption.label}</span>
+                        {isActiveFilter && facetKey ? (
+                          <span className="projects-filter-sort" aria-hidden="true">
+                            {sortDirection === 'desc' ? '↓' : '↑'}
+                          </span>
+                        ) : null}
                         <span className="projects-filter-count">{filterOption.count}</span>
                       </button>
                     );
@@ -235,13 +288,7 @@ export default function ProjectsSection({
       </header>
 
       <div
-        className={`projects-grid projects-grid-dynamic mt-3 md:mt-4 grid grid-cols-1 gap-3 ${projectCount === 1 ? 'projects-grid-single' : ''}`}
-        style={{
-          '--projects-columns-sm': smGridColumns,
-          '--projects-columns-lg': lgGridColumns,
-          '--projects-columns-xl': xlGridColumns,
-          '--projects-columns-2xl': xxlGridColumns,
-        } as React.CSSProperties}
+        className={`projects-grid projects-grid-dynamic mt-3 md:mt-4 grid grid-cols-1 gap-3 ${projectCount === 1 ? 'projects-grid-single' : ''} projects-grid-sm-${smGridColumns} projects-grid-lg-${lgGridColumns} projects-grid-xl-${xlGridColumns} projects-grid-2xl-${xxlGridColumns}`}
       >
           {visibleProjects.length === 0 ? (
             <article className="project-empty-state border border-line/20 rounded-md p-5 bg-surface-3/58 text-ink-2">
@@ -311,25 +358,54 @@ export default function ProjectsSection({
                     <div className="project-back-content">
                       <div className="project-back-head flex items-start justify-between gap-2">
                         <h3 className="m-0 text-ink text-[0.9rem] font-semibold tracking-[-0.01em]">{project.name}</h3>
-                        <span className="project-back-hint text-[0.58rem] font-mono tracking-[0.08em] uppercase text-signal-cyan">3D</span>
                       </div>
 
                       <p className="project-back-summary m-0">{project.summary}</p>
 
-                      <div className="project-back-tech-list flex flex-wrap gap-1.5">
-                        {project.facets.slice(0, 3).map((facet) => {
-                          const isActiveFacetTag = Boolean(activeFacet) && facet.toLowerCase() === activeFacet;
+                      <div className="project-back-tech-carousel">
+                        <button
+                          type="button"
+                          className="project-tech-nav"
+                          aria-label="Scroll tech tags left"
+                          data-direction="left"
+                          onClick={handleTechNavClick}
+                        >
+                          {'<-'}
+                        </button>
+                        <div className="project-back-tech-list">
+                          <div className="project-back-tech-track">
+                            {(() => {
+                              const facets = sortFacetsByComplexity(Array.from(new Set(project.facets)));
+                              const repeated = facets.concat(facets);
+                              return repeated.map((facet, index) => {
+                                const isActiveFacetTag = Boolean(activeFacet) && facet.toLowerCase() === activeFacet;
 
-                          return (
-                            <span
-                              key={facet}
-                              className={`project-tech-pill project-tech-pill-${resolveFacetTone(facet)} ${isActiveFacetTag ? 'is-active' : ''}`}
-                            >
-                              <TechIcon tech={resolveFacetTechIcon(facet)} className="project-tech-pill-icon" />
-                              <span>{facet}</span>
-                            </span>
-                          );
-                        })}
+                                return (
+                                  <span
+                                    key={`${facet}-${index}`}
+                                    className={`project-tech-pill project-tech-pill-${resolveFacetTone(facet)} ${isActiveFacetTag ? 'is-active' : ''}`}
+                                    data-tech={resolveFacetTechIcon(facet) ?? undefined}
+                                    title={facet}
+                                    aria-label={facet}
+                                    aria-hidden={index >= facets.length}
+                                  >
+                                    <TechIcon tech={resolveFacetTechIcon(facet)} className="project-tech-pill-icon" />
+                                    <span className="project-tech-pill-label">{facet}</span>
+                                  </span>
+                                );
+                              });
+                            })()}
+                          </div>
+                        </div>
+                        <button
+                          type="button"
+                          className="project-tech-nav"
+                          aria-label="Scroll tech tags right"
+                          data-direction="right"
+                          onClick={handleTechNavClick}
+                        >
+                          {'->'}
+                        </button>
                       </div>
                     </div>
 

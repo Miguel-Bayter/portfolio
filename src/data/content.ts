@@ -2,12 +2,14 @@ import type { Content } from "../types";
 import impostorRealPreview from "../img/projects/impostor-real.png";
 import tuGestionAmigaRealPreview from "../img/projects/tugestionamiga-real.png";
 import invygoRealPreview from "../img/projects/invygo-real.jpg";
+import danuPreview from "../img/projects/danu-real.png";
 import misionTicGeneral from "../certifications/MISION TIC 2022/Curso y terminó exitosamente el programa Misión TIC .pdf";
 import misionTicPython from "../certifications/MISION TIC 2022/Fundamentos de Programacion con Python.pdf";
 import misionTicJavaBasic from "../certifications/MISION TIC 2022/Programacion Basica con Lenguaje de Programacion Java.pdf";
 import misionTicJavaDev from "../certifications/MISION TIC 2022/Desarrollo de Software con Lenguaje de Programacion Java.pdf";
 import misionTicWeb from "../certifications/MISION TIC 2022/Habilidades en Programacion con Enfasis en Aplicaciones Web.pdf";
 import senaMobile from "../certifications/CURSOS SENA/Programacion de Dispositivos Moviles.pdf";
+import senaTechnologist from "../certifications/TECNOLOGA/CONSTANCIA DE ESTUDIO ANALISIS Y DESARROLLO DE SOFTWARE.pdf";
 
 export const content: Content = {
   en: {
@@ -23,7 +25,6 @@ export const content: Content = {
       overview: "Overview",
       projects: "Projects",
       profile: "Profile",
-      stack: "Capabilities",
       contact: "Contact",
     },
     topbar: {
@@ -77,15 +78,15 @@ export const content: Content = {
           { name: "HTML5", icon: "html", tone: "orange", rank: 1 },
           { name: "CSS3", icon: "css", tone: "blue", rank: 2 },
           { name: "JavaScript", icon: "javascript", tone: "amber", rank: 3 },
-          { name: "Git", icon: "git", tone: "orange", rank: 4 },
+          { name: "TypeScript", icon: "typescript", tone: "blue", rank: 4 },
           { name: "React", icon: "react", tone: "indigo", rank: 5 },
-          { name: "Tailwind CSS", icon: "tailwind", tone: "cyan", rank: 6 },
-          { name: "TypeScript", icon: "typescript", tone: "blue", rank: 7 },
-          { name: "Node.js", icon: "nodejs", tone: "green", rank: 8 },
-          { name: "Express", icon: "express", tone: "slate", rank: 9 },
-          { name: "SQLite", icon: "sqlite", tone: "indigo", rank: 10 },
-          { name: "MongoDB", icon: "mongodb", tone: "forest", rank: 11 },
-          { name: "Prisma", icon: "prisma", tone: "indigo", rank: 12 },
+          { name: "Next.js", icon: "nextjs", tone: "slate", rank: 6 },
+          { name: "Node.js", icon: "nodejs", tone: "green", rank: 7 },
+          { name: "Express", icon: "express", tone: "slate", rank: 8 },
+          { name: "Tailwind CSS", icon: "tailwind", tone: "cyan", rank: 9 },
+          { name: "Git", icon: "git", tone: "orange", rank: 10 },
+          { name: "Prisma", icon: "prisma", tone: "indigo", rank: 11 },
+          { name: "MongoDB", icon: "mongodb", tone: "forest", rank: 12 },
           { name: "Docker", icon: "docker", tone: "cyan", rank: 13 },
         ],
       },
@@ -117,14 +118,24 @@ export const content: Content = {
           "Express handles routing and middleware layering with explicit request validation boundaries.",
         "socket.io":
           "Socket.io channels coordinate room lifecycle, role events, and real-time synchronization guarantees.",
+        nestjs:
+          "NestJS provides a modular backend with gateways and controllers for realtime and REST entry points.",
+        "next.js":
+          "Next.js App Router enables server actions, routing, and rendering performance for SaaS flows.",
         javascript:
           "Core gameplay and interaction logic is implemented in JavaScript with event-driven control paths.",
         "react 19":
           "React 19 powers interactive UI states with predictable rendering and scalable component composition.",
         typescript:
           "TypeScript enforces explicit contracts across UI and service boundaries to reduce runtime ambiguity.",
+        vite:
+          "Vite keeps feedback loops fast with instant HMR and optimized TypeScript builds.",
         prisma:
           "Prisma models relational integrity and transactional data operations for critical checkout and return flows.",
+        mongodb:
+          "MongoDB persists realtime room state and player activity with flexible document models.",
+        mysql:
+          "MySQL provides structured storage for catalog, loan, and purchase records with Prisma migrations.",
         i18n: "Internationalization is integrated at the UI flow level to keep content, routes, and labels consistent across locales.",
       },
       filterAll: "All",
@@ -145,32 +156,67 @@ export const content: Content = {
       impactLabel: "Impact",
       items: [
         {
-          id: "impostor",
-          order: 1,
-          name: "Impostor",
-          type: "Multiplayer Fullstack Game",
-          previewImage: impostorRealPreview,
-          previewLabel: "Realtime rooms and role synchronization",
-          cta: "Event-driven architecture with Socket.io room lifecycle control, deterministic role state, and latency-aware interaction handling.",
+          id: "danu",
+          order: 3,
+          createdAt: "2026-03-10",
+          name: "Danu",
+          type: "Project Management SaaS",
+          previewImage: danuPreview,
+          previewLabel: "Kanban + Gantt + realtime + PDF reports",
+          cta: "Full-stack PM SaaS built on free-tier infra using Next.js App Router, Supabase Realtime, Auth.js v5, and PDF reporting.",
           summary:
-            "Online multiplayer social deduction game with real-time rooms, role logic, and synchronized interactions.",
+            "Enterprise-ready project management SaaS with Kanban, Gantt, realtime collaboration, and audit-friendly PDF reporting.",
           problem:
-            "A local game prototype lacked stable multiplayer coordination and role-safe gameplay at scale.",
+            "Needed a production-grade PM tool with realtime collaboration and reporting while staying on $0/month infrastructure.",
           solution:
-            "Designed a split frontend/backend architecture with Socket.io channels, room lifecycle control, and auth boundaries.",
+            "Implemented Next.js 16 + React 19 with Supabase Realtime, Prisma + Postgres, Auth.js v5, Tailwind + shadcn/ui, next-intl, and jsPDF exports.",
           impact:
-            "Established a production-shaped foundation for real-time game flows and progressive feature delivery.",
-          category: "Realtime Product",
-          facets: ["Node.js", "Express", "Socket.io", "JavaScript"],
+            "Shipped a demo-ready SaaS with layered server architecture, realtime sync, and 90+ tests for reliability.",
+          category: "SaaS Platform",
+          facets: ["React 19", "TypeScript", "Next.js", "Prisma", "Tailwind", "i18n"],
           decisions: [
-            "Event-driven room orchestration for real-time consistency",
-            "Transport-level validation before gameplay actions",
-            "Incremental architecture to separate game logic from delivery channels",
+            "Realtime task sync and notifications via Supabase channels",
+            "CSS Grid Gantt timeline with preset ranges",
+            "Role-based workspaces with Auth.js and invite tokens",
           ],
           metrics: [
-            { label: "Mode", value: "Multiplayer realtime" },
-            { label: "Stack", value: "Express + Socket.io" },
-            { label: "Scope", value: "Frontend + backend" },
+            { label: "Scope", value: "Full-stack SaaS" },
+            { label: "Core Flows", value: "Kanban + Gantt + reports" },
+            { label: "Infra", value: "Supabase + Vercel" },
+          ],
+          links: {
+            repo: "https://github.com/Miguel-Bayter/Danu",
+            demo: "https://danu-eight.vercel.app/",
+          },
+        },
+        {
+          id: "impostor",
+          order: 1,
+          createdAt: "2024-10-18",
+          name: "Impostor",
+          type: "Multiplayer Monorepo",
+          previewImage: impostorRealPreview,
+          previewLabel: "React 19 + Vite + NestJS realtime",
+          cta: "Impostor-style multiplayer monorepo with React 19/Vite, NestJS + Socket.IO, MongoDB, and shared type contracts.",
+          summary:
+            "Realtime multiplayer platform with shared contracts, deterministic room lifecycle, and scalable session orchestration.",
+          problem:
+            "Needed a monorepo that kept frontend, backend, and shared contracts aligned for realtime sessions.",
+          solution:
+            "Built pnpm workspaces with React 19 + Vite + Tailwind, NestJS gateway, Socket.IO events, MongoDB, and optional Redis support.",
+          impact:
+            "Delivered predictable room lifecycle orchestration with shared types and realtime reliability.",
+          category: "Realtime Platform",
+          facets: ["TypeScript", "React 19", "Vite", "Tailwind", "NestJS", "Socket.io", "MongoDB"],
+          decisions: [
+            "Event-driven room orchestration for realtime consistency",
+            "Shared types package for FE/BE contract safety",
+            "NestJS gateway with Socket.IO for scalable rooms",
+          ],
+          metrics: [
+            { label: "Mode", value: "Realtime multiplayer" },
+            { label: "Stack", value: "React + NestJS" },
+            { label: "Scope", value: "Monorepo FE/BE" },
           ],
           links: {
             repo: "https://github.com/Miguel-Bayter/Impostor",
@@ -179,31 +225,32 @@ export const content: Content = {
         },
         {
           id: "tugestionamiga",
-          order: 2,
+          order: 0,
+          createdAt: "2024-08-22",
           name: "TuGestionAmiga",
-          type: "Library Management System",
+          type: "Library Management Platform",
           previewImage: tuGestionAmigaRealPreview,
-          previewLabel: "Catalog, loans, and admin workflows",
-          cta: "Monorepo setup with typed contracts, Prisma-backed transactional flows, and route-level role enforcement for operational consistency.",
+          previewLabel: "React 19 + Vite + Express + Prisma",
+          cta: "Library monorepo with React 19 + Vite frontend and Express + Prisma 6 backend on MySQL.",
           summary:
-            "Library management platform handling catalog, shopping cart, rentals, returns, and admin supervision.",
+            "Operational library system with role-based workflows, reliable transactions, and auditable inventory flows.",
           problem:
-            "Book sales and rental flows needed stricter role control, persistent state, and transaction safety.",
+            "Needed role-safe inventory flows with reliable transactions and consistent database seeding.",
           solution:
-            "Implemented monorepo frontend/backend with i18n-first UX, protected routes, and transactional checkout/loan flows.",
+            "Built a layered Express API (routes → services → database) with Prisma 6 + MySQL and a React 19 UI with i18next, React Router, and Tailwind.",
           impact:
-            "Improved operational reliability for inventory and returns while supporting multilingual product growth.",
+            "Delivered a maintainable monorepo with seeded data, strong typing, and scalable service boundaries.",
           category: "Operations Platform",
-          facets: ["React 19", "TypeScript", "Prisma", "i18n"],
+          facets: ["React 19", "TypeScript", "Vite", "Tailwind", "Express", "Prisma", "MySQL", "i18n"],
           decisions: [
-            "Strict ADMIN/USER role boundaries across routes and actions",
-            "Transactional checkout + rental/return integrity",
-            "Frontend fully prepared for English/Spanish localization",
+            "Layered backend (routes → services → database) for maintainability",
+            "Prisma 6 with MySQL for schema control and seeding",
+            "Frontend ready for Spanish/English localization",
           ],
           metrics: [
             { label: "Architecture", value: "Monorepo frontend/backend" },
-            { label: "Core Flows", value: "Catalog + cart + loans" },
-            { label: "Auth", value: "Role-protected routes" },
+            { label: "Core Flows", value: "Catalog + loans + purchases" },
+            { label: "Data", value: "MySQL + Prisma" },
           ],
           links: {
             repo: "https://github.com/Miguel-Bayter/TuGestionAmiga",
@@ -212,32 +259,33 @@ export const content: Content = {
         },
         {
           id: "invygo",
-          order: 3,
+          order: 2,
+          createdAt: "2025-11-05",
           name: "InvYGO",
-          type: "Inventory and Catalog Platform",
+          type: "Inventory & Catalog UI",
           previewImage: invygoRealPreview,
           previewLabel:
-            "Interactive catalog flows and configurable carousel behavior",
-          cta: "Feature-oriented frontend architecture with route-level separation, i18n-ready UI, and configurable state-driven interactions.",
+            "React 19 + Vite + React Query + Zustand",
+          cta: "Inventory/catalog UI built with React 19, Vite, React Query, Zustand, and i18next.",
           summary:
-            "Product-style React platform for catalog and inventory views with dynamic carousel configuration and localized UX.",
+            "Inventory/catalog UI with predictable state, async data orchestration, and localization-ready architecture.",
           problem:
-            "The catalog experience needed structured routing, reusable UI layers, and predictable state updates for configurable interactions.",
+            "Needed a fast, modular frontend with predictable state and multilingual-ready structure.",
           solution:
-            "Built a TypeScript monorepo workspace with modular pages, typed state flows, and internationalization support integrated into navigation and views.",
+            "Implemented a Vite + React 19 app with React Router, TanStack Query, Zustand, and i18next.",
           impact:
-            "Delivers a cleaner baseline for scaling product modules while preserving consistency in interaction patterns and multilingual presentation.",
-          category: "Product Interface Platform",
-          facets: ["React 19", "TypeScript", "i18n", "JavaScript"],
+            "Delivered a scalable frontend base for catalog interactions and future expansion.",
+          category: "Product Interface",
+          facets: ["React 19", "TypeScript", "Vite", "Tailwind", "i18n"],
           decisions: [
-            "Route-based page boundaries for clearer ownership and feature scaling",
-            "Centralized state transitions for carousel configurability",
+            "Route-based page boundaries for clearer ownership",
+            "React Query + Zustand for async and UI state",
             "Translation-first UI structure for language-safe expansion",
           ],
           metrics: [
-            { label: "Architecture", value: "Workspace web app" },
-            { label: "Core Flows", value: "Catalog + inventory + carousel" },
-            { label: "Language", value: "TypeScript-first" },
+            { label: "Architecture", value: "Vite workspace app" },
+            { label: "Core Flows", value: "Catalog + inventory" },
+            { label: "State", value: "React Query + Zustand" },
           ],
           links: {
             repo: "https://github.com/Miguel-Bayter/InvYGO",
@@ -250,13 +298,23 @@ export const content: Content = {
       title: "Professional Profile",
       subtitle:
         "Resume-style snapshot focused on education and technical training.",
+      sectionLabels: {
+        technicalTraining: "Technical training",
+        courses: "Courses",
+      },
       statusLabel: "Education",
       statusValue: "Internship-ready",
       summary:
-        "Technologist student in Software Analysis and Development with applied training in requirements analysis, data/process modeling, software design, development, testing, databases, APIs, and documentation. Seeking internship opportunities to contribute to real product delivery.",
+        "Software Analysis and Development technologist with hands-on delivery across requirements, data/process modeling, software design, testing, databases, APIs, and technical documentation. Focused on reliable product delivery and team-ready execution.",
       schoolingTitle: "Schooling",
       cvLabel: "Download CV",
       certificatesLabel: "Download certificates",
+      credentials: {
+        title: "Credentials",
+        tracksLabel: "Tracks",
+        coursesLabel: "Courses",
+        certificatesLabel: "Certificates",
+      },
       skills: {
         title: "Key skills",
         items: [
@@ -274,12 +332,20 @@ export const content: Content = {
         {
           title: "Software Analysis and Development (Technologist)",
           institution: "SENA",
-          period: "In progress",
+          period: "Completed",
           note:
             "Curriculum covers requirements analysis, data/process modeling, software design, development, testing, databases, APIs, documentation, and version control through applied projects.",
         },
       ],
       programs: [
+        {
+          title: "SENA Technologist",
+          subtitle: "Software Analysis and Development",
+          items: ["Enrollment certificate"],
+          certificates: [
+            { label: "Enrollment certificate: Software Analysis and Development 2024 - 2026", href: senaTechnologist },
+          ],
+        },
         {
           title: "MISION TIC 2022",
           subtitle: "Ministerio TIC",
@@ -318,53 +384,99 @@ export const content: Content = {
           period: "Primary",
         },
       ],
+      deliverySignals: {
+        title: "Key Capabilities",
+        subtitle: "Indicators of quality, coordination, and consistent delivery.",
+        items: [
+          {
+            area: "UX/UI collaboration",
+            tools: [
+              "Figma handoff",
+              "UI copy polish",
+              "Design QA",
+              "UX feedback loops",
+              "Component specs",
+            ],
+          },
+          {
+            area: "Frontend development",
+            tools: [
+              "Accessibility",
+              "Performance checks",
+              "State boundaries",
+              "Component architecture",
+              "Regression testing",
+            ],
+          },
+          {
+            area: "Backend development",
+            tools: [
+              "API contracts",
+              "Auth + roles",
+              "CI/CD deploy",
+              "Observability basics",
+              "Error handling",
+            ],
+          },
+        ],
+      },
     },
     stack: {
-      title: "Capabilities and Development Practices",
+      title: "Skills",
       subtitle:
-        "Capabilities mapped to delivery behavior, not just technology labels.",
+        "Skill groups shaped by delivery focus, not just tool labels.",
       items: [
         {
-          area: "Frontend Delivery",
+          area: "Interface Development",
           criterion:
             "I prioritize reusable patterns, clear hierarchy, and resilient UI states.",
           tools: [
             "React",
+            "TypeScript",
+            "Next.js",
+            "Tailwind CSS",
             "Vite",
-            "Component architecture",
-            "Feature-scoped state",
+            "Design handoff",
+            "UI testing",
           ],
         },
         {
-          area: "Backend and API Design",
+          area: "Backend Services",
           criterion:
             "I structure services around business domains and explicit contracts.",
           tools: [
             "Node.js",
             "Express",
-            "REST API design",
-            "Authentication patterns",
+            "REST APIs",
+            "NestJS",
+            "Socket.io",
+            "API validation",
           ],
         },
         {
-          area: "Data and Persistence",
+          area: "Data Management",
           criterion:
             "I model data for maintainability first, then tune for predictable queries.",
           tools: [
             "PostgreSQL",
-            "Relational modeling",
-            "Query optimization basics",
+            "MySQL",
+            "Prisma",
+            "MongoDB",
+            "Supabase",
+            "Query optimization",
           ],
         },
         {
-          area: "Quality and Delivery",
+          area: "Delivery Lifecycle",
           criterion:
             "I keep releases reliable with repeatable workflows and documentation discipline.",
           tools: [
             "GitHub",
-            "Actions CI/CD",
-            "GitHub Pages",
-            "README standards",
+            "GitHub Actions",
+            "Docker",
+            "Vercel/Netlify",
+            "Testing discipline",
+            "Monitoring basics",
           ],
         },
       ],
@@ -431,7 +543,6 @@ export const content: Content = {
       overview: "Resumen",
       projects: "Proyectos",
       profile: "Perfil",
-      stack: "Capacidades",
       contact: "Contacto",
     },
     topbar: {
@@ -485,15 +596,15 @@ export const content: Content = {
           { name: "HTML5", icon: "html", tone: "orange", rank: 1 },
           { name: "CSS3", icon: "css", tone: "blue", rank: 2 },
           { name: "JavaScript", icon: "javascript", tone: "amber", rank: 3 },
-          { name: "Git", icon: "git", tone: "orange", rank: 4 },
+          { name: "TypeScript", icon: "typescript", tone: "blue", rank: 4 },
           { name: "React", icon: "react", tone: "indigo", rank: 5 },
-          { name: "Tailwind CSS", icon: "tailwind", tone: "cyan", rank: 6 },
-          { name: "TypeScript", icon: "typescript", tone: "blue", rank: 7 },
-          { name: "Node.js", icon: "nodejs", tone: "green", rank: 8 },
-          { name: "Express", icon: "express", tone: "slate", rank: 9 },
-          { name: "SQLite", icon: "sqlite", tone: "indigo", rank: 10 },
-          { name: "MongoDB", icon: "mongodb", tone: "forest", rank: 11 },
-          { name: "Prisma", icon: "prisma", tone: "indigo", rank: 12 },
+          { name: "Next.js", icon: "nextjs", tone: "slate", rank: 6 },
+          { name: "Node.js", icon: "nodejs", tone: "green", rank: 7 },
+          { name: "Express", icon: "express", tone: "slate", rank: 8 },
+          { name: "Tailwind CSS", icon: "tailwind", tone: "cyan", rank: 9 },
+          { name: "Git", icon: "git", tone: "orange", rank: 10 },
+          { name: "Prisma", icon: "prisma", tone: "indigo", rank: 11 },
+          { name: "MongoDB", icon: "mongodb", tone: "forest", rank: 12 },
           { name: "Docker", icon: "docker", tone: "cyan", rank: 13 },
         ],
       },
@@ -528,14 +639,24 @@ export const content: Content = {
           "Express organiza rutas y capas de middleware con límites explícitos de validación por request.",
         "socket.io":
           "Socket.io coordina ciclo de salas, eventos por rol y garantías de sincronización en tiempo real.",
+        nestjs:
+          "NestJS aporta un backend modular con gateways y controladores para entradas realtime y REST.",
+        "next.js":
+          "Next.js App Router habilita server actions, routing y rendimiento para flujos SaaS.",
         javascript:
           "La lógica central de juego e interacción se implementa en JavaScript con control orientado a eventos.",
         "react 19":
           "React 19 soporta estados interactivos con renderizado predecible y composición escalable de componentes.",
         typescript:
           "TypeScript aplica contratos explícitos entre UI y servicios para reducir ambigüedad en runtime.",
+        vite:
+          "Vite mantiene un loop rápido con HMR instantáneo y builds TypeScript optimizados.",
         prisma:
           "Prisma modela integridad relacional y operaciones transaccionales para flujos críticos de checkout y devolución.",
+        mongodb:
+          "MongoDB persiste estado de salas y actividad en tiempo real con modelos flexibles.",
+        mysql:
+          "MySQL soporta catálogo, préstamos y compras con migraciones gestionadas por Prisma.",
         i18n: "La internacionalización se integra en el flujo de UI para mantener consistencia de contenido, rutas y etiquetas entre idiomas.",
       },
       filterAll: "Todos",
@@ -559,32 +680,67 @@ export const content: Content = {
       impactLabel: "Impacto",
       items: [
         {
-          id: "impostor",
-          order: 1,
-          name: "Impostor",
-          type: "Juego Fullstack Multijugador",
-          previewImage: impostorRealPreview,
-          previewLabel: "Salas en tiempo real y sincronización de roles",
-          cta: "Arquitectura orientada a eventos con control de ciclo de salas en Socket.io, estado de roles determinístico y manejo sensible a latencia.",
+          id: "danu",
+          order: 3,
+          createdAt: "2026-03-10",
+          name: "Danu",
+          type: "SaaS de gestión de proyectos",
+          previewImage: danuPreview,
+          previewLabel: "Kanban + Gantt + realtime + reportes PDF",
+          cta: "SaaS fullstack en free-tier con Next.js App Router, Supabase Realtime, Auth.js v5 y reportes PDF.",
           summary:
-            "Juego social multijugador online con salas en tiempo real, lógica de roles y sincronización de estado.",
+            "SaaS de gestión listo para empresa con Kanban, Gantt, colaboración realtime y reportes PDF auditables.",
           problem:
-            "El prototipo local no tenía una base estable para coordinar jugadores y reglas por rol.",
+            "Se necesitaba una herramienta de PM lista para producción con colaboración realtime y reportes en infraestructura $0/mes.",
           solution:
-            "Diseñé una arquitectura separada frontend/backend con canales Socket.io y control de ciclo de salas.",
+            "Implementé Next.js 16 + React 19 con Supabase Realtime, Prisma + Postgres, Auth.js v5, Tailwind + shadcn/ui, next-intl y jsPDF.",
           impact:
-            "Dejó una base real de producción para evolucionar flujos multijugador con menor riesgo técnico.",
-          category: "Producto en tiempo real",
-          facets: ["Node.js", "Express", "Socket.io", "JavaScript"],
+            "Entregué un SaaS listo para demo con arquitectura por capas, sincronización realtime y 90+ tests.",
+          category: "Plataforma SaaS",
+          facets: ["React 19", "TypeScript", "Next.js", "Prisma", "Tailwind", "i18n"],
           decisions: [
-            "Orquestación por eventos para consistencia en tiempo real",
-            "Validación de acciones antes de ejecutar jugadas",
-            "Arquitectura incremental separando lógica de juego y transporte",
+            "Sincronización realtime de tareas y notificaciones con Supabase",
+            "Timeline tipo Gantt con CSS Grid y rangos predefinidos",
+            "Workspaces con roles en Auth.js e invitaciones tokenizadas",
           ],
           metrics: [
-            { label: "Modo", value: "Tiempo real multijugador" },
-            { label: "Stack", value: "Express + Socket.io" },
-            { label: "Alcance", value: "Frontend + backend" },
+            { label: "Alcance", value: "SaaS fullstack" },
+            { label: "Flujos", value: "Kanban + Gantt + reportes" },
+            { label: "Infra", value: "Supabase + Vercel" },
+          ],
+          links: {
+            repo: "https://github.com/Miguel-Bayter/Danu",
+            demo: "https://danu-eight.vercel.app/",
+          },
+        },
+        {
+          id: "impostor",
+          order: 1,
+          createdAt: "2024-10-18",
+          name: "Impostor",
+          type: "Monorepo multiplayer",
+          previewImage: impostorRealPreview,
+          previewLabel: "React 19 + Vite + NestJS realtime",
+          cta: "Monorepo estilo Impostor con React 19/Vite, NestJS + Socket.IO, MongoDB y contratos compartidos.",
+          summary:
+            "Plataforma multiplayer en tiempo real con contratos compartidos y ciclo de vida de salas predecible.",
+          problem:
+            "Se necesitaba un monorepo que mantuviera frontend, backend y contratos alineados en sesiones realtime.",
+          solution:
+            "Workspaces pnpm con React 19 + Vite + Tailwind, gateway NestJS, eventos Socket.IO, MongoDB y soporte opcional de Redis.",
+          impact:
+            "Ciclo de vida de salas predecible con tipos compartidos y confiabilidad realtime.",
+          category: "Plataforma realtime",
+          facets: ["TypeScript", "React 19", "Vite", "Tailwind", "NestJS", "Socket.io", "MongoDB"],
+          decisions: [
+            "Orquestación de salas por eventos para consistencia realtime",
+            "Paquete de tipos compartidos FE/BE",
+            "Gateway NestJS con Socket.IO para escalabilidad",
+          ],
+          metrics: [
+            { label: "Modo", value: "Multiplayer realtime" },
+            { label: "Stack", value: "React + NestJS" },
+            { label: "Scope", value: "Monorepo FE/BE" },
           ],
           links: {
             repo: "https://github.com/Miguel-Bayter/Impostor",
@@ -593,31 +749,32 @@ export const content: Content = {
         },
         {
           id: "tugestionamiga",
-          order: 2,
+          order: 0,
+          createdAt: "2024-08-22",
           name: "TuGestionAmiga",
-          type: "Sistema de Gestión Bibliotecaria",
+          type: "Plataforma de biblioteca",
           previewImage: tuGestionAmigaRealPreview,
-          previewLabel: "Catálogo, préstamos y flujos administrativos",
-          cta: "Estructura monorepo con contratos tipados, flujos transaccionales sobre Prisma y enforcement de roles a nivel de rutas para consistencia operativa.",
+          previewLabel: "React 19 + Vite + Express + Prisma",
+          cta: "Sistema de biblioteca en monorepo con frontend React 19 + Vite y backend Express + Prisma 6 sobre MySQL.",
           summary:
-            "Plataforma de gestión bibliotecaria para catálogo, carrito, préstamos, devoluciones y supervisión administrativa.",
+            "Sistema operativo de biblioteca con flujos por roles, transacciones confiables e inventario trazable.",
           problem:
-            "Los flujos de venta y renta requerían mayor control de roles, persistencia de estado e integridad transaccional.",
+            "Se requerían flujos con roles, transacciones confiables y seeding consistente de base de datos.",
           solution:
-            "Implementé monorepo frontend/backend con i18n-first, rutas protegidas y operaciones críticas transaccionales.",
+            "API Express por capas (routes → services → database) con Prisma 6 + MySQL y UI React 19 con i18next, React Router y Tailwind.",
           impact:
-            "Mejoró la confiabilidad operativa de inventario y devoluciones, habilitando crecimiento multilenguaje.",
+            "Monorepo mantenible con datos seed, tipado fuerte y límites claros de servicio.",
           category: "Plataforma operativa",
-          facets: ["React 19", "TypeScript", "Prisma", "i18n"],
+          facets: ["React 19", "TypeScript", "Vite", "Tailwind", "Express", "Prisma", "MySQL", "i18n"],
           decisions: [
-            "Límites estrictos entre roles ADMIN y USER",
-            "Checkout y devoluciones con integridad transaccional",
-            "Frontend preparado para localización completa EN/ES",
+            "Backend por capas (routes → services → database)",
+            "Prisma 6 con MySQL para control de esquema y seeding",
+            "Frontend preparado para ES/EN con i18next",
           ],
           metrics: [
             { label: "Arquitectura", value: "Monorepo frontend/backend" },
-            { label: "Flujos", value: "Catálogo + carrito + préstamos" },
-            { label: "Auth", value: "Rutas protegidas por rol" },
+            { label: "Flujos", value: "Catálogo + préstamos + compras" },
+            { label: "Datos", value: "MySQL + Prisma" },
           ],
           links: {
             repo: "https://github.com/Miguel-Bayter/TuGestionAmiga",
@@ -626,32 +783,33 @@ export const content: Content = {
         },
         {
           id: "invygo",
-          order: 3,
+          order: 2,
+          createdAt: "2025-11-05",
           name: "InvYGO",
-          type: "Plataforma de Inventario y Catálogo",
+          type: "UI de inventario y catálogo",
           previewImage: invygoRealPreview,
           previewLabel:
-            "Flujos de catálogo interactivos y carrusel configurable",
-          cta: "Arquitectura frontend orientada a features con separación por rutas, UI preparada para i18n e interacciones configurables por estado.",
+            "React 19 + Vite + React Query + Zustand",
+          cta: "UI de inventario/catálogo con React 19, Vite, React Query, Zustand e i18next.",
           summary:
-            "Plataforma React estilo producto para catálogo e inventario con configuración dinámica de carrusel y experiencia localizada.",
+            "UI de inventario/catálogo con estado predecible, datos async y arquitectura lista para i18n.",
           problem:
-            "La experiencia de catálogo requería rutas claras, capas UI reutilizables y actualizaciones de estado predecibles para interacciones configurables.",
+            "Se necesitaba un frontend rápido y modular con estado predecible y estructura multilenguaje.",
           solution:
-            "Construí un workspace TypeScript con páginas modulares, flujos de estado tipados y soporte de internacionalización integrado en navegación y vistas.",
+            "Implementé Vite + React 19 con React Router, TanStack Query, Zustand e i18next.",
           impact:
-            "Entrega una base más limpia para escalar módulos de producto manteniendo consistencia en patrones de interacción y presentación multilenguaje.",
-          category: "Plataforma de interfaz de producto",
-          facets: ["React 19", "TypeScript", "i18n", "JavaScript"],
+            "Base frontend escalable para interacciones de catálogo y expansión futura.",
+          category: "Interfaz de producto",
+          facets: ["React 19", "TypeScript", "Vite", "Tailwind", "i18n"],
           decisions: [
-            "Límites por rutas para ownership más claro y escalado por feature",
-            "Transiciones de estado centralizadas para configurar el carrusel",
-            "Estructura UI translation-first para expansión segura por idioma",
+            "Límites por rutas para ownership más claro",
+            "React Query + Zustand para estado asíncrono/UI",
+            "Estructura translation-first para expansión segura",
           ],
           metrics: [
-            { label: "Arquitectura", value: "Workspace web app" },
-            { label: "Flujos", value: "Catálogo + inventario + carrusel" },
-            { label: "Lenguaje", value: "TypeScript-first" },
+            { label: "Arquitectura", value: "App Vite" },
+            { label: "Flujos", value: "Catálogo + inventario" },
+            { label: "Estado", value: "React Query + Zustand" },
           ],
           links: {
             repo: "https://github.com/Miguel-Bayter/InvYGO",
@@ -663,20 +821,30 @@ export const content: Content = {
     profile: {
       title: "Perfil Profesional",
       subtitle:
-        "Seccion tipo hoja de vida enfocada en estudios y formacion tecnica.",
+        "Sección tipo hoja de vida enfocada en estudios y formación técnica.",
+      sectionLabels: {
+        technicalTraining: "Formación técnica",
+        courses: "Cursos",
+      },
       statusLabel: "Estudios",
-      statusValue: "En busqueda de practicas",
+      statusValue: "En búsqueda de prácticas",
       summary:
-        "Tecnologo en Analisis y Desarrollo de Software en formacion, con entrenamiento aplicado en analisis de requerimientos, modelado de datos y procesos, diseno de software, desarrollo, pruebas, bases de datos, APIs y documentacion. En busqueda de practicas para aportar en productos reales.",
+        "Tecnólogo en Análisis y Desarrollo de Software con experiencia práctica en requerimientos, modelado de datos y procesos, diseño de software, pruebas, bases de datos, APIs y documentación técnica. Enfocado en entrega confiable y trabajo en equipo.",
       schoolingTitle: "Escolaridad",
       cvLabel: "Descargar CV",
       certificatesLabel: "Descargar certificados",
+      credentials: {
+        title: "Credenciales",
+        tracksLabel: "Rutas",
+        coursesLabel: "Cursos",
+        certificatesLabel: "Certificados",
+      },
       skills: {
         title: "Skills clave",
         items: [
           "React + TypeScript",
           "Node.js + Express",
-          "Diseno de API REST",
+          "Diseño de API REST",
           "Fundamentos de SQL",
           "Arquitectura frontend",
           "Git + GitHub",
@@ -686,98 +854,152 @@ export const content: Content = {
       },
       education: [
         {
-          title: "Tecnologo en Analisis y Desarrollo de Software",
+          title: "Tecnólogo en Análisis y Desarrollo de Software",
           institution: "SENA",
-          period: "En curso",
+          period: "Formación finalizada",
           note:
-            "Formacion en analisis de requerimientos, modelado de datos y procesos, diseno de software, desarrollo, pruebas, bases de datos, APIs, documentacion y control de versiones con proyectos aplicados.",
+            "Formación en análisis de requerimientos, modelado de datos y procesos, diseño de software, desarrollo, pruebas, bases de datos, APIs, documentación y control de versiones con proyectos aplicados.",
         },
       ],
       programs: [
         {
+          title: "Tecnología SENA",
+          subtitle: "Análisis y Desarrollo de Software",
+          items: ["Constancia de estudio"],
+          certificates: [
+            { label: "Constancia Estudiante Análisis y Desarrollo de Software 2024 - 2026", href: senaTechnologist },
+          ],
+        },
+        {
           title: "MISION TIC 2022",
           subtitle: "Ministerio TIC",
           items: [
-            "Fundamentos de Programacion con Python",
-            "Programacion Basica con Lenguaje de Programacion Java",
-            "Desarrollo de Software con Lenguaje de Programacion Java",
-            "Habilidades en Programacion con Enfasis en Aplicaciones Web",
+            "Fundamentos de Programación con Python",
+            "Programación Básica con Lenguaje de Programación Java",
+            "Desarrollo de Software con Lenguaje de Programación Java",
+            "Habilidades en Programación con Énfasis en Aplicaciones Web",
           ],
           certificates: [
-            { label: "Certificado general Mision TIC", href: misionTicGeneral },
+            { label: "Certificado general Misión TIC", href: misionTicGeneral },
             { label: "Fundamentos de Python", href: misionTicPython },
-            { label: "Programacion basica en Java", href: misionTicJavaBasic },
+            { label: "Programación básica en Java", href: misionTicJavaBasic },
             { label: "Desarrollo de software en Java", href: misionTicJavaDev },
             { label: "Aplicaciones web", href: misionTicWeb },
           ],
         },
         {
           title: "Cursos SENA",
-          subtitle: "Formacion tecnica",
-          items: ["Programacion de Dispositivos Moviles"],
+          subtitle: "Formación técnica",
+          items: ["Programación de Dispositivos Móviles"],
           certificates: [
-            { label: "Programacion de dispositivos moviles", href: senaMobile },
+            { label: "Programación de dispositivos móviles", href: senaMobile },
           ],
         },
       ],
       schooling: [
         {
-          title: "Bachiller Academico",
-          institution: "Corporacion Educativa Soledad Acosta de Samper",
+          title: "Bachiller Académico",
+          institution: "Corporación Educativa Soledad Acosta de Samper",
           period: "Secundaria",
         },
         {
           title: "Primaria",
-          institution: "Corporacion Educativa Colegio Alter - Alteris",
+          institution: "Corporación Educativa Colegio Alter - Alteris",
           period: "Primaria",
         },
       ],
+      deliverySignals: {
+        title: "Capacidades Clave",
+        subtitle: "Indicadores de calidad, coordinación y entrega consistente.",
+        items: [
+          {
+            area: "Colaboración UX/UI",
+            tools: [
+              "Handoff en Figma",
+              "Pulido de copy",
+              "QA visual",
+              "Feedback UX",
+              "Especificaciones de componentes",
+            ],
+          },
+          {
+            area: "Desarrollo frontend",
+            tools: [
+              "Accesibilidad",
+              "Chequeos de performance",
+              "Límites de estado",
+              "Arquitectura de componentes",
+              "Testing de regresión",
+            ],
+          },
+          {
+            area: "Desarrollo backend",
+            tools: [
+              "Contratos de API",
+              "Auth y roles",
+              "CI/CD + deploy",
+              "Observabilidad básica",
+              "Manejo de errores",
+            ],
+          },
+        ],
+      },
     },
     stack: {
-      title: "Capacidades y prácticas de desarrollo",
+      title: "Habilidades",
       subtitle:
-        "Capacidades mapeadas a hábitos de entrega concretos, no solo etiquetas técnicas.",
+        "Grupos de habilidades según foco de entrega, no solo etiquetas de herramientas.",
       items: [
         {
-          area: "Entrega Frontend",
+          area: "Desarrollo de Interfaces",
           criterion:
             "Priorizo patrones reutilizables, jerarquía clara y estados de UI resilientes.",
           tools: [
             "React",
+            "TypeScript",
+            "Next.js",
+            "Tailwind CSS",
             "Vite",
-            "Arquitectura de componentes",
-            "Estado por feature",
+            "Handoff de diseño",
+            "Testing UI",
           ],
         },
         {
-          area: "Backend y diseño de API",
+          area: "Servicios Backend",
           criterion: "Estructuro servicios por dominio y contratos explícitos.",
           tools: [
             "Node.js",
             "Express",
-            "Diseño REST API",
-            "Patrones de autenticación",
+            "APIs REST",
+            "NestJS",
+            "Socket.io",
+            "Validacion de API",
           ],
         },
         {
-          area: "Datos y persistencia",
+          area: "Administración de Datos",
           criterion:
             "Modelo datos para mantenibilidad y consultas predecibles.",
           tools: [
             "PostgreSQL",
-            "Modelo relacional",
-            "Base de optimización de consultas",
+            "MySQL",
+            "Prisma",
+            "MongoDB",
+            "Supabase",
+            "Optimizacion de consultas",
           ],
         },
         {
-          area: "Calidad y entrega",
+          area: "Ciclo de Entrega",
           criterion:
             "Mantengo releases confiables con workflows repetibles y documentación clara.",
           tools: [
             "GitHub",
-            "Actions CI/CD",
-            "GitHub Pages",
-            "Estándares de README",
+            "GitHub Actions",
+            "Docker",
+            "Vercel/Netlify",
+            "Disciplina de testing",
+            "Monitoreo basico",
           ],
         },
       ],
