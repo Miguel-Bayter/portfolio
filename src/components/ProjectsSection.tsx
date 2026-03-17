@@ -39,6 +39,7 @@ export default function ProjectsSection({
   const [areFiltersOpen, setAreFiltersOpen] = useState(false);
   const [openFilterGroup, setOpenFilterGroup] = useState<FacetGroup | null>(null);
   const [facetSortDirection, setFacetSortDirection] = useState<Record<string, 'desc' | 'asc'>>({});
+  const [flippedProjectId, setFlippedProjectId] = useState<string | null>(null);
 
   if (!isVisible) return null;
 
@@ -202,6 +203,8 @@ export default function ProjectsSection({
     card.style.removeProperty('--spotlight-y');
   };
 
+  const isTouchFlipMode = () => window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
   return (
     <section className="border border-line/20 rounded-md p-5 md:p-6 animate-panel-in bg-gradient-to-b from-surface-4/45 to-surface-2/78 section-rhythm-light">
       <header className="mb-1">
@@ -301,6 +304,7 @@ export default function ProjectsSection({
             const previewSrc = project.previewImage;
             const projectFrontNote = project.category || project.type;
             const hasActiveFacet = Boolean(activeFacet) && project.facets.some((facet) => facet.toLowerCase() === activeFacet);
+            const isFlipped = flippedProjectId === project.id;
 
             return (
               <article
@@ -314,11 +318,14 @@ export default function ProjectsSection({
                 onMouseLeave={handleProjectCardPointerLeave}
               >
                 <span className="project-spotlight" aria-hidden="true" />
-                <div className="project-flip-inner">
+                <div className={`project-flip-inner ${isFlipped ? 'is-flipped' : ''}`}>
                   <button
                     type="button"
                     onClick={() => {
                       setSelectedProjectId(project.id);
+                      if (isTouchFlipMode()) {
+                        setFlippedProjectId((prev) => (prev === project.id ? null : project.id));
+                      }
                     }}
                     className="project-flip-face project-flip-front project-card-select w-full text-left bg-transparent border-0 p-0 cursor-pointer"
                   >
@@ -354,7 +361,15 @@ export default function ProjectsSection({
                     </div>
                   </button>
 
-                  <div className="project-flip-face project-flip-back px-3 md:px-3.5 py-3 md:py-3.5">
+                  <div
+                    className="project-flip-face project-flip-back px-3 md:px-3.5 py-3 md:py-3.5"
+                    onClick={(event) => {
+                      if (!isTouchFlipMode()) return;
+                      const target = event.target as HTMLElement;
+                      if (target.closest('a,button')) return;
+                      setFlippedProjectId(null);
+                    }}
+                  >
                     <div className="project-back-content">
                       <div className="project-back-head flex items-start justify-between gap-2">
                         <h3 className="m-0 text-ink text-[0.9rem] font-semibold tracking-[-0.01em]">{project.name}</h3>

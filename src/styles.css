@@ -1459,12 +1459,39 @@ html.theme-light .stack-tool-pill {
         font-size: 0.84rem;
     }
 
+    .profile-hero-badges {
+        justify-content: center;
+    }
+
+    .profile-hero-role {
+        font-size: 0.68rem;
+        letter-spacing: 0.04em;
+        padding: 0.18rem 0.5rem;
+        text-align: center;
+    }
+
     .profile-card {
         padding: 0.75rem 0.85rem;
     }
 
     .profile-skill-grid {
         gap: 0.65rem;
+    }
+
+    .profile-key-skills .profile-skill-grid,
+    .profile-delivery-card .profile-skill-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-key-skills .profile-skill-card,
+    .profile-delivery-card .profile-skill-card {
+        min-height: auto;
+        height: auto;
+    }
+
+    .profile-key-skills .profile-skill-pills,
+    .profile-delivery-card .profile-skill-pills {
+        justify-content: center;
     }
 }
 
@@ -4420,29 +4447,6 @@ html.theme-light .topbar-proof-pill {
 }
 
 @media (max-width: 640px) {
-    .project-flip-card {
-        perspective: none;
-    }
-
-    .project-flip-inner,
-    .project-flip-card:hover .project-flip-inner,
-    .project-flip-card:focus-within .project-flip-inner,
-    .project-flip-inner.is-flipped {
-        transform: none;
-    }
-
-    .project-flip-face {
-        position: static;
-        backface-visibility: visible;
-        -webkit-backface-visibility: visible;
-    }
-
-    .project-flip-back {
-        display: none;
-    }
-}
-
-@media (max-width: 640px) {
     .tech-stack-carousel {
         padding: 0.85rem 0.5rem 0.65rem;
     }
@@ -5780,20 +5784,6 @@ html.theme-light .overview-hero-image {
     transform: translateY(-1px);
     border-color: rgb(var(--signal-cyan) / 0.7);
     background: rgb(var(--surface-5) / 0.8);
-}
-
-.profile-skill-grid {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.profile-key-skills .profile-skill-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.profile-key-skills .profile-skill-card {
-    width: 100%;
 }
 
 .profile-skill-pill {
