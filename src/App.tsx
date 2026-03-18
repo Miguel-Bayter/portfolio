@@ -127,7 +127,7 @@ function App() {
 
           <button
             type="button"
-            className="border border-line/30 bg-surface-4/65 text-ink-2 rounded-xs px-3 py-1 cursor-pointer font-mono text-[0.76rem] font-medium tracking-[0.05em] transition-all duration-150 hover:border-signal-cyan/50 hover:bg-surface-5 hover:text-ink hover:-translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-cyan focus-visible:outline-offset-2"
+            className="topbar-action-btn"
             aria-label={t.a11y.toggleLanguage}
             onClick={() => setLanguage((prev) => (prev === 'en' ? 'es' : 'en'))}
           >
@@ -136,7 +136,7 @@ function App() {
 
           <button
             type="button"
-            className="border border-line/30 bg-surface-4/65 text-ink-2 rounded-xs px-3 py-1 cursor-pointer font-mono text-[0.76rem] font-medium tracking-[0.05em] transition-all duration-150 hover:border-signal-cyan/50 hover:bg-surface-5 hover:text-ink hover:-translate-y-px focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal-cyan focus-visible:outline-offset-2"
+            className="topbar-action-btn"
             aria-label={t.a11y.toggleTheme}
             onClick={cycleTheme}
           >

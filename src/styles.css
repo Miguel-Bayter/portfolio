@@ -256,6 +256,75 @@ body {
         0 0 10px rgb(var(--signal-mint) / 0.36);
 }
 
+.topbar-action-btn {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgb(var(--line) / 0.3);
+    background: linear-gradient(
+        160deg,
+        rgb(var(--surface-4) / 0.9) 0%,
+        rgb(var(--surface-3) / 0.78) 100%
+    );
+    color: rgb(var(--ink-2));
+    border-radius: 999px;
+    padding: 0.4rem 0.82rem;
+    cursor: pointer;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    transition:
+        border-color 160ms ease,
+        background-color 160ms ease,
+        transform 160ms ease,
+        box-shadow 160ms ease,
+        color 160ms ease;
+    box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 0.08),
+        0 10px 18px rgb(6 12 22 / 0.18);
+}
+
+.topbar-action-btn::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgb(var(--signal-cyan) / 0.18) 48%,
+        transparent 100%
+    );
+    transition: opacity 160ms ease;
+}
+
+.topbar-action-btn:hover {
+    border-color: rgb(var(--signal-cyan) / 0.55);
+    background: rgb(var(--surface-5) / 0.85);
+    color: rgb(var(--ink-1));
+    transform: translateY(-1px);
+    box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 0.12),
+        0 12px 20px rgb(6 12 22 / 0.22);
+}
+
+.topbar-action-btn:hover::before {
+    opacity: 1;
+}
+
+.topbar-action-btn:active {
+    transform: translateY(0);
+    box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 0.08),
+        0 6px 12px rgb(6 12 22 / 0.18);
+}
+
+.topbar-action-btn:focus-visible {
+    outline: 2px solid rgb(var(--signal-cyan));
+    outline-offset: 2px;
+}
+
 .topbar-proof-row {
     margin-top: 0.42rem;
     display: flex;
@@ -4135,6 +4204,25 @@ html.theme-light .topbar-status-pill {
         0 7px 14px rgb(62 92 120 / 0.14);
 }
 
+html.theme-light .topbar-action-btn {
+    border-color: rgb(var(--line) / 0.38);
+    background: linear-gradient(
+        160deg,
+        rgb(var(--surface-0) / 0.98) 0%,
+        rgb(var(--surface-1) / 0.92) 100%
+    );
+    color: rgb(var(--ink-2));
+    box-shadow:
+        inset 0 1px 0 rgb(255 255 255 / 0.7),
+        0 8px 14px rgb(62 92 120 / 0.12);
+}
+
+html.theme-light .topbar-action-btn:hover {
+    background: rgb(var(--surface-0) / 0.98);
+    border-color: rgb(var(--signal-cyan) / 0.4);
+    color: rgb(var(--ink-1));
+}
+
 html.theme-light .topbar-identity-link {
     background: linear-gradient(
         160deg,
@@ -5551,10 +5639,10 @@ html.theme-light .overview-hero-image {
         font-size: 0.68rem;
     }
 
-    .topbar-controls > button {
+    .topbar-action-btn {
         padding: 0.32rem 0.56rem;
         font-size: 0.66rem;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.06em;
     }
 
     .proof-strip-track {
