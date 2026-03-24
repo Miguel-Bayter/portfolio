@@ -100,7 +100,7 @@ export default function OverviewSection({
           {[...projects]
             .sort((a, b) => {
               const createdDiff = new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
-              return createdDiff !== 0 ? createdDiff : b.order - a.order;
+              return createdDiff !== 0 ? createdDiff : a.order - b.order;
             })
             .slice(0, 2)
             .map((project) => (

@@ -27,14 +27,16 @@ import profilePhoto from '../img/Profile.jpg';
 interface ProfileSectionProps {
   t: ContentLocale;
   isVisible: boolean;
+  language: 'en' | 'es';
 }
 
-export default function ProfileSection({ t, isVisible }: ProfileSectionProps) {
+export default function ProfileSection({ t, isVisible, language }: ProfileSectionProps) {
   if (!isVisible) return null;
 
   const assetBase = import.meta.env.BASE_URL ?? '/';
-  const cvHref = `${assetBase}cv.pdf`;
+  const cvHref = language === 'es' ? `${assetBase}cv-es.pdf` : `${assetBase}cv-en.pdf`;
   const certListRef = useRef<HTMLDivElement | null>(null);
+  const educationListRef = useRef<HTMLDivElement | null>(null);
   const heroName = t.overview.hero.nameLine.replace(/^I'm\s+/i, '').replace(/^Soy\s+/i, '');
   const skillIcons = [FiMonitor, FiServer, FiDatabase, FiTool];
   const skillToneClasses = ['skill-tone-frontend', 'skill-tone-backend', 'skill-tone-data', 'skill-tone-quality'];
@@ -71,27 +73,20 @@ export default function ProfileSection({ t, isVisible }: ProfileSectionProps) {
       group: group.title,
     })),
   );
-  const programEntries = t.profile.programs
-    .filter((program) => {
-      const hasEnrollmentItem = program.items.some((item) => {
-        const lowerItem = item.toLowerCase();
-        return lowerItem.includes('enrollment') || lowerItem.includes('constancia');
-      });
-      const isTechnologist = program.title.toLowerCase().includes('sena') && hasEnrollmentItem;
-      return !isTechnologist;
-    })
-    .map((program) => ({
-      title: program.title,
-      institution: program.subtitle ?? '',
-      period: program.title,
-      note: program.items.join(' · '),
-    }));
-  const educationEntries = [...t.profile.education, ...programEntries];
+  const educationEntries = t.profile.education;
 
   const handleCertNav = (direction: number) => {
     const list = certListRef.current;
     if (!list) return;
     const item = list.querySelector<HTMLElement>('.profile-cert-item');
+    const step = item ? item.offsetHeight + 12 : 120;
+    list.scrollBy({ top: step * direction, behavior: 'smooth' });
+  };
+
+  const handleEducationNav = (direction: number) => {
+    const list = educationListRef.current;
+    if (!list) return;
+    const item = list.querySelector<HTMLElement>('.profile-education-item');
     const step = item ? item.offsetHeight + 12 : 120;
     list.scrollBy({ top: step * direction, behavior: 'smooth' });
   };
@@ -129,7 +124,7 @@ export default function ProfileSection({ t, isVisible }: ProfileSectionProps) {
           </div>
           <p className="profile-hero-summary m-0">{t.profile.summary}</p>
           <div className="profile-actions profile-hero-actions flex flex-wrap items-center gap-2">
-            <a className="profile-download" href={cvHref} download>
+            <a className="profile-download" href={cvHref} download={language === 'es' ? 'Miguel_Bayter_Es.pdf' : 'Miguel_Bayter_En.pdf'}>
               {t.profile.cvLabel}
             </a>
           </div>
@@ -212,10 +207,22 @@ export default function ProfileSection({ t, isVisible }: ProfileSectionProps) {
             <article className="profile-card profile-education-card">
               <div className="profile-card-head">
                 <h3 className="profile-card-title m-0 text-[0.78rem] font-mono tracking-[0.1em] uppercase text-signal-cyan">{t.profile.statusLabel}</h3>
+                <div className="profile-cert-nav">
+                  <button type="button" className="profile-cert-nav-btn" aria-label="Scroll education up" onClick={() => handleEducationNav(-1)}>
+                    <svg viewBox="0 0 20 20" aria-hidden="true" className="profile-cert-nav-icon">
+                      <path d="M5 12l5-5 5 5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                  <button type="button" className="profile-cert-nav-btn" aria-label="Scroll education down" onClick={() => handleEducationNav(1)}>
+                    <svg viewBox="0 0 20 20" aria-hidden="true" className="profile-cert-nav-icon">
+                      <path d="M5 8l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                </div>
               </div>
-              <div className="profile-education-stack">
+              <div className="profile-scroll-list profile-education-stack" ref={educationListRef}>
                 {educationEntries.map((entry) => (
-                  <div key={entry.title} className="profile-entry profile-entry-timeline">
+                  <div key={`${entry.title}-${entry.period ?? entry.institution}`} className="profile-entry profile-education-item">
                     <div className="profile-entry-head">
                       <h4 className="profile-entry-title m-0">{entry.title}</h4>
                       {entry.period ? <span className="profile-entry-period">{entry.period}</span> : null}
@@ -245,7 +252,7 @@ export default function ProfileSection({ t, isVisible }: ProfileSectionProps) {
                   </button>
                 </div>
               </div>
-              <div className="profile-cert-list" ref={certListRef}>
+              <div className="profile-scroll-list profile-cert-list" ref={certListRef}>
                 {certificateItems.map((cert) => (
                   <a key={cert.label} className="profile-cert-item" href={cert.href} download>
                     <div>

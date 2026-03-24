@@ -1,6 +1,6 @@
 import type { Content } from "../types";
 import impostorRealPreview from "../img/projects/impostor-real.png";
-import tuGestionAmigaRealPreview from "../img/projects/tugestionamiga-real.png";
+import eiraRealPreview from "../img/projects/eira-real.png";
 import invygoRealPreview from "../img/projects/invygo-real.jpg";
 import danuPreview from "../img/projects/danu-real.png";
 import misionTicGeneral from "../certifications/MISION TIC 2022/Curso y terminó exitosamente el programa Misión TIC .pdf";
@@ -144,11 +144,11 @@ export const content: Content = {
       emptyStateTitle: "No matches",
       emptyStateText: "No projects match this filter yet. Try another stack.",
       filterGroups: {
-        language: "Language",
+        language: "Lang",
         framework: "Framework",
         backend: "Backend",
         data: "Data",
-        cross: "Cross",
+        cross: "Tooling",
       },
       caseStudy: "Details",
       problemLabel: "Problem",
@@ -156,33 +156,67 @@ export const content: Content = {
       impactLabel: "Impact",
       items: [
         {
+          id: "eira",
+          order: 0,
+          createdAt: "2026-03-18",
+          name: "Eira",
+          type: "Mental Health & Wellness SaaS",
+          previewImage: eiraRealPreview,
+          previewLabel: "React 18 · Express · Hexagonal Arch · Dual AI · PWA",
+          cta: "Full-stack mental wellness SaaS: hexagonal backend with dual AI (Gemini + Groq fallback), Supabase auth, OWASP-hardened API, and a React 18 PWA with mood tracking, AI chat, and therapeutic tools.",
+          summary:
+            "Mental wellness SaaS with hexagonal backend, dual AI (Gemini → Groq), OWASP-hardened API, Supabase auth, mood tracking, AI journal analysis, and React 18 PWA with offline support.",
+          problem:
+            "Mental health apps require privacy by design, resilient AI that never fails silently, and accessible UIs that work under stress — all with production-grade security.",
+          solution:
+            "pnpm monorepo with hexagonal backend (domain zero-coupled to Express/Prisma), dual AI failover, httpOnly cookie auth, RLS on Supabase, CI pipeline, and React 18 + Radix UI + TanStack Query + Playwright E2E.",
+          impact:
+            "Live Vercel deployment. Hardened API on Render with OWASP compliance, Playwright E2E coverage, and bilingual PWA with offline support.",
+          category: "Operations Platform",
+          facets: ["TypeScript", "React 19", "Vite", "Tailwind", "Express", "Prisma", "i18n"],
+          decisions: [
+            "Hexagonal architecture keeps domain logic decoupled from Express, Prisma, and AI SDKs",
+            "Dual AI failover: Gemini 2.0 Flash → Groq Llama 3.3 70B with safe fallback message",
+            "RLS on Supabase + httpOnly cookies + OWASP rate-limiting for privacy by design",
+          ],
+          metrics: [
+            { label: "Deploy", value: "Vercel + Render (live)" },
+            { label: "AI", value: "Gemini + Groq fallback" },
+            { label: "Testing", value: "Vitest + Playwright E2E" },
+          ],
+          links: {
+            repo: "https://github.com/Miguel-Bayter/Eira",
+            demo: "https://eira-woad.vercel.app",
+          },
+        },
+        {
           id: "danu",
-          order: 3,
+          order: 1,
           createdAt: "2026-03-10",
           name: "Danu",
           type: "Project Management SaaS",
           previewImage: danuPreview,
-          previewLabel: "Kanban + Gantt + realtime + PDF reports",
-          cta: "Full-stack PM SaaS built on free-tier infra using Next.js App Router, Supabase Realtime, Auth.js v5, and PDF reporting.",
+          previewLabel: "Next.js 16 · Supabase Realtime · shadcn/ui · jsPDF",
+          cta: "Full-stack PM SaaS on free-tier infra: Next.js 16, Supabase Realtime, Auth.js v5, Kanban/Gantt with drag-and-drop, Resend email flows, and PDF exports.",
           summary:
-            "Enterprise-ready project management SaaS with Kanban, Gantt, realtime collaboration, and audit-friendly PDF reporting.",
+            "PM SaaS with Kanban, Gantt drag-and-drop, Supabase Realtime, role-based workspaces, Resend email flows, jsPDF reports, and 90+ Vitest tests.",
           problem:
-            "Needed a production-grade PM tool with realtime collaboration and reporting while staying on $0/month infrastructure.",
+            "Needed a production-grade PM tool with realtime collaboration, PDF reporting, and multi-tenant workspaces on $0/month infrastructure.",
           solution:
-            "Implemented Next.js 16 + React 19 with Supabase Realtime, Prisma + Postgres, Auth.js v5, Tailwind + shadcn/ui, next-intl, and jsPDF exports.",
+            "Next.js 16 App Router, React 19, Supabase Realtime, Auth.js v5 + Prisma 7, shadcn/ui, next-intl, recharts, dnd-kit, jsPDF, and Resend for email automation.",
           impact:
-            "Shipped a demo-ready SaaS with layered server architecture, realtime sync, and 90+ tests for reliability.",
+            "Demo-ready SaaS with realtime sync, drag-and-drop task management, email automation, and 90+ tests enforced in CI.",
           category: "SaaS Platform",
           facets: ["React 19", "TypeScript", "Next.js", "Prisma", "Tailwind", "i18n"],
           decisions: [
-            "Realtime task sync and notifications via Supabase channels",
-            "CSS Grid Gantt timeline with preset ranges",
-            "Role-based workspaces with Auth.js and invite tokens",
+            "Supabase Realtime channels for zero-latency task updates across workspaces",
+            "Auth.js v5 with Prisma adapter for multi-provider auth and invite-token workspaces",
+            "jsPDF + html2canvas for client-side PDF export without server costs",
           ],
           metrics: [
-            { label: "Scope", value: "Full-stack SaaS" },
-            { label: "Core Flows", value: "Kanban + Gantt + reports" },
-            { label: "Infra", value: "Supabase + Vercel" },
+            { label: "Tests", value: "90+ Vitest unit tests" },
+            { label: "Core Flows", value: "Kanban · Gantt · PDF reports" },
+            { label: "Infra", value: "Supabase + Vercel (free tier)" },
           ],
           links: {
             repo: "https://github.com/Miguel-Bayter/Danu",
@@ -191,32 +225,32 @@ export const content: Content = {
         },
         {
           id: "impostor",
-          order: 1,
+          order: 2,
           createdAt: "2024-10-18",
           name: "Impostor",
-          type: "Multiplayer Monorepo",
+          type: "Realtime Multiplayer Platform",
           previewImage: impostorRealPreview,
-          previewLabel: "React 19 + Vite + NestJS realtime",
-          cta: "Impostor-style multiplayer monorepo with React 19/Vite, NestJS + Socket.IO, MongoDB, and shared type contracts.",
+          previewLabel: "NestJS 11 · Socket.IO · MongoDB · Redis · pnpm workspaces",
+          cta: "Multiplayer platform with NestJS 11 + Socket.IO 4 gateway, JWT auth, MongoDB, Redis pub/sub, and a React 19 + Vite frontend — all in a typed pnpm monorepo.",
           summary:
-            "Realtime multiplayer platform with shared contracts, deterministic room lifecycle, and scalable session orchestration.",
+            "Realtime multiplayer platform with NestJS 11 + Socket.IO 4 gateway, JWT auth, MongoDB, Redis pub/sub, and a React 19 + Vite frontend. @impostor/types enforces strict FE/BE contracts.",
           problem:
-            "Needed a monorepo that kept frontend, backend, and shared contracts aligned for realtime sessions.",
+            "Needed a monorepo that kept frontend, backend, and event contracts strictly aligned under concurrent realtime load.",
           solution:
-            "Built pnpm workspaces with React 19 + Vite + Tailwind, NestJS gateway, Socket.IO events, MongoDB, and optional Redis support.",
+            "pnpm workspaces with @impostor/types shared package, NestJS 11 gateway, class-validator DTOs, bcrypt auth, ioredis pub/sub, and Docker Compose for local orchestration.",
           impact:
-            "Delivered predictable room lifecycle orchestration with shared types and realtime reliability.",
+            "Scalable realtime platform with typed contracts, JWT-secured rooms, Docker-ready infra, and deterministic room state without polling.",
           category: "Realtime Platform",
           facets: ["TypeScript", "React 19", "Vite", "Tailwind", "NestJS", "Socket.io", "MongoDB"],
           decisions: [
-            "Event-driven room orchestration for realtime consistency",
-            "Shared types package for FE/BE contract safety",
-            "NestJS gateway with Socket.IO for scalable rooms",
+            "Shared @impostor/types package enforces event contracts between gateway and frontend",
+            "ioredis integration enables horizontal scaling of WebSocket rooms",
+            "Docker Compose orchestrates MongoDB + Redis for reproducible local environments",
           ],
           metrics: [
-            { label: "Mode", value: "Realtime multiplayer" },
-            { label: "Stack", value: "React + NestJS" },
-            { label: "Scope", value: "Monorepo FE/BE" },
+            { label: "Gateway", value: "NestJS 11 + Socket.IO 4" },
+            { label: "Persistence", value: "MongoDB + Redis pub/sub" },
+            { label: "Architecture", value: "pnpm monorepo + Docker" },
           ],
           links: {
             repo: "https://github.com/Miguel-Bayter/Impostor",
@@ -224,68 +258,33 @@ export const content: Content = {
           },
         },
         {
-          id: "tugestionamiga",
-          order: 0,
-          createdAt: "2024-08-22",
-          name: "TuGestionAmiga",
-          type: "Library Management Platform",
-          previewImage: tuGestionAmigaRealPreview,
-          previewLabel: "React 19 + Vite + Express + Prisma",
-          cta: "Library monorepo with React 19 + Vite frontend and Express + Prisma 6 backend on MySQL.",
-          summary:
-            "Operational library system with role-based workflows, reliable transactions, and auditable inventory flows.",
-          problem:
-            "Needed role-safe inventory flows with reliable transactions and consistent database seeding.",
-          solution:
-            "Built a layered Express API (routes → services → database) with Prisma 6 + MySQL and a React 19 UI with i18next, React Router, and Tailwind.",
-          impact:
-            "Delivered a maintainable monorepo with seeded data, strong typing, and scalable service boundaries.",
-          category: "Operations Platform",
-          facets: ["React 19", "TypeScript", "Vite", "Tailwind", "Express", "Prisma", "MySQL", "i18n"],
-          decisions: [
-            "Layered backend (routes → services → database) for maintainability",
-            "Prisma 6 with MySQL for schema control and seeding",
-            "Frontend ready for Spanish/English localization",
-          ],
-          metrics: [
-            { label: "Architecture", value: "Monorepo frontend/backend" },
-            { label: "Core Flows", value: "Catalog + loans + purchases" },
-            { label: "Data", value: "MySQL + Prisma" },
-          ],
-          links: {
-            repo: "https://github.com/Miguel-Bayter/TuGestionAmiga",
-            demo: "",
-          },
-        },
-        {
           id: "invygo",
-          order: 2,
+          order: 3,
           createdAt: "2025-11-05",
           name: "InvYGO",
-          type: "Inventory & Catalog UI",
+          type: "Inventory & Catalog Platform",
           previewImage: invygoRealPreview,
-          previewLabel:
-            "React 19 + Vite + React Query + Zustand",
-          cta: "Inventory/catalog UI built with React 19, Vite, React Query, Zustand, and i18next.",
+          previewLabel: "React 19 · Vite 7 · TanStack Query · Zustand · Tailwind 4",
+          cta: "Inventory/catalog SPA: React 19, Vite 7, TanStack Query v5, Zustand v5, Tailwind 4, React Router 7, i18next, and Playwright E2E — live on Netlify.",
           summary:
-            "Inventory/catalog UI with predictable state, async data orchestration, and localization-ready architecture.",
+            "Inventory/catalog SPA with TanStack Query v5, Zustand v5, React Router 7, Tailwind 4, i18next bilingual support, and Playwright E2E. Live on Netlify.",
           problem:
-            "Needed a fast, modular frontend with predictable state and multilingual-ready structure.",
+            "Needed a modular frontend with clean async data management, scalable UI state, multilingual support, and measurable E2E quality.",
           solution:
-            "Implemented a Vite + React 19 app with React Router, TanStack Query, Zustand, and i18next.",
+            "Vite 7 + React 19 with TanStack Query v5 + Zustand v5, React Router 7 code splitting, i18next ES/EN, Tailwind 4, and Playwright covering catalog search, filters, and pagination.",
           impact:
-            "Delivered a scalable frontend base for catalog interactions and future expansion.",
+            "Live Netlify deployment with sub-second loads, bilingual support, E2E coverage on core flows, and architecture ready for API integration.",
           category: "Product Interface",
           facets: ["React 19", "TypeScript", "Vite", "Tailwind", "i18n"],
           decisions: [
-            "Route-based page boundaries for clearer ownership",
-            "React Query + Zustand for async and UI state",
-            "Translation-first UI structure for language-safe expansion",
+            "TanStack Query v5 + Zustand v5 for clear separation of server vs UI state",
+            "React Router 7 with route-based code splitting for scalable navigation",
+            "Playwright E2E tests covering catalog search, filters, and pagination flows",
           ],
           metrics: [
-            { label: "Architecture", value: "Vite workspace app" },
-            { label: "Core Flows", value: "Catalog + inventory" },
-            { label: "State", value: "React Query + Zustand" },
+            { label: "Deploy", value: "Netlify (live)" },
+            { label: "State", value: "TanStack Query + Zustand" },
+            { label: "Testing", value: "Playwright E2E" },
           ],
           links: {
             repo: "https://github.com/Miguel-Bayter/InvYGO",
@@ -330,11 +329,46 @@ export const content: Content = {
       },
       education: [
         {
-          title: "Software Analysis and Development (Technologist)",
+          title: "Technologist in Software Analysis and Development",
           institution: "SENA",
-          period: "Completed",
+          period: "Nov 2023 - Feb 2026",
           note:
-            "Curriculum covers requirements analysis, data/process modeling, software design, development, testing, databases, APIs, documentation, and version control through applied projects.",
+            "Technologist program focused on requirements analysis, software development, databases, testing, documentation, and applied delivery projects.",
+        },
+        {
+          title: "Technical Program in Programming Fundamentals with Python",
+          institution: "Ministry of Information Technologies and Communications - Sergio Arboleda University (MISION TIC - 2022)",
+          period: "Dec 2022",
+          note:
+            "Built Python fundamentals around variables, control flow, functions, and problem-solving logic useful for backend thinking and automation basics.",
+        },
+        {
+          title: "Technical Program in Software Development with Java",
+          institution: "Ministry of Information Technologies and Communications - Sergio Arboleda University (MISION TIC - 2022)",
+          period: "Nov 2022",
+          note:
+            "Covered Java-based software construction with structured logic, object-oriented foundations, and maintainable code practices for enterprise-style applications.",
+        },
+        {
+          title: "Technical Program in Basic Programming with Java",
+          institution: "Ministry of Information Technologies and Communications - Sergio Arboleda University (MISION TIC - 2022)",
+          period: "Sep 2022",
+          note:
+            "Strengthened programming logic, algorithms, and Java syntax essentials to build a solid base for scalable backend development.",
+        },
+        {
+          title: "Technical Program in Programming Fundamentals with Python",
+          institution: "Ministry of Information Technologies and Communications - Sergio Arboleda University (MISION TIC - 2022)",
+          period: "Aug 2022",
+          note:
+            "Introduced computational thinking, Python syntax, and structured problem decomposition as an entry point into software development.",
+        },
+        {
+          title: "Technical Course in Mobile Device Programming",
+          institution: "SENA",
+          period: "Nov 2019",
+          note:
+            "Early technical training focused on mobile interaction flows, app structure, and implementation basics for device-oriented experiences.",
         },
       ],
       programs: [
@@ -666,11 +700,11 @@ export const content: Content = {
       emptyStateText:
         "No hay proyectos para este filtro. Prueba con otro stack.",
       filterGroups: {
-        language: "Lenguajes",
-        framework: "Frameworks",
+        language: "Lang",
+        framework: "Framework",
         backend: "Backend",
         data: "Datos",
-        cross: "Transversal",
+        cross: "Tooling",
       },
       detailHint:
         "Los resúmenes de tarjeta son intencionalmente breves. Ve a Perfil para empresas para más contexto.",
@@ -680,33 +714,67 @@ export const content: Content = {
       impactLabel: "Impacto",
       items: [
         {
+          id: "eira",
+          order: 0,
+          createdAt: "2026-03-18",
+          name: "Eira",
+          type: "SaaS de Salud Mental y Bienestar",
+          previewImage: eiraRealPreview,
+          previewLabel: "React 18 · Express · Arquitectura Hexagonal · IA Dual · PWA",
+          cta: "SaaS fullstack de bienestar mental: arquitectura hexagonal, IA dual (Gemini + Groq), auth Supabase, API hardened OWASP, y PWA React 18 con seguimiento de estado emocional y chat IA.",
+          summary:
+            "SaaS de bienestar mental con arquitectura hexagonal, IA dual (Gemini → Groq), API OWASP-hardened, auth Supabase, seguimiento de humor, análisis de diario con IA y PWA React 18 con soporte offline.",
+          problem:
+            "Las apps de salud mental requieren privacidad por diseño, IA resiliente que nunca falle silenciosamente y UI accesible bajo estrés — todo con seguridad de nivel productivo.",
+          solution:
+            "Monorepo pnpm con backend hexagonal (dominio desacoplado de Express/Prisma), failover IA dual, cookies httpOnly, RLS en Supabase, CI pipeline y React 18 + Radix UI + TanStack Query + Playwright E2E.",
+          impact:
+            "Desplegado en Vercel. API hardened en Render con cumplimiento OWASP, cobertura E2E Playwright y PWA bilingüe con soporte offline.",
+          category: "Plataforma operativa",
+          facets: ["TypeScript", "React 19", "Vite", "Tailwind", "Express", "Prisma", "i18n"],
+          decisions: [
+            "Paquete @eira/shared enforce contratos entre frontend y API",
+            "Helmet + rate-limiting + Zod en cada límite de la API",
+            "Tests E2E con Playwright sobre todos los flujos críticos",
+          ],
+          metrics: [
+            { label: "Arquitectura", value: "pnpm monorepo" },
+            { label: "API", value: "Express + Prisma + Supabase" },
+            { label: "Testing", value: "Vitest + Playwright E2E" },
+          ],
+          links: {
+            repo: "https://github.com/Miguel-Bayter/Eira",
+            demo: "https://eira-woad.vercel.app",
+          },
+        },
+        {
           id: "danu",
-          order: 3,
+          order: 1,
           createdAt: "2026-03-10",
           name: "Danu",
           type: "SaaS de gestión de proyectos",
           previewImage: danuPreview,
-          previewLabel: "Kanban + Gantt + realtime + reportes PDF",
-          cta: "SaaS fullstack en free-tier con Next.js App Router, Supabase Realtime, Auth.js v5 y reportes PDF.",
+          previewLabel: "Next.js 16 · Supabase Realtime · shadcn/ui · jsPDF",
+          cta: "SaaS PM en free-tier: Next.js 16, Supabase Realtime, Auth.js v5, Kanban/Gantt con drag-and-drop, emails con Resend y exportación PDF.",
           summary:
-            "SaaS de gestión listo para empresa con Kanban, Gantt, colaboración realtime y reportes PDF auditables.",
+            "SaaS PM con Kanban, Gantt drag-and-drop, sync Supabase Realtime, workspaces con roles, emails Resend, reportes jsPDF y 90+ tests Vitest.",
           problem:
-            "Se necesitaba una herramienta de PM lista para producción con colaboración realtime y reportes en infraestructura $0/mes.",
+            "Se necesitaba una herramienta PM con colaboración realtime, reportes PDF y workspaces multi-tenant a $0/mes.",
           solution:
-            "Implementé Next.js 16 + React 19 con Supabase Realtime, Prisma + Postgres, Auth.js v5, Tailwind + shadcn/ui, next-intl y jsPDF.",
+            "Next.js 16 App Router, React 19, Supabase Realtime, Auth.js v5 + Prisma 7, shadcn/ui, next-intl, recharts, dnd-kit, jsPDF y Resend para automatización de emails.",
           impact:
-            "Entregué un SaaS listo para demo con arquitectura por capas, sincronización realtime y 90+ tests.",
+            "SaaS demo-ready con sync realtime, drag-and-drop, automatización de emails y 90+ tests en CI.",
           category: "Plataforma SaaS",
           facets: ["React 19", "TypeScript", "Next.js", "Prisma", "Tailwind", "i18n"],
           decisions: [
-            "Sincronización realtime de tareas y notificaciones con Supabase",
-            "Timeline tipo Gantt con CSS Grid y rangos predefinidos",
-            "Workspaces con roles en Auth.js e invitaciones tokenizadas",
+            "Supabase Realtime channels para actualización instantánea de tareas en todos los workspaces",
+            "Auth.js v5 con Prisma adapter para auth multi-proveedor y workspaces con invitación tokenizada",
+            "jsPDF + html2canvas para exportación de PDF en cliente sin costos de servidor",
           ],
           metrics: [
-            { label: "Alcance", value: "SaaS fullstack" },
-            { label: "Flujos", value: "Kanban + Gantt + reportes" },
-            { label: "Infra", value: "Supabase + Vercel" },
+            { label: "Tests", value: "90+ tests Vitest" },
+            { label: "Flujos", value: "Kanban · Gantt · Reportes PDF" },
+            { label: "Infra", value: "Supabase + Vercel (free tier)" },
           ],
           links: {
             repo: "https://github.com/Miguel-Bayter/Danu",
@@ -715,32 +783,32 @@ export const content: Content = {
         },
         {
           id: "impostor",
-          order: 1,
+          order: 2,
           createdAt: "2024-10-18",
           name: "Impostor",
-          type: "Monorepo multiplayer",
+          type: "Plataforma Multiplayer Realtime",
           previewImage: impostorRealPreview,
-          previewLabel: "React 19 + Vite + NestJS realtime",
-          cta: "Monorepo estilo Impostor con React 19/Vite, NestJS + Socket.IO, MongoDB y contratos compartidos.",
+          previewLabel: "NestJS 11 · Socket.IO · MongoDB · Redis · pnpm workspaces",
+          cta: "Plataforma multiplayer: gateway NestJS 11 + Socket.IO 4, auth JWT, MongoDB, Redis pub/sub y frontend React 19 + Vite en monorepo pnpm tipado.",
           summary:
-            "Plataforma multiplayer en tiempo real con contratos compartidos y ciclo de vida de salas predecible.",
+            "Plataforma multiplayer con gateway NestJS 11 + Socket.IO 4, JWT, MongoDB, Redis pub/sub y React 19 + Vite. @impostor/types enforce contratos estrictos FE/BE.",
           problem:
-            "Se necesitaba un monorepo que mantuviera frontend, backend y contratos alineados en sesiones realtime.",
+            "Se necesitaba un monorepo que mantuviera frontend, backend y contratos de eventos alineados bajo carga concurrente.",
           solution:
-            "Workspaces pnpm con React 19 + Vite + Tailwind, gateway NestJS, eventos Socket.IO, MongoDB y soporte opcional de Redis.",
+            "pnpm workspaces con @impostor/types compartido, gateway NestJS 11, DTOs class-validator, auth bcrypt, ioredis pub/sub y Docker Compose para orquestación local.",
           impact:
-            "Ciclo de vida de salas predecible con tipos compartidos y confiabilidad realtime.",
+            "Plataforma realtime escalable con contratos tipados, salas JWT-secured, infra Docker-ready y estado de sala determinístico sin polling.",
           category: "Plataforma realtime",
           facets: ["TypeScript", "React 19", "Vite", "Tailwind", "NestJS", "Socket.io", "MongoDB"],
           decisions: [
-            "Orquestación de salas por eventos para consistencia realtime",
-            "Paquete de tipos compartidos FE/BE",
-            "Gateway NestJS con Socket.IO para escalabilidad",
+            "Paquete @impostor/types enforce contratos de eventos entre gateway y frontend",
+            "ioredis permite escalar horizontalmente las salas WebSocket",
+            "Docker Compose orquesta MongoDB + Redis para entornos locales reproducibles",
           ],
           metrics: [
-            { label: "Modo", value: "Multiplayer realtime" },
-            { label: "Stack", value: "React + NestJS" },
-            { label: "Scope", value: "Monorepo FE/BE" },
+            { label: "Gateway", value: "NestJS 11 + Socket.IO 4" },
+            { label: "Persistencia", value: "MongoDB + Redis pub/sub" },
+            { label: "Arquitectura", value: "pnpm monorepo + Docker" },
           ],
           links: {
             repo: "https://github.com/Miguel-Bayter/Impostor",
@@ -748,68 +816,33 @@ export const content: Content = {
           },
         },
         {
-          id: "tugestionamiga",
-          order: 0,
-          createdAt: "2024-08-22",
-          name: "TuGestionAmiga",
-          type: "Plataforma de biblioteca",
-          previewImage: tuGestionAmigaRealPreview,
-          previewLabel: "React 19 + Vite + Express + Prisma",
-          cta: "Sistema de biblioteca en monorepo con frontend React 19 + Vite y backend Express + Prisma 6 sobre MySQL.",
-          summary:
-            "Sistema operativo de biblioteca con flujos por roles, transacciones confiables e inventario trazable.",
-          problem:
-            "Se requerían flujos con roles, transacciones confiables y seeding consistente de base de datos.",
-          solution:
-            "API Express por capas (routes → services → database) con Prisma 6 + MySQL y UI React 19 con i18next, React Router y Tailwind.",
-          impact:
-            "Monorepo mantenible con datos seed, tipado fuerte y límites claros de servicio.",
-          category: "Plataforma operativa",
-          facets: ["React 19", "TypeScript", "Vite", "Tailwind", "Express", "Prisma", "MySQL", "i18n"],
-          decisions: [
-            "Backend por capas (routes → services → database)",
-            "Prisma 6 con MySQL para control de esquema y seeding",
-            "Frontend preparado para ES/EN con i18next",
-          ],
-          metrics: [
-            { label: "Arquitectura", value: "Monorepo frontend/backend" },
-            { label: "Flujos", value: "Catálogo + préstamos + compras" },
-            { label: "Datos", value: "MySQL + Prisma" },
-          ],
-          links: {
-            repo: "https://github.com/Miguel-Bayter/TuGestionAmiga",
-            demo: "",
-          },
-        },
-        {
           id: "invygo",
-          order: 2,
+          order: 3,
           createdAt: "2025-11-05",
           name: "InvYGO",
-          type: "UI de inventario y catálogo",
+          type: "Plataforma de Inventario y Catálogo",
           previewImage: invygoRealPreview,
-          previewLabel:
-            "React 19 + Vite + React Query + Zustand",
-          cta: "UI de inventario/catálogo con React 19, Vite, React Query, Zustand e i18next.",
+          previewLabel: "React 19 · Vite 7 · TanStack Query · Zustand · Tailwind 4",
+          cta: "SPA de inventario/catálogo: React 19, Vite 7, TanStack Query v5, Zustand v5, Tailwind 4, React Router 7, i18next y Playwright E2E — live en Netlify.",
           summary:
-            "UI de inventario/catálogo con estado predecible, datos async y arquitectura lista para i18n.",
+            "SPA de inventario/catálogo con TanStack Query v5, Zustand v5, React Router 7, Tailwind 4, i18next bilingüe y Playwright E2E. Live en Netlify.",
           problem:
-            "Se necesitaba un frontend rápido y modular con estado predecible y estructura multilenguaje.",
+            "Se necesitaba un frontend modular con gestión de datos async, estado UI escalable, soporte multilenguaje y calidad E2E medible.",
           solution:
-            "Implementé Vite + React 19 con React Router, TanStack Query, Zustand e i18next.",
+            "Vite 7 + React 19 con TanStack Query v5 + Zustand v5, React Router 7 code splitting, i18next ES/EN, Tailwind 4 y Playwright cubriendo búsqueda, filtros y paginación.",
           impact:
-            "Base frontend escalable para interacciones de catálogo y expansión futura.",
+            "Despliegue live en Netlify, carga sub-segundo, soporte bilingüe, cobertura E2E en flujos críticos y arquitectura lista para API.",
           category: "Interfaz de producto",
           facets: ["React 19", "TypeScript", "Vite", "Tailwind", "i18n"],
           decisions: [
-            "Límites por rutas para ownership más claro",
-            "React Query + Zustand para estado asíncrono/UI",
-            "Estructura translation-first para expansión segura",
+            "TanStack Query v5 + Zustand v5 para separación clara de estado servidor vs UI",
+            "React Router 7 con code splitting por ruta para navegación escalable",
+            "Tests E2E Playwright cubriendo búsqueda, filtros y paginación del catálogo",
           ],
           metrics: [
-            { label: "Arquitectura", value: "App Vite" },
-            { label: "Flujos", value: "Catálogo + inventario" },
-            { label: "Estado", value: "React Query + Zustand" },
+            { label: "Deploy", value: "Netlify (live)" },
+            { label: "Estado", value: "TanStack Query + Zustand" },
+            { label: "Testing", value: "Playwright E2E" },
           ],
           links: {
             repo: "https://github.com/Miguel-Bayter/InvYGO",
@@ -856,9 +889,44 @@ export const content: Content = {
         {
           title: "Tecnólogo en Análisis y Desarrollo de Software",
           institution: "SENA",
-          period: "Formación finalizada",
+          period: "Nov 2023 - Feb 2026",
           note:
-            "Formación en análisis de requerimientos, modelado de datos y procesos, diseño de software, desarrollo, pruebas, bases de datos, APIs, documentación y control de versiones con proyectos aplicados.",
+            "Tecnología enfocada en análisis de requerimientos, desarrollo de software, bases de datos, pruebas, documentación y proyectos aplicados.",
+        },
+        {
+          title: "Técnico en Fundamentos de Programación con Python",
+          institution: "Ministerio de Tecnologías de la Información y las Comunicaciones - la Universidad Sergio Arboleda (MISION TIC - 2022)",
+          period: "Dic 2022",
+          note:
+            "Formación en fundamentos de Python con variables, control de flujo, funciones y lógica de resolución de problemas aplicable a backend y automatización.",
+        },
+        {
+          title: "Técnico en Desarrollo de Software con Lenguaje de Programación Java",
+          institution: "Ministerio de Tecnologías de la Información y las Comunicaciones - la Universidad Sergio Arboleda (MISION TIC - 2022)",
+          period: "Nov 2022",
+          note:
+            "Enfocado en construcción de software con Java, bases de orientación a objetos y prácticas de código mantenible para contextos empresariales.",
+        },
+        {
+          title: "Técnico en Programación Básica con Lenguaje de Programación Java",
+          institution: "Ministerio de Tecnologías de la Información y las Comunicaciones - la Universidad Sergio Arboleda (MISION TIC - 2022)",
+          period: "Sep 2022",
+          note:
+            "Refuerzo de lógica, algoritmia y sintaxis base en Java para consolidar fundamentos útiles en desarrollo backend escalable.",
+        },
+        {
+          title: "Técnico en Fundamentos de Programación con Python",
+          institution: "Ministerio de Tecnologías de la Información y las Comunicaciones - la Universidad Sergio Arboleda (MISION TIC - 2022)",
+          period: "Ago 2022",
+          note:
+            "Introducción al pensamiento computacional, sintaxis de Python y descomposición estructurada de problemas como base de desarrollo.",
+        },
+        {
+          title: "Curso técnico en Programación de Dispositivos Móviles",
+          institution: "SENA",
+          period: "Nov 2019",
+          note:
+            "Formación inicial orientada a flujos móviles, estructura de aplicaciones y nociones de implementación para experiencias centradas en dispositivos.",
         },
       ],
       programs: [

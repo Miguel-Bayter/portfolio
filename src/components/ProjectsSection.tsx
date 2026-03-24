@@ -162,24 +162,41 @@ export default function ProjectsSection({
 
   const handleTechNavClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     const direction = event.currentTarget.dataset.direction === 'right' ? 1 : -1;
-    const carousel = event.currentTarget.closest('.project-back-tech-carousel');
+    const carousel = event.currentTarget.closest<HTMLElement>('.project-back-tech-carousel');
     if (!carousel) return;
     const list = carousel.querySelector<HTMLDivElement>('.project-back-tech-list');
-    if (!list) return;
+    const track = carousel.querySelector<HTMLElement>('.project-back-tech-track');
+    if (!list || !track) return;
+
+    // Pause marquee animation and switch to manual scroll mode
+    track.style.animation = 'none';
+    track.style.transform = 'none';
+
     const firstPill = list.querySelector<HTMLElement>('.project-tech-pill');
     const pillWidth = firstPill ? firstPill.offsetWidth : 72;
     const gap = 8;
     const step = (pillWidth + gap) * direction;
-    const maxScroll = list.scrollWidth - list.clientWidth;
-    const nextScroll = list.scrollLeft + step;
-    if (direction === 1 && nextScroll >= maxScroll - (pillWidth + gap)) {
-      list.scrollTo({ left: 0, behavior: 'auto' });
+    const halfScroll = list.scrollWidth / 2;
+
+    // Seed initial scroll to middle of the duplicated track so both directions work
+    if (list.scrollLeft === 0 && direction === -1) {
+      list.scrollTo({ left: halfScroll, behavior: 'auto' });
       return;
     }
-    if (direction === -1 && nextScroll <= 0) {
-      list.scrollTo({ left: Math.max(0, maxScroll / 2), behavior: 'auto' });
+
+    let nextScroll = list.scrollLeft + step;
+
+    // Wrap forward: reached second copy → jump to same position in first copy
+    if (nextScroll >= halfScroll) {
+      list.scrollTo({ left: nextScroll - halfScroll, behavior: 'auto' });
       return;
     }
+    // Wrap backward: went below 0 → jump to same position in second copy
+    if (nextScroll < 0) {
+      list.scrollTo({ left: halfScroll + nextScroll, behavior: 'auto' });
+      return;
+    }
+
     list.scrollBy({ left: step, behavior: 'smooth' });
   };
 
