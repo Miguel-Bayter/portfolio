@@ -6365,6 +6365,7 @@ html.theme-light .overview-accent-cyan {
     box-shadow: none;
     overflow: visible;
     isolation: isolate;
+    transition: filter 320ms ease;
 }
 
 .overview-hero-image-wrap::before {
@@ -6372,7 +6373,25 @@ html.theme-light .overview-accent-cyan {
 }
 
 .overview-hero-image-wrap::after {
-    content: none;
+    content: "";
+    position: absolute;
+    inset: 12% 14% 10% 12%;
+    border-radius: 38% 38% 34% 34%;
+    background: radial-gradient(
+        circle at 50% 45%,
+        rgb(var(--signal-cyan) / 0.18) 0%,
+        rgb(var(--signal-cyan) / 0.08) 34%,
+        transparent 72%
+    );
+    opacity: 0;
+    filter: blur(20px);
+    transform: scale(0.94);
+    transition:
+        opacity 420ms ease,
+        transform 420ms ease,
+        filter 420ms ease;
+    z-index: 1;
+    pointer-events: none;
 }
 
 .overview-hero-image {
@@ -6394,6 +6413,12 @@ html.theme-light .overview-accent-cyan {
 }
 
 @media (hover: hover) and (pointer: fine) {
+    .overview-hero-image-wrap:hover::after {
+        opacity: 1;
+        transform: scale(1.02);
+        filter: blur(26px);
+    }
+
     .overview-hero-image-wrap:hover .overview-hero-image {
         transform: translateX(-24px) translateY(-6px) rotate(-2.2deg)
             scale(1.015);
@@ -6448,6 +6473,16 @@ html.theme-light .overview-hero-image-wrap {
     box-shadow: none;
 }
 
+html.theme-light .overview-hero-image-wrap::after {
+    background: radial-gradient(
+        circle at 50% 45%,
+        rgb(var(--signal-cyan) / 0.14) 0%,
+        rgb(var(--signal-cyan) / 0.06) 36%,
+        transparent 72%
+    );
+    filter: blur(18px);
+}
+
 html.theme-light .overview-hero-image {
     filter: brightness(1.02) saturate(1.03)
         drop-shadow(0 18px 24px rgb(53 79 108 / 0.2))
@@ -6459,6 +6494,10 @@ html.theme-light .overview-hero-image {
         filter: brightness(1.08) saturate(1.08)
             drop-shadow(0 30px 38px rgb(52 82 112 / 0.28))
             drop-shadow(0 0 30px rgb(var(--signal-cyan) / 0.22));
+    }
+
+    html.theme-light .overview-hero-image-wrap:hover::after {
+        filter: blur(22px);
     }
 }
 

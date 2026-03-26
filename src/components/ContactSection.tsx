@@ -34,6 +34,7 @@ export default function ContactSection({ t, isVisible }: ContactSectionProps) {
   const isSending = formStatus === 'loading';
   const formSubject = 'Portfolio Contact';
   const channelCardBaseClass = 'contact-channel-card flex flex-col items-start gap-3 rounded-sm border px-4 py-5 text-left transition-all duration-150';
+  const actionButtonBaseClass = 'font-mono text-[0.78rem] tracking-[0.06em] uppercase px-5 py-2 rounded-xs transition-all duration-150';
 
   if (!isVisible) return null;
 
@@ -227,14 +228,14 @@ export default function ContactSection({ t, isVisible }: ContactSectionProps) {
                 setShowForm(false);
                 resetFormState();
               }}
-              className="border border-line/20 bg-transparent text-ink-2 font-mono text-[0.78rem] tracking-[0.06em] uppercase px-5 py-2 rounded-xs cursor-pointer hover:border-line/40 hover:text-ink transition-all duration-150"
+              className={`${actionButtonBaseClass} border border-line/20 bg-transparent text-ink-2 cursor-pointer hover:border-line/40 hover:text-ink`}
             >
               {t.contact.form.cancel}
             </button>
             <button
               type="submit"
               disabled={isSending}
-              className="border border-signal-mint/50 bg-signal-mint/10 text-signal-mint font-mono text-[0.78rem] tracking-[0.06em] uppercase px-5 py-2 rounded-xs cursor-pointer hover:bg-signal-mint/20 transition-all duration-150 disabled:opacity-60 disabled:cursor-not-allowed"
+              className={`${actionButtonBaseClass} border border-signal-mint/50 bg-signal-mint/10 text-signal-mint cursor-pointer hover:bg-signal-mint/20 disabled:cursor-not-allowed disabled:opacity-60`}
             >
               {isSending ? t.contact.form.sending : t.contact.form.submit}
             </button>
