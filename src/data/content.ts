@@ -20,6 +20,7 @@ export const content: Content = {
       toggleLanguage: "Switch language",
       toggleTheme: "Switch color theme",
       navigation: "Navigation",
+      closeNavigation: "Close navigation menu",
     },
     nav: {
       overview: "Overview",
@@ -139,17 +140,23 @@ export const content: Content = {
         i18n: "Internationalization is integrated at the UI flow level to keep content, routes, and labels consistent across locales.",
       },
       filterAll: "All",
+      filtersTitle: "Filter system",
+      filtersSummary: "Open a stack family, then narrow the board by the signals you want to evaluate.",
       filtersOpen: "Show filters",
       filtersClose: "Hide filters",
+      filtersApply: "Apply filters",
+      filtersOptionsLabel: "options",
       emptyStateTitle: "No matches",
       emptyStateText: "No projects match this filter yet. Try another stack.",
       filterGroups: {
-        language: "Lang",
-        framework: "Framework",
+        language: "Languages",
+        framework: "Frameworks",
         backend: "Backend",
         data: "Data",
-        cross: "Tooling",
+        cross: "Cross-cutting",
       },
+      techScrollLeft: "Scroll tech tags left",
+      techScrollRight: "Scroll tech tags right",
       caseStudy: "Details",
       problemLabel: "Problem",
       solutionLabel: "Solution",
@@ -197,15 +204,15 @@ export const content: Content = {
           type: "Project Management SaaS",
           previewImage: danuPreview,
           previewLabel: "Next.js 16 · Supabase Realtime · shadcn/ui · jsPDF",
-          cta: "Full-stack PM SaaS on free-tier infra: Next.js 16, Supabase Realtime, Auth.js v5, Kanban/Gantt with drag-and-drop, Resend email flows, and PDF exports.",
+          cta: "Full-stack PM SaaS on free-tier infra: Next.js 16, Supabase Realtime, Auth.js v5, Kanban/Gantt with drag-and-drop, command palette, real-time notifications, Resend email flows, and PDF exports.",
           summary:
-            "PM SaaS with Kanban, Gantt drag-and-drop, Supabase Realtime, role-based workspaces, Resend email flows, jsPDF reports, and 90+ Vitest tests.",
+            "PM SaaS with Kanban, Gantt drag-and-drop, Supabase Realtime, role-based workspaces, command palette, real-time notifications, jsPDF reports, and 90+ Vitest tests.",
           problem:
-            "Needed a production-grade PM tool with realtime collaboration, PDF reporting, and multi-tenant workspaces on $0/month infrastructure.",
+            "Needed a production-grade PM tool with realtime collaboration, notifications, PDF reporting, and multi-tenant workspaces on $0/month infrastructure.",
           solution:
             "Next.js 16 App Router, React 19, Supabase Realtime, Auth.js v5 + Prisma 7, shadcn/ui, next-intl, recharts, dnd-kit, jsPDF, and Resend for email automation.",
           impact:
-            "Demo-ready SaaS with realtime sync, drag-and-drop task management, email automation, and 90+ tests enforced in CI.",
+            "Demo-ready SaaS with realtime sync, command palette, notifications, drag-and-drop task management, email automation, and 90+ tests enforced in CI.",
           category: "SaaS Platform",
           facets: ["React 19", "TypeScript", "Next.js", "Prisma", "Tailwind", "i18n"],
           decisions: [
@@ -267,13 +274,13 @@ export const content: Content = {
           previewLabel: "React 19 · Vite 7 · TanStack Query · Zustand · Tailwind 4",
           cta: "Inventory/catalog SPA: React 19, Vite 7, TanStack Query v5, Zustand v5, Tailwind 4, React Router 7, i18next, and Playwright E2E — live on Netlify.",
           summary:
-            "Inventory/catalog SPA with TanStack Query v5, Zustand v5, React Router 7, Tailwind 4, i18next bilingual support, and Playwright E2E. Live on Netlify.",
+            "Inventory/catalog SPA with TanStack Query v5, Zustand v5, React Router 7, Tailwind 4, i18next bilingual support, deck builder workflows, and Playwright E2E. Live on Netlify.",
           problem:
-            "Needed a modular frontend with clean async data management, scalable UI state, multilingual support, and measurable E2E quality.",
+            "Needed a modular frontend with clean async data management, scalable UI state, multilingual support, deck-building rules, and measurable E2E quality.",
           solution:
-            "Vite 7 + React 19 with TanStack Query v5 + Zustand v5, React Router 7 code splitting, i18next ES/EN, Tailwind 4, and Playwright covering catalog search, filters, and pagination.",
+            "Vite 7 + React 19 with TanStack Query v5 + Zustand v5, React Router 7 code splitting, i18next ES/EN, Tailwind 4, and Playwright covering catalog search, filters, deck flows, and pagination.",
           impact:
-            "Live Netlify deployment with sub-second loads, bilingual support, E2E coverage on core flows, and architecture ready for API integration.",
+            "Live Netlify deployment with sub-second loads, bilingual support, deck import/export flows, E2E coverage on core flows, and architecture ready for API integration.",
           category: "Product Interface",
           facets: ["React 19", "TypeScript", "Vite", "Tailwind", "i18n"],
           decisions: [
@@ -572,6 +579,7 @@ export const content: Content = {
       toggleLanguage: "Cambiar idioma",
       toggleTheme: "Cambiar tema de color",
       navigation: "Navegación",
+      closeNavigation: "Cerrar menú de navegación",
     },
     nav: {
       overview: "Resumen",
@@ -694,18 +702,24 @@ export const content: Content = {
         i18n: "La internacionalización se integra en el flujo de UI para mantener consistencia de contenido, rutas y etiquetas entre idiomas.",
       },
       filterAll: "Todos",
+      filtersTitle: "Sistema de filtros",
+      filtersSummary: "Abre una familia del stack y luego enfoca el tablero con las senales que quieres evaluar.",
       filtersOpen: "Mostrar filtros",
       filtersClose: "Ocultar filtros",
+      filtersApply: "Aplicar filtros",
+      filtersOptionsLabel: "opciones",
       emptyStateTitle: "Sin resultados",
       emptyStateText:
         "No hay proyectos para este filtro. Prueba con otro stack.",
       filterGroups: {
-        language: "Lang",
-        framework: "Framework",
+        language: "Lenguajes",
+        framework: "Frameworks",
         backend: "Backend",
         data: "Datos",
-        cross: "Tooling",
+        cross: "Transversal",
       },
+      techScrollLeft: "Desplazar etiquetas de tecnologia a la izquierda",
+      techScrollRight: "Desplazar etiquetas de tecnologia a la derecha",
       detailHint:
         "Los resúmenes de tarjeta son intencionalmente breves. Ve a Perfil para empresas para más contexto.",
       caseStudy: "Detalle",
@@ -755,15 +769,15 @@ export const content: Content = {
           type: "SaaS de gestión de proyectos",
           previewImage: danuPreview,
           previewLabel: "Next.js 16 · Supabase Realtime · shadcn/ui · jsPDF",
-          cta: "SaaS PM en free-tier: Next.js 16, Supabase Realtime, Auth.js v5, Kanban/Gantt con drag-and-drop, emails con Resend y exportación PDF.",
+          cta: "SaaS PM en free-tier: Next.js 16, Supabase Realtime, Auth.js v5, Kanban/Gantt con drag-and-drop, command palette, notificaciones realtime, emails con Resend y exportación PDF.",
           summary:
-            "SaaS PM con Kanban, Gantt drag-and-drop, sync Supabase Realtime, workspaces con roles, emails Resend, reportes jsPDF y 90+ tests Vitest.",
+            "SaaS PM con Kanban, Gantt drag-and-drop, sync Supabase Realtime, workspaces con roles, command palette, notificaciones realtime, emails Resend, reportes jsPDF y 90+ tests Vitest.",
           problem:
-            "Se necesitaba una herramienta PM con colaboración realtime, reportes PDF y workspaces multi-tenant a $0/mes.",
+            "Se necesitaba una herramienta PM con colaboración realtime, notificaciones, reportes PDF y workspaces multi-tenant a $0/mes.",
           solution:
             "Next.js 16 App Router, React 19, Supabase Realtime, Auth.js v5 + Prisma 7, shadcn/ui, next-intl, recharts, dnd-kit, jsPDF y Resend para automatización de emails.",
           impact:
-            "SaaS demo-ready con sync realtime, drag-and-drop, automatización de emails y 90+ tests en CI.",
+            "SaaS demo-ready con sync realtime, command palette, notificaciones, drag-and-drop, automatización de emails y 90+ tests en CI.",
           category: "Plataforma SaaS",
           facets: ["React 19", "TypeScript", "Next.js", "Prisma", "Tailwind", "i18n"],
           decisions: [
@@ -825,13 +839,13 @@ export const content: Content = {
           previewLabel: "React 19 · Vite 7 · TanStack Query · Zustand · Tailwind 4",
           cta: "SPA de inventario/catálogo: React 19, Vite 7, TanStack Query v5, Zustand v5, Tailwind 4, React Router 7, i18next y Playwright E2E — live en Netlify.",
           summary:
-            "SPA de inventario/catálogo con TanStack Query v5, Zustand v5, React Router 7, Tailwind 4, i18next bilingüe y Playwright E2E. Live en Netlify.",
+            "SPA de inventario/catálogo con TanStack Query v5, Zustand v5, React Router 7, Tailwind 4, i18next bilingüe, deck builder y Playwright E2E. Live en Netlify.",
           problem:
-            "Se necesitaba un frontend modular con gestión de datos async, estado UI escalable, soporte multilenguaje y calidad E2E medible.",
+            "Se necesitaba un frontend modular con gestión de datos async, estado UI escalable, soporte multilenguaje, reglas de deck builder y calidad E2E medible.",
           solution:
-            "Vite 7 + React 19 con TanStack Query v5 + Zustand v5, React Router 7 code splitting, i18next ES/EN, Tailwind 4 y Playwright cubriendo búsqueda, filtros y paginación.",
+            "Vite 7 + React 19 con TanStack Query v5 + Zustand v5, React Router 7 code splitting, i18next ES/EN, Tailwind 4 y Playwright cubriendo búsqueda, filtros, flujos de decks y paginación.",
           impact:
-            "Despliegue live en Netlify, carga sub-segundo, soporte bilingüe, cobertura E2E en flujos críticos y arquitectura lista para API.",
+            "Despliegue live en Netlify, carga sub-segundo, soporte bilingüe, flujos de import/export de decks, cobertura E2E en flujos críticos y arquitectura lista para API.",
           category: "Interfaz de producto",
           facets: ["React 19", "TypeScript", "Vite", "Tailwind", "i18n"],
           decisions: [

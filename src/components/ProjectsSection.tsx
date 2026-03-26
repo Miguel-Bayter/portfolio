@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { FiX } from 'react-icons/fi';
 import type { ContentLocale, Project, FacetGroup } from '../types';
 import projectPlaceholder from '../img/project-placeholder.svg';
 import TechIcon from './TechIcon';
@@ -37,9 +39,40 @@ export default function ProjectsSection({
   setProjectFilter,
 }: ProjectsSectionProps) {
   const [areFiltersOpen, setAreFiltersOpen] = useState(false);
+  const [mobilePendingFilter, setMobilePendingFilter] = useState(projectFilter);
   const [openFilterGroup, setOpenFilterGroup] = useState<FacetGroup | null>(null);
   const [facetSortDirection, setFacetSortDirection] = useState<Record<string, 'desc' | 'asc'>>({});
   const [flippedProjectId, setFlippedProjectId] = useState<string | null>(null);
+
+  const closeFilters = useCallback(() => {
+    setAreFiltersOpen(false);
+    setOpenFilterGroup(null);
+  }, []);
+
+  useEffect(() => {
+    if (!areFiltersOpen) return undefined;
+
+    setMobilePendingFilter(projectFilter);
+
+    document.body.classList.add('overflow-hidden');
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') closeFilters();
+    };
+
+    const handleResize = () => {
+      if (window.innerWidth >= 768) closeFilters();
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      document.body.classList.remove('overflow-hidden');
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [areFiltersOpen, closeFilters, projectFilter]);
 
   if (!isVisible) return null;
 
@@ -109,15 +142,14 @@ export default function ProjectsSection({
     cross: projectFilters.filter((f) => f.group === 'cross'),
   };
   const filterGroupOrder: FacetGroup[] = ['language', 'framework', 'backend', 'data', 'cross'];
-  const totalStackFilters = facetOptions.length;
+  const totalFacetFilters = facetOptions.length;
   const openGroupFilters = openFilterGroup ? (groupedFilters[openFilterGroup] ?? []) : [];
-  const openGroupRows = openGroupFilters.length > 2 ? 2 : openGroupFilters.length > 0 ? 1 : 0;
-  const openGroupSpaceClass = `filters-space-${openGroupRows}`;
 
   const filterKeySet = new Set(projectFilters.map((f) => f.key));
   const effectiveFilter = filterKeySet.has(projectFilter) ? projectFilter : 'all';
   const activeFacet = effectiveFilter.startsWith('facet:') ? effectiveFilter.replace('facet:', '') : null;
   const activeFacetSort = activeFacet ? (facetSortDirection[activeFacet] ?? 'desc') : 'desc';
+  const activeFilterLabel = projectFilters.find((filter) => filter.key === effectiveFilter)?.label;
 
   const visibleProjects = activeFacet
     ? projects
@@ -157,7 +189,53 @@ export default function ProjectsSection({
     }
 
     setProjectFilter(filterOption.key);
+    setAreFiltersOpen(false);
     setOpenFilterGroup(null);
+  };
+
+  const applyMobilePendingFilter = () => {
+    const pendingFilter = projectFilters.find((filterOption) => filterOption.key === mobilePendingFilter);
+    if (!pendingFilter) {
+      closeFilters();
+      return;
+    }
+
+    applyFilter(pendingFilter);
+  };
+
+  const renderFilterChip = (
+    filterOption: FilterOption,
+    options?: {
+      extraClassName?: string;
+      selectedKey?: string;
+      onClick?: () => void;
+    },
+  ) => {
+    const selectedKey = options?.selectedKey ?? effectiveFilter;
+    const isActiveFilter = selectedKey === filterOption.key;
+    const facetKey = filterOption.key.startsWith('facet:')
+      ? filterOption.key.replace('facet:', '')
+      : null;
+    const sortDirection = facetKey ? (facetSortDirection[facetKey] ?? 'desc') : 'desc';
+
+    return (
+      <button
+        key={filterOption.key}
+        type="button"
+        onClick={options?.onClick ?? (() => applyFilter(filterOption))}
+        className={`projects-filter-chip ${filterOption.key === 'all' ? 'projects-filter-chip-all' : ''} ${isActiveFilter ? 'is-active' : ''} ${options?.extraClassName ?? ''}`.trim()}
+        data-group={filterOption.group ?? 'all'}
+      >
+        {filterOption.icon ? <TechIcon tech={filterOption.icon} className="projects-filter-icon" /> : null}
+        <span>{filterOption.label}</span>
+        {isActiveFilter && facetKey ? (
+          <span className="projects-filter-sort" aria-hidden="true">
+            {sortDirection === 'desc' ? '↓' : '↑'}
+          </span>
+        ) : null}
+        <span className="projects-filter-count">{filterOption.count}</span>
+      </button>
+    );
   };
 
   const handleTechNavClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -224,87 +302,155 @@ export default function ProjectsSection({
 
   return (
     <section className="border border-line/20 rounded-md p-5 md:p-6 animate-panel-in bg-gradient-to-b from-surface-4/45 to-surface-2/78 section-rhythm-light">
-      <header className="mb-1">
-        <button
-          type="button"
-          className="projects-filter-toggle mt-0"
-          onClick={() => setAreFiltersOpen((previous) => !previous)}
-          aria-expanded={areFiltersOpen}
-        >
-          {areFiltersOpen ? t.projects.filtersClose : t.projects.filtersOpen} ({totalStackFilters})
-        </button>
-        <div
-          className={`projects-filter-row mt-0 flex flex-wrap gap-2 ${areFiltersOpen ? 'is-open' : ''} ${openFilterGroup ? 'has-open-group' : ''} ${openGroupSpaceClass}`}
-        >
-          {projectFilters.slice(0, 1).map((filterOption) => {
-            const isActiveFilter = effectiveFilter === filterOption.key;
+      <header className="projects-filter-shell mb-1">
+        <div className="flex items-center justify-between gap-2 md:hidden">
+          <button
+            type="button"
+            className="projects-filter-toggle mt-0 inline-flex"
+            onClick={() => setAreFiltersOpen(true)}
+            aria-expanded={areFiltersOpen}
+            aria-controls="projects-mobile-filters"
+          >
+            {t.projects.filtersOpen} ({totalFacetFilters})
+          </button>
 
-            return (
-              <button
-                key={filterOption.key}
-                type="button"
-                onClick={() => applyFilter(filterOption)}
-                className={`projects-filter-chip projects-filter-chip-all ${isActiveFilter ? 'is-active' : ''}`}
-                data-group={filterOption.group ?? 'all'}
-              >
-                {filterOption.icon ? <TechIcon tech={filterOption.icon} className="projects-filter-icon" /> : null}
-                <span>{filterOption.label}</span>
-                <span className="projects-filter-count">{filterOption.count}</span>
-              </button>
-            );
-          })}
+          {effectiveFilter !== 'all' ? (
+            <span className="inline-flex min-w-0 max-w-[52%] items-center justify-end rounded-full border border-line/20 bg-surface-1/55 px-2.5 py-1 text-[0.63rem] font-mono uppercase tracking-[0.08em] text-ink-3">
+              <span className="truncate">{activeFilterLabel}</span>
+            </span>
+          ) : null}
+        </div>
 
-          {filterGroupOrder.map((groupKey) => {
-            const filters = groupedFilters[groupKey] ?? [];
-            if (!filters.length) return null;
-            const isGroupOpen = openFilterGroup === groupKey;
+        <div className="hidden md:block">
+          <div className="space-y-3">
+            <div className="projects-filter-row mt-0 hidden md:flex">
+              {projectFilters.slice(0, 1).map((filterOption) => renderFilterChip(filterOption))}
 
-            return (
-              <div key={groupKey} className={`projects-filter-group ${isGroupOpen ? 'is-open' : 'is-collapsed'}`}>
-                <button
-                  type="button"
-                  className="projects-filter-group-toggle"
-                  aria-expanded={isGroupOpen}
-                  onClick={() => {
-                    setOpenFilterGroup((previous) => (previous === groupKey ? null : groupKey));
-                  }}
-                >
-                  <span className="projects-filter-group-label">{t.projects.filterGroups?.[groupKey] ?? groupKey}</span>
-                  <span className="projects-filter-group-meta">{filters.length}</span>
-                  <span className={`projects-filter-group-caret ${isGroupOpen ? 'is-open' : ''}`}>▾</span>
-                </button>
-                <div className="projects-filter-group-chips">
-                  {filters.map((filterOption) => {
-                    const isActiveFilter = effectiveFilter === filterOption.key;
-                    const facetKey = filterOption.key.startsWith('facet:')
-                      ? filterOption.key.replace('facet:', '')
-                      : null;
-                    const sortDirection = facetKey ? (facetSortDirection[facetKey] ?? 'desc') : 'desc';
+              {filterGroupOrder.map((groupKey) => {
+                const filters = groupedFilters[groupKey] ?? [];
+                if (!filters.length) return null;
+                const isGroupOpen = openFilterGroup === groupKey;
 
-                    return (
-                      <button
-                        key={filterOption.key}
-                        type="button"
-                        onClick={() => applyFilter(filterOption)}
-                        className={`projects-filter-chip ${isActiveFilter ? 'is-active' : ''}`}
-                        data-group={filterOption.group ?? 'all'}
-                      >
-                        {filterOption.icon ? <TechIcon tech={filterOption.icon} className="projects-filter-icon" /> : null}
-                        <span>{filterOption.label}</span>
-                        {isActiveFilter && facetKey ? (
-                          <span className="projects-filter-sort" aria-hidden="true">
-                            {sortDirection === 'desc' ? '↓' : '↑'}
-                          </span>
-                        ) : null}
-                        <span className="projects-filter-count">{filterOption.count}</span>
-                      </button>
-                    );
-                  })}
+                return (
+                  <div key={groupKey} className={`projects-filter-group ${isGroupOpen ? 'is-open' : ''}`}>
+                    <button
+                      type="button"
+                      className="projects-filter-group-toggle"
+                      aria-expanded={isGroupOpen}
+                      onClick={() => {
+                        setOpenFilterGroup((previous) => (previous === groupKey ? null : groupKey));
+                      }}
+                    >
+                      <span className="projects-filter-group-label">{t.projects.filterGroups?.[groupKey] ?? groupKey}</span>
+                      <span className="projects-filter-group-meta">{filters.length}</span>
+                      <span className={`projects-filter-group-caret ${isGroupOpen ? 'is-open' : ''}`}>▾</span>
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+
+            {openFilterGroup ? (
+              <div className="projects-filter-panel">
+                <div className="projects-filter-panel-head">
+                  <p className="projects-filter-panel-title m-0">{t.projects.filterGroups?.[openFilterGroup] ?? openFilterGroup}</p>
+                  <span className="projects-filter-panel-count">{openGroupFilters.length}</span>
+                </div>
+
+                <div className="projects-filter-panel-grid">
+                  {openGroupFilters.map((filterOption) => renderFilterChip(filterOption, { extraClassName: 'w-full justify-between' }))}
                 </div>
               </div>
-            );
-          })}
+            ) : null}
+          </div>
         </div>
+
+        {areFiltersOpen && typeof document !== 'undefined' && createPortal(
+          <>
+            <button
+              type="button"
+              className="projects-mobile-sheet-backdrop fixed inset-0 z-40 bg-[rgb(2_8_16/0.68)] backdrop-blur-[3px] md:hidden"
+              aria-label={t.projects.filtersClose}
+              onClick={closeFilters}
+            />
+
+            <div className="projects-mobile-sheet-frame fixed inset-0 z-50 flex items-end justify-center md:hidden">
+              <div
+                id="projects-mobile-filters"
+                role="dialog"
+                aria-modal="true"
+                aria-label={t.projects.filtersOpen}
+                className="projects-mobile-sheet relative flex max-h-[min(86dvh,42rem)] w-full max-w-xl flex-col overflow-hidden rounded-t-[1.75rem] border border-line/18 bg-[linear-gradient(180deg,rgba(12,18,30,0.98)_0%,rgba(15,24,38,0.99)_54%,rgba(11,18,28,1)_100%)] shadow-[0_-20px_65px_rgba(2,6,16,0.52)] ring-1 ring-white/5"
+              >
+                <div className="projects-mobile-sheet-header sticky top-0 z-10 flex items-start justify-between gap-3 border-b border-white/8 bg-[linear-gradient(180deg,rgba(15,22,36,0.98)_0%,rgba(13,20,33,0.92)_100%)] px-4 py-4 backdrop-blur-md">
+                  <div className="min-w-0">
+                    <p className="m-0 text-[0.66rem] font-mono uppercase tracking-[0.14em] text-ink-4">{t.projects.filtersTitle}</p>
+                    <p className="mt-1 mb-0 text-sm font-semibold tracking-[-0.01em] text-ink">{totalFacetFilters} {t.projects.filtersOptionsLabel}</p>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="inline-flex h-10 w-10 flex-none items-center justify-center rounded-full border border-white/10 bg-white/5 text-ink-3 transition-all duration-150 hover:border-signal-cyan/28 hover:bg-white/10 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-cyan/45"
+                    onClick={closeFilters}
+                    aria-label={t.projects.filtersClose}
+                  >
+                    <FiX className="h-5 w-5" />
+                  </button>
+                </div>
+
+                <div className="projects-mobile-sheet-body flex-1 overflow-y-auto bg-[linear-gradient(180deg,rgba(8,12,20,0.08)_0%,rgba(8,12,20,0.22)_100%)] px-4 py-4 pb-28">
+                  <div className="flex flex-wrap gap-2">
+                    {projectFilters.slice(0, 1).map((filterOption) => renderFilterChip(filterOption, {
+                      extraClassName: 'w-full justify-between rounded-xl',
+                      selectedKey: mobilePendingFilter,
+                      onClick: () => setMobilePendingFilter(filterOption.key),
+                    }))}
+                  </div>
+
+                  <div className="mt-4 space-y-3.5">
+                    {filterGroupOrder.map((groupKey) => {
+                      const filters = groupedFilters[groupKey] ?? [];
+                      if (!filters.length) return null;
+
+                      return (
+                        <section key={groupKey} className="rounded-2xl border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.05)_0%,rgba(255,255,255,0.018)_100%)] p-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
+                          <div className="mb-3 flex items-center justify-between gap-3">
+                            <p className="projects-filter-mobile-group-title m-0">
+                              {t.projects.filterGroups?.[groupKey] ?? groupKey}
+                            </p>
+                            <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full border border-white/10 bg-surface-0/58 px-1.5 text-[0.58rem] font-mono text-ink-3">
+                              {filters.length}
+                            </span>
+                          </div>
+
+                          <div className="grid grid-cols-1 gap-2 min-[420px]:grid-cols-2 sm:grid-cols-3">
+                            {filters.map((filterOption) => renderFilterChip(filterOption, {
+                              extraClassName: 'w-full justify-between rounded-xl',
+                              selectedKey: mobilePendingFilter,
+                              onClick: () => setMobilePendingFilter(filterOption.key),
+                            }))}
+                          </div>
+                        </section>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div className="projects-mobile-sheet-footer absolute inset-x-0 bottom-0 z-10 border-t border-white/8 bg-[linear-gradient(180deg,rgba(15,22,36,0.82)_0%,rgba(15,22,36,0.98)_100%)] px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-3 backdrop-blur-md">
+                  <button
+                    type="button"
+                    className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-signal-cyan/28 bg-gradient-to-r from-surface-0 via-surface-0 to-surface-1 px-4 py-3 text-[0.78rem] font-mono font-semibold uppercase tracking-[0.1em] text-ink transition-all duration-150 hover:-translate-y-0.5 hover:border-signal-cyan/42 hover:from-surface-0 hover:to-surface-2 hover:shadow-[0_12px_24px_rgba(8,18,30,0.18),inset_0_1px_0_rgba(255,255,255,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-cyan/45"
+                    onClick={applyMobilePendingFilter}
+                  >
+                    <span className="inline-flex h-2 w-2 rounded-full bg-signal-cyan/80 shadow-[0_0_0_4px_rgba(59,176,242,0.12)]" aria-hidden="true" />
+                    {t.projects.filtersApply}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </>,
+          document.body,
+        )}
       </header>
 
       <div
@@ -398,7 +544,7 @@ export default function ProjectsSection({
                         <button
                           type="button"
                           className="project-tech-nav"
-                          aria-label="Scroll tech tags left"
+                          aria-label={t.projects.techScrollLeft}
                           data-direction="left"
                           onClick={handleTechNavClick}
                         >
@@ -432,7 +578,7 @@ export default function ProjectsSection({
                         <button
                           type="button"
                           className="project-tech-nav"
-                          aria-label="Scroll tech tags right"
+                          aria-label={t.projects.techScrollRight}
                           data-direction="right"
                           onClick={handleTechNavClick}
                         >

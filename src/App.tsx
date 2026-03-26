@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { FaLinkedinIn } from 'react-icons/fa6';
 import type { Language, Theme, SectionId } from './types';
 import { content } from './data/content';
 import profilePhoto from './img/Profile.jpg';
@@ -6,6 +7,7 @@ import OverviewSection from './components/OverviewSection';
 import ProjectsSection from './components/ProjectsSection';
 import ProfileSection from './components/ProfileSection';
 import ContactSection from './components/ContactSection';
+import NavigationDrawer from './components/NavigationDrawer';
 
 const sections: SectionId[] = ['overview', 'projects', 'profile', 'contact'];
 
@@ -25,6 +27,8 @@ function getSystemPrefersDark(): boolean {
 }
 
 function App() {
+  const shellRef = useRef<HTMLDivElement | null>(null);
+  const headerRef = useRef<HTMLElement | null>(null);
   const [language, setLanguage] = useState<Language>(getInitialLanguage);
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
   const [systemPrefersDark, setSystemPrefersDark] = useState(getSystemPrefersDark);
@@ -41,6 +45,7 @@ function App() {
     [t.projects.items],
   );
   const linkedInUrl = t.contact.channels.find((channel) => channel.icon === 'linkedin')?.href;
+  const topbarControlClass = 'inline-flex h-10 flex-none items-center justify-center rounded-full border border-line/18 bg-surface-0/90 px-3 font-mono text-[0.66rem] font-semibold uppercase tracking-[0.08em] text-ink-2 transition-all duration-150 hover:border-signal-cyan/28 hover:bg-surface-0 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-cyan/35';
 
   useEffect(() => {
     if (!projects.some((p) => p.id === selectedProjectId)) {
@@ -96,6 +101,35 @@ function App() {
     return undefined;
   }, [theme]);
 
+  useEffect(() => {
+    const shell = shellRef.current;
+    const header = headerRef.current;
+
+    if (!shell || !header || typeof window === 'undefined') return undefined;
+
+    const syncTopbarOffset = () => {
+      const headerRect = header.getBoundingClientRect();
+      const topbarBottom = `${Math.round(headerRect.bottom)}px`;
+      shell.style.setProperty('--topbar-bottom', topbarBottom);
+      document.documentElement.style.setProperty('--topbar-bottom', topbarBottom);
+    };
+
+    syncTopbarOffset();
+
+    const resizeObserver = typeof ResizeObserver === 'function'
+      ? new ResizeObserver(() => syncTopbarOffset())
+      : null;
+
+    resizeObserver?.observe(header);
+    window.addEventListener('resize', syncTopbarOffset);
+
+    return () => {
+      resizeObserver?.disconnect();
+      window.removeEventListener('resize', syncTopbarOffset);
+      document.documentElement.style.removeProperty('--topbar-bottom');
+    };
+  }, [language, theme, systemPrefersDark]);
+
   const cycleTheme = () => {
     setTheme((prev) => {
       if (prev === 'light') return 'dark';
@@ -105,35 +139,59 @@ function App() {
   };
 
   return (
-    <div className="app-shell relative w-[min(1440px,95vw)] mx-auto my-5 border border-line/20 rounded-[20px] overflow-hidden bg-gradient-to-b from-[rgba(34,60,82,0.9)] to-[rgba(16,29,43,0.95)] shadow-[0_20px_58px_rgba(10,19,30,0.42),inset_0_1px_0_rgba(226,240,248,0.06)] max-md:mx-2.5 max-md:my-2.5 max-md:rounded-[14px]">
-      <header className="topbar-band flex flex-col gap-3 p-4 border-b border-line/20 bg-gradient-to-r from-surface-4/20 to-transparent md:flex-row md:justify-between md:items-center md:px-8 md:py-4 md:gap-0">
-        <div className="topbar-mobile-row">
+    <div ref={shellRef} className="app-shell app-shell-frame">
+      <header ref={headerRef} className="topbar-band relative z-30 flex items-center justify-between gap-2 border-b border-line/20 bg-gradient-to-r from-surface-3/18 via-surface-2/8 to-transparent p-4 md:gap-6 md:px-8 md:py-4">
+        <div className="flex min-w-0 flex-1 items-center gap-1.5 overflow-hidden md:gap-3">
+          <div className="flex-none md:hidden">
+            <NavigationDrawer
+              sections={sections.map((s) => ({ id: s, label: t.nav[s] }))}
+              activeSection={activeSection}
+              onNavigate={(section) => setActiveSection(section as SectionId)}
+              navigationLabel={t.a11y.navigation}
+              closeLabel={t.a11y.closeNavigation}
+            />
+          </div>
+
           <a
             href={linkedInUrl}
             target="_blank"
             rel="noreferrer"
             aria-label={t.topbar.profileLinkLabel}
-            className="topbar-identity-link"
+            className="topbar-identity-link inline-flex h-10 w-10 flex-none items-center justify-center overflow-hidden rounded-full border border-line/18 bg-gradient-to-r from-surface-4/58 via-surface-3/44 to-surface-2/32 p-[0.2rem] text-ink no-underline shadow-[inset_0_1px_0_rgb(255_255_255/0.08),0_10px_20px_rgb(7_18_31/0.12)] transition-all duration-150 hover:border-signal-cyan/34 hover:from-surface-4/68 hover:via-surface-3/54 hover:to-surface-2/42 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-cyan/35 md:h-auto md:w-auto md:min-w-0 md:justify-start md:gap-2 md:px-1.5 md:py-1"
           >
-            <img src={profilePhoto} alt="Miguel Bayter" className="topbar-avatar" loading="lazy" />
-            <span className="topbar-identity-name">Miguel Bayter</span>
-            <span className="topbar-verified" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" className="topbar-verified-icon">
-                <path d="M6.4 8.5a1.45 1.45 0 1 0 0-2.9 1.45 1.45 0 0 0 0 2.9ZM5.2 9.8h2.4V18H5.2V9.8ZM9 9.8h2.3v1.1h.04c.31-.58 1.08-1.2 2.22-1.2 2.37 0 2.8 1.56 2.8 3.58V18h-2.4v-3.63c0-.87-.01-1.98-1.2-1.98-1.21 0-1.4.95-1.4 1.92V18H9V9.8Z" fill="currentColor" />
-              </svg>
+            <img
+              src={profilePhoto}
+              alt="Miguel Bayter"
+              className="topbar-avatar h-[2.15rem] w-[2.15rem] flex-none rounded-full border border-line/34 object-cover object-[50%_12%] shadow-[0_0_0_1px_rgb(255_255_255/0.08)]"
+              loading="lazy"
+            />
+            <span className="topbar-identity-name hidden min-w-0 truncate font-mono text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-ink-2 md:inline md:text-[0.72rem]">
+              Miguel Bayter
+            </span>
+            <span
+              className="topbar-verified hidden h-[1.35rem] w-[1.35rem] flex-none items-center justify-center rounded-full border border-signal-cyan/34 bg-gradient-to-br from-signal-cyan/88 to-signal-cyan/74 text-surface-0 md:inline-flex"
+              aria-hidden="true"
+            >
+              <FaLinkedinIn className="topbar-verified-icon h-3 w-3" />
             </span>
           </a>
 
-          <div className="topbar-controls flex flex-wrap gap-2.5 items-center flex-shrink-0">
-          <span className="topbar-status-pill inline-flex items-center gap-2 border border-line/30 text-ink-2 bg-surface-4/45 px-3.5 py-1 rounded-full text-[0.78rem] font-mono tracking-[0.04em]">
-            <span className="relative w-[7px] h-[7px] rounded-full bg-signal-mint flex-shrink-0 status-dot" aria-hidden="true" />
-            {t.topbar.status}
+          <span className="topbar-status-pill inline-flex h-10 min-w-0 max-w-[10.75rem] flex-1 items-center justify-center gap-2 border-line/20 bg-surface-0/70 px-2.5 py-1.5 text-center text-ink-2 before:hidden md:hidden">
+            <span className="status-dot relative inline-flex h-2 w-2 flex-none rounded-full bg-signal-mint" aria-hidden="true" />
+            <span className="topbar-status-text text-[0.66rem] font-medium tracking-[0.08em] sm:text-[0.7rem]">{t.topbar.status}</span>
+          </span>
+        </div>
+
+        <div className="flex flex-none items-center gap-1 overflow-hidden">
+          <span className="topbar-status-pill hidden h-10 min-w-0 items-center justify-center gap-2 border-line/20 bg-surface-0/70 px-4 py-1.5 text-center text-ink-2 before:hidden md:inline-flex">
+            <span className="status-dot relative inline-flex h-2 w-2 flex-none rounded-full bg-signal-mint" aria-hidden="true" />
+            <span className="topbar-status-text text-[0.66rem] font-medium tracking-[0.08em] sm:text-[0.7rem]">{t.topbar.status}</span>
           </span>
 
-          <div className="topbar-actions-row">
+          <div className="flex flex-none items-center gap-1">
             <button
               type="button"
-              className="topbar-action-btn"
+              className={`topbar-action-btn topbar-action-btn-mobile ${topbarControlClass} w-9 px-0`}
               aria-label={t.a11y.toggleLanguage}
               onClick={() => setLanguage((prev) => (prev === 'en' ? 'es' : 'en'))}
             >
@@ -142,23 +200,34 @@ function App() {
 
             <button
               type="button"
-              className="topbar-action-btn"
+              className={`topbar-action-btn topbar-action-btn-mobile topbar-theme-btn ${topbarControlClass} w-10 px-0 md:w-10 md:px-0`}
               aria-label={t.a11y.toggleTheme}
               onClick={cycleTheme}
             >
-              {theme === 'dark'
-                ? t.topbar.darkMode
-                : theme === 'light'
-                  ? t.topbar.lightMode
-                  : `${t.topbar.systemMode} (${systemPrefersDark ? t.topbar.darkMode : t.topbar.lightMode})`}
+              <span className="topbar-theme-icon inline-flex h-4 w-4 items-center justify-center" aria-hidden="true">
+                {theme === 'dark' ? (
+                  <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+                    <path d="M14.5 3.6a8.6 8.6 0 1 0 5.9 14.7 7.5 7.5 0 1 1-5.9-14.7Z" fill="currentColor" />
+                  </svg>
+                ) : theme === 'light' ? (
+                  <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+                    <circle cx="12" cy="12" r="4.2" fill="currentColor" />
+                    <path d="M12 2.5v2.4M12 19.1v2.4M21.5 12h-2.4M4.9 12H2.5M18.7 5.3l-1.7 1.7M7 17l-1.7 1.7M18.7 18.7 17 17M7 7 5.3 5.3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                  </svg>
+                ) : (
+                  <svg viewBox="0 0 24 24" fill="none" className="h-4 w-4">
+                    <rect x="4" y="5" width="16" height="11" rx="2.4" stroke="currentColor" strokeWidth="1.8" />
+                    <path d="M8 19h8" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                  </svg>
+                )}
+              </span>
             </button>
           </div>
-        </div>
         </div>
       </header>
 
       <div className="grid grid-cols-1 min-h-[76dvh] md:grid-cols-[204px_1fr] lg:grid-cols-[222px_1fr]">
-        <aside className="border-b border-line/20 p-5 flex flex-col gap-4 md:border-b-0 md:border-r md:p-6 md:px-4 md:sticky md:top-4 md:self-start" aria-label={t.a11y.navigation}>
+        <aside className="hidden md:flex border-b border-line/20 p-5 flex flex-col gap-4 md:border-b-0 md:border-r md:p-6 md:px-4 md:sticky md:top-4 md:self-start" aria-label={t.a11y.navigation}>
           <p className="m-0 text-ink-4 text-[0.68rem] font-mono tracking-[0.08em] uppercase">{t.a11y.navigation}</p>
 
           <nav className="flex flex-wrap gap-2 md:flex-col md:gap-1.5 border border-line/15 rounded-md bg-surface-3/45 p-2">

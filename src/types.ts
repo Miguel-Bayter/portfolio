@@ -76,6 +76,7 @@ export interface ContentLocale {
     toggleLanguage: string;
     toggleTheme: string;
     navigation: string;
+    closeNavigation: string;
   };
   nav: {
     overview: string;
@@ -140,8 +141,12 @@ export interface ContentLocale {
     };
     facetSpecificCta: Record<string, string>;
     filterAll: string;
+    filtersTitle: string;
+    filtersSummary: string;
     filtersOpen: string;
     filtersClose: string;
+    filtersApply: string;
+    filtersOptionsLabel: string;
     emptyStateTitle: string;
     emptyStateText: string;
     filterGroups: {
@@ -151,6 +156,8 @@ export interface ContentLocale {
       data: string;
       cross: string;
     };
+    techScrollLeft: string;
+    techScrollRight: string;
     detailHint?: string;
     caseStudy: string;
     problemLabel: string;

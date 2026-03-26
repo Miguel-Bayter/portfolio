@@ -1,0 +1,108 @@
+/* ── Keyframe Animations ──────────────────────────────────────────────────────
+ * All @keyframes declarations live here.
+ * These will be populated progressively during the Tailwind migration.
+ * ────────────────────────────────────────────────────────────────────────── */
+
+/* ── Tech carousel animations (migrated from styles.css) ────────────────── */
+/* MIGRATED FROM styles.css — tech-item-in and tech-marquee */
+
+@keyframes tech-item-in {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes tech-marquee {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(calc(-50% - (var(--tech-gap) / 2)));
+    }
+}
+
+/* ── Proof card animation (migrated from styles.css) ────────────────────── */
+/* MIGRATED FROM styles.css — proof-card-in */
+
+@keyframes proof-card-in {
+    from {
+        opacity: 0;
+        transform: translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ── TopBar animations (migrated from styles.css) ───────────────────────── */
+/* MIGRATED FROM styles.css — pulse-ring, status-sheen */
+
+@keyframes pulse-ring {
+    0% {
+        transform: scale(1);
+        opacity: 0.58;
+    }
+    70% {
+        transform: scale(2.25);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(2.25);
+        opacity: 0;
+    }
+}
+
+@keyframes status-sheen {
+    0% {
+        transform: translateX(-115%);
+    }
+    38% {
+        transform: translateX(-115%);
+    }
+    56% {
+        transform: translateX(115%);
+    }
+    100% {
+        transform: translateX(115%);
+    }
+}
+
+/* ── ProjectsSection animations (migrated from styles.css) ─────────────── */
+/* MIGRATED FROM styles.css — project-card-in, project-cta-fade-in, tech-pill-marquee */
+
+@keyframes project-card-in {
+    from {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes project-cta-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(3px);
+    }
+    to {
+        opacity: 0.92;
+        transform: translateY(0);
+    }
+}
+
+@keyframes tech-pill-marquee {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
