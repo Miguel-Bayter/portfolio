@@ -208,12 +208,12 @@ export default function ProfileSection({ t, isVisible, language }: ProfileSectio
               <div className="profile-card-head">
                 <h3 className="profile-card-title m-0 text-[0.78rem] font-mono tracking-[0.1em] uppercase text-signal-cyan">{t.profile.statusLabel}</h3>
                 <div className="profile-cert-nav">
-                  <button type="button" className="profile-cert-nav-btn" aria-label="Scroll education up" onClick={() => handleEducationNav(-1)}>
+                  <button type="button" className="profile-cert-nav-btn" aria-label={t.profile.scrollEducationUpLabel} onClick={() => handleEducationNav(-1)}>
                     <svg viewBox="0 0 20 20" aria-hidden="true" className="profile-cert-nav-icon">
                       <path d="M5 12l5-5 5 5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </button>
-                  <button type="button" className="profile-cert-nav-btn" aria-label="Scroll education down" onClick={() => handleEducationNav(1)}>
+                  <button type="button" className="profile-cert-nav-btn" aria-label={t.profile.scrollEducationDownLabel} onClick={() => handleEducationNav(1)}>
                     <svg viewBox="0 0 20 20" aria-hidden="true" className="profile-cert-nav-icon">
                       <path d="M5 8l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
@@ -240,12 +240,12 @@ export default function ProfileSection({ t, isVisible, language }: ProfileSectio
               <div className="profile-card-head">
                 <h3 className="profile-card-title m-0 text-[0.78rem] font-mono tracking-[0.1em] uppercase text-signal-cyan">{t.profile.certificatesLabel}</h3>
                 <div className="profile-cert-nav">
-                  <button type="button" className="profile-cert-nav-btn" aria-label="Scroll certificates up" onClick={() => handleCertNav(-1)}>
+                  <button type="button" className="profile-cert-nav-btn" aria-label={t.profile.scrollCertificatesUpLabel} onClick={() => handleCertNav(-1)}>
                     <svg viewBox="0 0 20 20" aria-hidden="true" className="profile-cert-nav-icon">
                       <path d="M5 12l5-5 5 5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </button>
-                  <button type="button" className="profile-cert-nav-btn" aria-label="Scroll certificates down" onClick={() => handleCertNav(1)}>
+                  <button type="button" className="profile-cert-nav-btn" aria-label={t.profile.scrollCertificatesDownLabel} onClick={() => handleCertNav(1)}>
                     <svg viewBox="0 0 20 20" aria-hidden="true" className="profile-cert-nav-icon">
                       <path d="M5 8l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>

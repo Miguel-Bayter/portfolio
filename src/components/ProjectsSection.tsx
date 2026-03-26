@@ -384,8 +384,7 @@ export default function ProjectsSection({
               >
                 <div className="projects-mobile-sheet-header sticky top-0 z-10 flex items-start justify-between gap-3 border-b border-white/8 bg-[linear-gradient(180deg,rgba(15,22,36,0.98)_0%,rgba(13,20,33,0.92)_100%)] px-4 py-4 backdrop-blur-md">
                   <div className="min-w-0">
-                    <p className="m-0 text-[0.66rem] font-mono uppercase tracking-[0.14em] text-ink-4">{t.projects.filtersTitle}</p>
-                    <p className="mt-1 mb-0 text-sm font-semibold tracking-[-0.01em] text-ink">{totalFacetFilters} {t.projects.filtersOptionsLabel}</p>
+                    <p className="m-0 text-sm font-semibold tracking-[-0.01em] text-ink">{totalFacetFilters} {t.projects.filtersOptionsLabel}</p>
                   </div>
 
                   <button

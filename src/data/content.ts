@@ -169,14 +169,14 @@ export const content: Content = {
           name: "Eira",
           type: "Mental Health & Wellness SaaS",
           previewImage: eiraRealPreview,
-          previewLabel: "React 18 · Express · Hexagonal Arch · Dual AI · PWA",
-          cta: "Full-stack mental wellness SaaS: hexagonal backend with dual AI (Gemini + Groq fallback), Supabase auth, OWASP-hardened API, and a React 18 PWA with mood tracking, AI chat, and therapeutic tools.",
+          previewLabel: "React 19 · Express · Hexagonal Arch · Dual AI · PWA",
+          cta: "Full-stack mental wellness SaaS: hexagonal backend with dual AI (Gemini + Groq fallback), Supabase auth, OWASP-hardened API, and a React 19 PWA with mood tracking, AI chat, and therapeutic tools.",
           summary:
-            "Mental wellness SaaS with hexagonal backend, dual AI (Gemini → Groq), OWASP-hardened API, Supabase auth, mood tracking, AI journal analysis, and React 18 PWA with offline support.",
+            "Mental wellness SaaS with hexagonal backend, dual AI (Gemini → Groq), OWASP-hardened API, Supabase auth, mood tracking, AI journal analysis, and React 19 PWA with offline support.",
           problem:
             "Mental health apps require privacy by design, resilient AI that never fails silently, and accessible UIs that work under stress — all with production-grade security.",
           solution:
-            "pnpm monorepo with hexagonal backend (domain zero-coupled to Express/Prisma), dual AI failover, httpOnly cookie auth, RLS on Supabase, CI pipeline, and React 18 + Radix UI + TanStack Query + Playwright E2E.",
+            "pnpm monorepo with hexagonal backend (domain zero-coupled to Express/Prisma), dual AI failover, httpOnly cookie auth, RLS on Supabase, CI pipeline, and React 19 + Radix UI + TanStack Query + Playwright E2E.",
           impact:
             "Live Vercel deployment. Hardened API on Render with OWASP compliance, Playwright E2E coverage, and bilingual PWA with offline support.",
           category: "Operations Platform",
@@ -315,6 +315,10 @@ export const content: Content = {
       schoolingTitle: "Schooling",
       cvLabel: "Download CV",
       certificatesLabel: "Download certificates",
+      scrollEducationUpLabel: "Scroll education up",
+      scrollEducationDownLabel: "Scroll education down",
+      scrollCertificatesUpLabel: "Scroll certificates up",
+      scrollCertificatesDownLabel: "Scroll certificates down",
       credentials: {
         title: "Credentials",
         tracksLabel: "Tracks",
@@ -734,14 +738,14 @@ export const content: Content = {
           name: "Eira",
           type: "SaaS de Salud Mental y Bienestar",
           previewImage: eiraRealPreview,
-          previewLabel: "React 18 · Express · Arquitectura Hexagonal · IA Dual · PWA",
-          cta: "SaaS fullstack de bienestar mental: arquitectura hexagonal, IA dual (Gemini + Groq), auth Supabase, API hardened OWASP, y PWA React 18 con seguimiento de estado emocional y chat IA.",
+          previewLabel: "React 19 · Express · Arquitectura Hexagonal · IA Dual · PWA",
+          cta: "SaaS fullstack de bienestar mental: arquitectura hexagonal, IA dual (Gemini + Groq), auth Supabase, API hardened OWASP, y PWA React 19 con seguimiento de estado emocional y chat IA.",
           summary:
-            "SaaS de bienestar mental con arquitectura hexagonal, IA dual (Gemini → Groq), API OWASP-hardened, auth Supabase, seguimiento de humor, análisis de diario con IA y PWA React 18 con soporte offline.",
+            "SaaS de bienestar mental con arquitectura hexagonal, IA dual (Gemini → Groq), API OWASP-hardened, auth Supabase, seguimiento de humor, análisis de diario con IA y PWA React 19 con soporte offline.",
           problem:
             "Las apps de salud mental requieren privacidad por diseño, IA resiliente que nunca falle silenciosamente y UI accesible bajo estrés — todo con seguridad de nivel productivo.",
           solution:
-            "Monorepo pnpm con backend hexagonal (dominio desacoplado de Express/Prisma), failover IA dual, cookies httpOnly, RLS en Supabase, CI pipeline y React 18 + Radix UI + TanStack Query + Playwright E2E.",
+            "Monorepo pnpm con backend hexagonal (dominio desacoplado de Express/Prisma), failover IA dual, cookies httpOnly, RLS en Supabase, CI pipeline y React 19 + Radix UI + TanStack Query + Playwright E2E.",
           impact:
             "Desplegado en Vercel. API hardened en Render con cumplimiento OWASP, cobertura E2E Playwright y PWA bilingüe con soporte offline.",
           category: "Plataforma operativa",
@@ -880,6 +884,10 @@ export const content: Content = {
       schoolingTitle: "Escolaridad",
       cvLabel: "Descargar CV",
       certificatesLabel: "Descargar certificados",
+      scrollEducationUpLabel: "Desplazar estudios hacia arriba",
+      scrollEducationDownLabel: "Desplazar estudios hacia abajo",
+      scrollCertificatesUpLabel: "Desplazar certificados hacia arriba",
+      scrollCertificatesDownLabel: "Desplazar certificados hacia abajo",
       credentials: {
         title: "Credenciales",
         tracksLabel: "Rutas",

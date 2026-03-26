@@ -181,6 +181,10 @@ export interface ContentLocale {
     schoolingTitle: string;
     cvLabel: string;
     certificatesLabel: string;
+    scrollEducationUpLabel: string;
+    scrollEducationDownLabel: string;
+    scrollCertificatesUpLabel: string;
+    scrollCertificatesDownLabel: string;
     credentials: {
       title: string;
       tracksLabel: string;

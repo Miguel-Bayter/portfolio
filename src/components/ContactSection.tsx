@@ -32,6 +32,8 @@ export default function ContactSection({ t, isVisible }: ContactSectionProps) {
   const formEndpoint = import.meta.env.VITE_FORMSPREE_ENDPOINT as string | undefined;
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const isSending = formStatus === 'loading';
+  const formSubject = 'Portfolio Contact';
+  const channelCardBaseClass = 'contact-channel-card flex flex-col items-start gap-3 rounded-sm border px-4 py-5 text-left transition-all duration-150';
 
   if (!isVisible) return null;
 
@@ -52,7 +54,7 @@ export default function ContactSection({ t, isVisible }: ContactSectionProps) {
       name: formData.name.trim(),
       email: formData.email.trim(),
       message: formData.message.trim(),
-      _subject: 'Portfolio Contact',
+      _subject: formSubject,
       _gotcha: formData.company.trim(),
     };
 
@@ -131,7 +133,7 @@ export default function ContactSection({ t, isVisible }: ContactSectionProps) {
                   setShowForm((prev) => !prev);
                   resetFormState();
                 }}
-                className={`contact-channel-card flex flex-col items-start gap-3 border rounded-sm px-4 py-5 w-full text-left cursor-pointer transition-all duration-150 ${
+                className={`${channelCardBaseClass} w-full cursor-pointer ${
                   showForm
                     ? 'border-signal-mint/50 bg-signal-mint/10 text-ink'
                     : 'border-line/20 bg-surface-4 text-ink hover:border-signal-mint hover:bg-surface-5 hover:-translate-y-0.5'
@@ -149,7 +151,7 @@ export default function ContactSection({ t, isVisible }: ContactSectionProps) {
               href={channel.href}
               target={channel.external ? '_blank' : undefined}
               rel={channel.external ? 'noreferrer' : undefined}
-              className="contact-channel-card flex flex-col items-start gap-3 border border-line/20 rounded-sm px-4 py-5 bg-surface-4 text-ink no-underline transition-all duration-150 hover:border-signal-mint hover:bg-surface-5 hover:-translate-y-0.5"
+              className={`${channelCardBaseClass} border-line/20 bg-surface-4 text-ink no-underline hover:border-signal-mint hover:bg-surface-5 hover:-translate-y-0.5`}
             >
               <Icon className="w-5 h-5 text-signal-mint" />
               <span className="text-[0.92rem] font-medium leading-[1.3]">{channel.label}</span>
