@@ -123,12 +123,6 @@ export function HeroSection({ t, onNavigate }: HeroSectionProps) {
     setIsActive(false);
   };
 
-  const handleTap = () => {
-    if (isLoaded && !hasReachedEndRef.current) {
-      setIsActive(true);
-    }
-  };
-
   return (
     <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-base-100 via-base-200 to-primary/10 pt-20">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -177,9 +171,9 @@ export function HeroSection({ t, onNavigate }: HeroSectionProps) {
 
         <div
           ref={containerRef}
-          className="mt-12 flex-shrink-0 touch-manipulation lg:mt-0"
+          className="mt-12 flex-shrink-0 cursor-pointer lg:mt-0"
           {...(isMobile
-            ? { onTouchEnd: handleTap }
+            ? { onClick: handleActivate }
             : {
                 onMouseEnter: handleActivate,
                 onMouseLeave: handleDeactivate,
