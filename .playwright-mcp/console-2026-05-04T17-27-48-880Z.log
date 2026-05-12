@@ -1,0 +1,3 @@
+[    2436ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:5173/portfolio:0
+[    2683ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:5173/favicon.ico:0
+[   17518ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:5173/portfolio/node_modules/.vite/deps/react-dom-BjDyeKcB.js?v=05869daa:17235

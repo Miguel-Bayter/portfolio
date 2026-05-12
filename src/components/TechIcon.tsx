@@ -1,54 +1,69 @@
-import type { ComponentType } from 'react';
 import {
-  SiCss,
-  SiDocker,
-  SiExpress,
-  SiGit,
   SiHtml5,
+  SiCss,
   SiJavascript,
-  SiMongodb,
-  SiMysql,
-  SiNextdotjs,
-  SiNodedotjs,
-  SiPrisma,
-  SiReact,
-  SiSocketdotio,
-  SiTailwindcss,
+  SiGit,
   SiTypescript,
-  SiVite,
-  SiNestjs,
+  SiReact,
+  SiTailwindcss,
+  SiNodedotjs,
+  SiExpress,
+  SiNextdotjs,
+  SiPrisma,
+  SiMongodb,
+  SiDocker,
+  SiPostgresql,
+  SiMysql,
+  SiSocketdotio,
+  SiGithub,
+  SiVercel,
+  SiNetlify,
 } from 'react-icons/si';
-import { FaGlobe } from 'react-icons/fa6';
+import { FaJava, FaPython } from 'react-icons/fa';
 
 interface TechIconProps {
-  tech: string | null;
-  className?: string;
+  icon: string;
+  size?: number;
 }
 
-const iconMap: Record<string, ComponentType<{ className?: string }>> = {
+const iconMap: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
   html: SiHtml5,
   css: SiCss,
-  react: SiReact,
+  javascript: SiJavascript,
+  git: SiGit,
   typescript: SiTypescript,
+  react: SiReact,
   tailwind: SiTailwindcss,
   nodejs: SiNodedotjs,
   express: SiExpress,
-  sqlite: FaGlobe,
-  mongodb: SiMongodb,
-  mysql: SiMysql,
-  docker: SiDocker,
-  prisma: SiPrisma,
-  socketio: SiSocketdotio,
-  i18n: FaGlobe,
-  javascript: SiJavascript,
-  git: SiGit,
   nextjs: SiNextdotjs,
-  nestjs: SiNestjs,
-  vite: SiVite,
+  prisma: SiPrisma,
+  mongodb: SiMongodb,
+  docker: SiDocker,
+  postgresql: SiPostgresql,
+  mysql: SiMysql,
+  socketio: SiSocketdotio,
+  github: SiGithub,
+  vercel: SiVercel,
+  netlify: SiNetlify,
+  java: FaJava,
+  python: FaPython,
 };
 
-export default function TechIcon({ tech, className }: TechIconProps) {
-  if (!tech) return null;
-  const Icon = iconMap[tech];
-  return Icon ? <Icon className={className} aria-hidden="true" /> : null;
+const colorMap: Record<string, string> = {
+  orange: 'text-orange-500',
+  blue: 'text-blue-500',
+  amber: 'text-amber-500',
+  slate: 'text-slate-600',
+  indigo: 'text-indigo-500',
+  cyan: 'text-cyan-500',
+  green: 'text-green-600',
+  forest: 'text-green-700',
+};
+
+export function TechIcon({ icon, size = 32, className }: TechIconProps & { className?: string }) {
+  const Icon = iconMap[icon];
+  if (!Icon) return <div className="h-8 w-8 rounded bg-base-300" />;
+
+  return <Icon size={size} className={className || colorMap[icon] || 'text-base-content'} />;
 }
