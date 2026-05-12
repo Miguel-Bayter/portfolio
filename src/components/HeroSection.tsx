@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import type { ContentLocale, Language } from '../types';
+import type { ContentLocale } from '../types';
 import anim01 from '../img/animation/01.png';
 import anim02 from '../img/animation/02.png';
 import anim03 from '../img/animation/03.png';
@@ -14,11 +14,10 @@ const FRAME_DURATION = 150;
 
 interface HeroSectionProps {
   t: ContentLocale;
-  language: Language;
   onNavigate: (id: 'contact') => void;
 }
 
-export function HeroSection({ t, language, onNavigate }: HeroSectionProps) {
+export function HeroSection({ t, onNavigate }: HeroSectionProps) {
   const hero = t.overview.hero;
   const [isActive, setIsActive] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);

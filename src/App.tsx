@@ -102,7 +102,7 @@ function App() {
 
       <main>
         <section id="overview">
-          <HeroSection t={t} language={language} onNavigate={scrollToSection} />
+          <HeroSection t={t} onNavigate={scrollToSection} />
         </section>
         <section id="techstack">
           <TechStackSection t={t} />
