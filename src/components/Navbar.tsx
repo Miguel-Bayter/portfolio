@@ -96,13 +96,18 @@ export function Navbar({
             <FaLinkedin className="h-5 w-5 text-blue-500" />
           </a>
 
-          {/* Mobile: just initials */}
+          {/* Mobile: avatar linking to LinkedIn */}
           <a
-            href="#overview"
-            onClick={(e) => { e.preventDefault(); onNavigate('overview'); }}
-            className="text-lg font-bold tracking-tight sm:hidden"
+            href="https://www.linkedin.com/in/miguel-eduardo-bayter-quintana-98653b128"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="sm:hidden"
           >
-            MB
+            <div className="avatar">
+              <div className="w-9 overflow-hidden rounded-full">
+                <img src={profilePhoto} alt="Miguel Bayter" className="h-full w-full object-cover object-[42%_12%]" />
+              </div>
+            </div>
           </a>
         </div>
 
