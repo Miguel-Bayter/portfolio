@@ -35,6 +35,8 @@ export interface Project {
   links: ProjectLinks;
 }
 
+export type ProjectCategory = 'frontend' | 'backend' | 'fullstack';
+
 export interface ContactChannel {
   label: string;
   href: string;
@@ -101,7 +103,8 @@ export interface ContentLocale {
     subtitle: string;
     ctaPrimary: string;
     ctaSecondary: string;
-    metrics: ProjectMetric[];
+    downloadCV: string;
+    metrics?: ProjectMetric[];
   };
   overview: {
     title: string;
