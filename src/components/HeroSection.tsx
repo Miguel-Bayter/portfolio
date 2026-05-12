@@ -24,10 +24,21 @@ export function HeroSection({ t, onNavigate }: HeroSectionProps) {
   const [currentFrame, setCurrentFrame] = useState(0);
   const [prevFrame, setPrevFrame] = useState(0);
   const [isCrossfading, setIsCrossfading] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const animationRef = useRef<number | null>(null);
   const lastFrameTimeRef = useRef<number>(0);
   const hasReachedEndRef = useRef(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     let loadedCount = 0;
@@ -43,6 +54,12 @@ export function HeroSection({ t, onNavigate }: HeroSectionProps) {
     });
   }, []);
 
+  useEffect(() => {
+    if (isMobile && isLoaded && !isActive) {
+      setIsActive(true);
+    }
+  }, [isMobile, isLoaded]);
+
   const advanceFrame = useCallback(() => {
     setCurrentFrame((current) => {
       const next = (current + 1) % ANIMATION_FRAMES.length;
@@ -51,17 +68,28 @@ export function HeroSection({ t, onNavigate }: HeroSectionProps) {
       setTimeout(() => setIsCrossfading(false), 50);
       
       if (next === ANIMATION_FRAMES.length - 1) {
-        hasReachedEndRef.current = true;
+        if (isMobile) {
+          hasReachedEndRef.current = false;
+        } else {
+          hasReachedEndRef.current = true;
+        }
       }
       
       return next;
     });
-  }, []);
+  }, [isMobile]);
 
   const animate = useCallback(
     (timestamp: number) => {
-      if (hasReachedEndRef.current) {
+      if (hasReachedEndRef.current && !isMobile) {
         return;
+      }
+
+      if (hasReachedEndRef.current && isMobile) {
+        hasReachedEndRef.current = false;
+        setCurrentFrame(0);
+        setPrevFrame(0);
+        lastFrameTimeRef.current = 0;
       }
 
       if (!lastFrameTimeRef.current) {
@@ -77,7 +105,7 @@ export function HeroSection({ t, onNavigate }: HeroSectionProps) {
 
       animationRef.current = requestAnimationFrame(animate);
     },
-    [advanceFrame],
+    [advanceFrame, isMobile],
   );
 
   useEffect(() => {
@@ -89,7 +117,7 @@ export function HeroSection({ t, onNavigate }: HeroSectionProps) {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
-      if (!isActive) {
+      if (!isActive && !isMobile) {
         setCurrentFrame(0);
         setPrevFrame(0);
         setIsCrossfading(false);
@@ -102,7 +130,7 @@ export function HeroSection({ t, onNavigate }: HeroSectionProps) {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [isActive, isLoaded, animate]);
+  }, [isActive, isLoaded, animate, isMobile]);
 
   const handleActivate = () => {
     if (isLoaded) setIsActive(true);
@@ -159,11 +187,12 @@ export function HeroSection({ t, onNavigate }: HeroSectionProps) {
         </div>
 
         <div
+          ref={containerRef}
           className="mt-12 flex-shrink-0 lg:mt-0"
-          onMouseEnter={handleActivate}
-          onMouseLeave={handleDeactivate}
-          onTouchStart={handleActivate}
-          onTouchEnd={handleDeactivate}
+          {...(!isMobile && {
+            onMouseEnter: handleActivate,
+            onMouseLeave: handleDeactivate,
+          })}
         >
           <div className="w-80 sm:w-96 md:w-[28rem] overflow-hidden rounded-3xl">
             <figure className="relative aspect-square">
