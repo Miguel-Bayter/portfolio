@@ -1,635 +1,282 @@
-import { useCallback, useEffect, useState } from 'react';
-import { createPortal } from 'react-dom';
-import { FiX } from 'react-icons/fi';
-import type { ContentLocale, Project, FacetGroup } from '../types';
-import projectPlaceholder from '../img/project-placeholder.svg';
-import TechIcon from './TechIcon';
-import { GitHubIcon, ExternalLinkIcon, MaintenanceIcon } from './icons';
-import {
-  resolveFacetTechIcon,
-  resolveFacetTone,
-  resolveFacetGroup,
-} from '../utils/facets';
-
-interface FilterOption {
-  key: string;
-  label: string;
-  icon: string | null;
-  group?: FacetGroup;
-  count: number;
-}
+import type { ContentLocale, Language } from '../types';
+import { 
+  SiPython, SiFastapi, SiMongodb, SiTypescript, SiVite, 
+  SiNodedotjs, SiExpress, SiNextdotjs, SiPrisma, SiDocker,
+  SiPostgresql, SiTailwindcss, SiJavascript 
+} from 'react-icons/si';
+import { FaReact, FaHtml5, FaCss3Alt } from 'react-icons/fa';
 
 interface ProjectsSectionProps {
   t: ContentLocale;
-  projects: Project[];
-  isVisible: boolean;
-  selectedProjectId: string;
-  setSelectedProjectId: (id: string) => void;
-  projectFilter: string;
-  setProjectFilter: (filter: string) => void;
+  language: Language;
 }
 
-export default function ProjectsSection({
-  t,
-  projects,
-  isVisible,
-  selectedProjectId,
-  setSelectedProjectId,
-  projectFilter,
-  setProjectFilter,
-}: ProjectsSectionProps) {
-  const [areFiltersOpen, setAreFiltersOpen] = useState(false);
-  const [mobilePendingFilter, setMobilePendingFilter] = useState(projectFilter);
-  const [openFilterGroup, setOpenFilterGroup] = useState<FacetGroup | null>(null);
-  const [facetSortDirection, setFacetSortDirection] = useState<Record<string, 'desc' | 'asc'>>({});
-  const [flippedProjectId, setFlippedProjectId] = useState<string | null>(null);
+const categoryGradients: Record<string, string> = {
+  backend: 'from-blue-500 to-green-500',
+  frontend: 'from-purple-500 to-pink-500',
+  fullstack: 'from-orange-500 to-yellow-500',
+};
 
-  const closeFilters = useCallback(() => {
-    setAreFiltersOpen(false);
-    setOpenFilterGroup(null);
-  }, []);
+const techConfig: Record<string, { color: string; bg: string; border: string; icon: React.ReactNode }> = {
+  'Python': {
+    color: 'text-blue-600',
+    bg: 'bg-blue-50',
+    border: 'border-blue-200',
+    icon: <SiPython className="w-3.5 h-3.5" />
+  },
+  'FastAPI': {
+    color: 'text-green-600',
+    bg: 'bg-green-50',
+    border: 'border-green-200',
+    icon: <SiFastapi className="w-3.5 h-3.5" />
+  },
+  'MongoDB': {
+    color: 'text-green-700',
+    bg: 'bg-green-50',
+    border: 'border-green-200',
+    icon: <SiMongodb className="w-3.5 h-3.5" />
+  },
+  'React 19': {
+    color: 'text-cyan-600',
+    bg: 'bg-cyan-50',
+    border: 'border-cyan-200',
+    icon: <FaReact className="w-3.5 h-3.5" />
+  },
+  'TypeScript': {
+    color: 'text-blue-700',
+    bg: 'bg-blue-50',
+    border: 'border-blue-200',
+    icon: <SiTypescript className="w-3.5 h-3.5" />
+  },
+  'Vite': {
+    color: 'text-purple-600',
+    bg: 'bg-purple-50',
+    border: 'border-purple-200',
+    icon: <SiVite className="w-3.5 h-3.5" />
+  },
+  'Node.js': {
+    color: 'text-green-600',
+    bg: 'bg-green-50',
+    border: 'border-green-200',
+    icon: <SiNodedotjs className="w-3.5 h-3.5" />
+  },
+  'Express': {
+    color: 'text-gray-700',
+    bg: 'bg-gray-50',
+    border: 'border-gray-200',
+    icon: <SiExpress className="w-3.5 h-3.5" />
+  },
+  'Next.js': {
+    color: 'text-gray-900',
+    bg: 'bg-gray-50',
+    border: 'border-gray-200',
+    icon: <SiNextdotjs className="w-3.5 h-3.5" />
+  },
+  'Prisma': {
+    color: 'text-indigo-600',
+    bg: 'bg-indigo-50',
+    border: 'border-indigo-200',
+    icon: <SiPrisma className="w-3.5 h-3.5" />
+  },
+  'Docker': {
+    color: 'text-blue-600',
+    bg: 'bg-blue-50',
+    border: 'border-blue-200',
+    icon: <SiDocker className="w-3.5 h-3.5" />
+  },
+  'PostgreSQL': {
+    color: 'text-blue-800',
+    bg: 'bg-blue-50',
+    border: 'border-blue-200',
+    icon: <SiPostgresql className="w-3.5 h-3.5" />
+  },
+  'Tailwind CSS': {
+    color: 'text-cyan-600',
+    bg: 'bg-cyan-50',
+    border: 'border-cyan-200',
+    icon: <SiTailwindcss className="w-3.5 h-3.5" />
+  },
+  'HTML5': {
+    color: 'text-orange-600',
+    bg: 'bg-orange-50',
+    border: 'border-orange-200',
+    icon: <FaHtml5 className="w-3.5 h-3.5" />
+  },
+  'CSS3': {
+    color: 'text-blue-600',
+    bg: 'bg-blue-50',
+    border: 'border-blue-200',
+    icon: <FaCss3Alt className="w-3.5 h-3.5" />
+  },
+  'JavaScript': {
+    color: 'text-yellow-600',
+    bg: 'bg-yellow-50',
+    border: 'border-yellow-200',
+    icon: <SiJavascript className="w-3.5 h-3.5" />
+  },
+};
 
-  useEffect(() => {
-    if (!areFiltersOpen) return undefined;
+function getCategoryLabel(t: ContentLocale, category: string): string {
+  switch (category) {
+    case 'backend':
+      return t.projects.categoryBackend;
+    case 'fullstack':
+      return t.projects.categoryFullstack;
+    case 'frontend':
+      return t.projects.categoryFrontend;
+    default:
+      return category;
+  }
+}
 
-    setMobilePendingFilter(projectFilter);
+function getProjectCategory(project: { id: string }): 'backend' | 'fullstack' | 'frontend' {
+  const id = project.id.toLowerCase();
+  if (id === 'caresync' || id === 'eduroad-api') return 'backend';
+  if (id === 'esturoad' || id === 'invygo') return 'frontend';
+  return 'fullstack';
+}
 
-    document.body.classList.add('overflow-hidden');
+export function ProjectsSection({ t, language }: ProjectsSectionProps) {
+  const projects = t.projects.items;
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') closeFilters();
-    };
+  const categories: Array<'backend' | 'fullstack' | 'frontend'> = ['backend', 'frontend', 'fullstack'];
 
-    const handleResize = () => {
-      if (window.innerWidth >= 768) closeFilters();
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      document.body.classList.remove('overflow-hidden');
-      window.removeEventListener('keydown', handleKeyDown);
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [areFiltersOpen, closeFilters, projectFilter]);
-
-  if (!isVisible) return null;
-
-  const facetComplexityOrder: Record<string, number> = {
-    'next.js': 0,
-    nestjs: 1,
-    'socket.io': 2,
-    prisma: 3,
-    typescript: 4,
-    'react 19': 5,
-    react: 6,
-    vite: 7,
-    tailwind: 8,
-    'node.js': 9,
-    express: 10,
-    mongodb: 11,
-    mysql: 12,
-    i18n: 13,
-    javascript: 14,
-  };
-
-  const sortFacetsByComplexity = (facets: string[]) =>
-    facets.slice().sort((left, right) => {
-      const leftKey = left.toLowerCase();
-      const rightKey = right.toLowerCase();
-      const leftRank = facetComplexityOrder[leftKey] ?? 99;
-      const rightRank = facetComplexityOrder[rightKey] ?? 99;
-      if (leftRank !== rightRank) return leftRank - rightRank;
-      return left.localeCompare(right);
-    });
-
-  const facetOptions = Array.from(
-    new Map(
-      projects.flatMap((project) => project.facets.map((facet) => [facet.toLowerCase(), facet])),
-    ).values(),
-  )
-    .sort((left, right) => {
-      const leftRank = facetComplexityOrder[left.toLowerCase()] ?? 99;
-      const rightRank = facetComplexityOrder[right.toLowerCase()] ?? 99;
-      if (leftRank !== rightRank) return leftRank - rightRank;
-      return left.localeCompare(right);
-    });
-
-  const filterCountByFacet = new Map(
-    facetOptions.map((facet) => [
-      facet.toLowerCase(),
-      projects.filter((project) => project.facets.some((projectFacet) => projectFacet.toLowerCase() === facet.toLowerCase())).length,
-    ]),
-  );
-
-  const projectFilters: FilterOption[] = [
-    { key: 'all', label: t.projects.filterAll, icon: null, count: projects.length },
-    ...facetOptions.map((facet) => ({
-      key: `facet:${facet.toLowerCase()}`,
-      label: facet,
-      icon: resolveFacetTechIcon(facet),
-      group: resolveFacetGroup(facet),
-      count: filterCountByFacet.get(facet.toLowerCase()) ?? 0,
-    })),
-  ];
-
-  const groupedFilters: Record<FacetGroup, FilterOption[]> = {
-    language: projectFilters.filter((f) => f.group === 'language'),
-    framework: projectFilters.filter((f) => f.group === 'framework'),
-    backend: projectFilters.filter((f) => f.group === 'backend'),
-    data: projectFilters.filter((f) => f.group === 'data'),
-    cross: projectFilters.filter((f) => f.group === 'cross'),
-  };
-  const filterGroupOrder: FacetGroup[] = ['language', 'framework', 'backend', 'data', 'cross'];
-  const totalFacetFilters = facetOptions.length;
-  const openGroupFilters = openFilterGroup ? (groupedFilters[openFilterGroup] ?? []) : [];
-
-  const filterKeySet = new Set(projectFilters.map((f) => f.key));
-  const effectiveFilter = filterKeySet.has(projectFilter) ? projectFilter : 'all';
-  const activeFacet = effectiveFilter.startsWith('facet:') ? effectiveFilter.replace('facet:', '') : null;
-  const activeFacetSort = activeFacet ? (facetSortDirection[activeFacet] ?? 'desc') : 'desc';
-  const activeFilterLabel = projectFilters.find((filter) => filter.key === effectiveFilter)?.label;
-
-  const visibleProjects = activeFacet
-    ? projects
-      .filter((project) => project.facets.some((facet) => facet.toLowerCase() === activeFacet))
-      .sort((left, right) => {
-        const leftDate = Date.parse(left.createdAt);
-        const rightDate = Date.parse(right.createdAt);
-        if (leftDate !== rightDate) {
-          return activeFacetSort === 'desc' ? rightDate - leftDate : leftDate - rightDate;
-        }
-        return left.name.localeCompare(right.name);
-      })
-    : projects;
-
-  const projectCount = Math.max(1, visibleProjects.length);
-  const smGridColumns = Math.min(2, projectCount);
-  const lgGridColumns = Math.min(3, projectCount);
-  const xlGridColumns = Math.min(3, projectCount);
-  const xxlGridColumns = Math.min(3, projectCount);
-
-  const applyFilter = (filterOption: FilterOption) => {
-    const nextVisible = filterOption.key === 'all'
-      ? projects
-      : projects.filter((project) => project.facets.some((facet) => facet.toLowerCase() === filterOption.label.toLowerCase()));
-
-    if (filterOption.key.startsWith('facet:')) {
-      const facetKey = filterOption.key.replace('facet:', '');
-      setFacetSortDirection((prev) => {
-        const current = prev[facetKey] ?? 'desc';
-        const next = activeFacet === facetKey ? (current === 'desc' ? 'asc' : 'desc') : 'desc';
-        return { ...prev, [facetKey]: next };
-      });
-    }
-
-    if (nextVisible.length && !nextVisible.some((project) => project.id === selectedProjectId)) {
-      setSelectedProjectId(nextVisible[0].id);
-    }
-
-    setProjectFilter(filterOption.key);
-    setAreFiltersOpen(false);
-    setOpenFilterGroup(null);
-  };
-
-  const applyMobilePendingFilter = () => {
-    const pendingFilter = projectFilters.find((filterOption) => filterOption.key === mobilePendingFilter);
-    if (!pendingFilter) {
-      closeFilters();
-      return;
-    }
-
-    applyFilter(pendingFilter);
-  };
-
-  const renderFilterChip = (
-    filterOption: FilterOption,
-    options?: {
-      extraClassName?: string;
-      selectedKey?: string;
-      onClick?: () => void;
-    },
-  ) => {
-    const selectedKey = options?.selectedKey ?? effectiveFilter;
-    const isActiveFilter = selectedKey === filterOption.key;
-    const facetKey = filterOption.key.startsWith('facet:')
-      ? filterOption.key.replace('facet:', '')
-      : null;
-    const sortDirection = facetKey ? (facetSortDirection[facetKey] ?? 'desc') : 'desc';
-
-    return (
-      <button
-        key={filterOption.key}
-        type="button"
-        onClick={options?.onClick ?? (() => applyFilter(filterOption))}
-        className={`projects-filter-chip ${filterOption.key === 'all' ? 'projects-filter-chip-all' : ''} ${isActiveFilter ? 'is-active' : ''} ${options?.extraClassName ?? ''}`.trim()}
-        data-group={filterOption.group ?? 'all'}
-      >
-        {filterOption.icon ? <TechIcon tech={filterOption.icon} className="projects-filter-icon" /> : null}
-        <span>{filterOption.label}</span>
-        {isActiveFilter && facetKey ? (
-          <span className="projects-filter-sort" aria-hidden="true">
-            {sortDirection === 'desc' ? '↓' : '↑'}
-          </span>
-        ) : null}
-        <span className="projects-filter-count">{filterOption.count}</span>
-      </button>
-    );
-  };
-
-  const handleTechNavClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    const direction = event.currentTarget.dataset.direction === 'right' ? 1 : -1;
-    const carousel = event.currentTarget.closest<HTMLElement>('.project-back-tech-carousel');
-    if (!carousel) return;
-    const list = carousel.querySelector<HTMLDivElement>('.project-back-tech-list');
-    const track = carousel.querySelector<HTMLElement>('.project-back-tech-track');
-    if (!list || !track) return;
-
-    // Pause marquee animation and switch to manual scroll mode
-    track.style.animation = 'none';
-    track.style.transform = 'none';
-
-    const firstPill = list.querySelector<HTMLElement>('.project-tech-pill');
-    const pillWidth = firstPill ? firstPill.offsetWidth : 72;
-    const gap = 8;
-    const step = (pillWidth + gap) * direction;
-    const halfScroll = list.scrollWidth / 2;
-
-    // Seed initial scroll to middle of the duplicated track so both directions work
-    if (list.scrollLeft === 0 && direction === -1) {
-      list.scrollTo({ left: halfScroll, behavior: 'auto' });
-      return;
-    }
-
-    let nextScroll = list.scrollLeft + step;
-
-    // Wrap forward: reached second copy → jump to same position in first copy
-    if (nextScroll >= halfScroll) {
-      list.scrollTo({ left: nextScroll - halfScroll, behavior: 'auto' });
-      return;
-    }
-    // Wrap backward: went below 0 → jump to same position in second copy
-    if (nextScroll < 0) {
-      list.scrollTo({ left: halfScroll + nextScroll, behavior: 'auto' });
-      return;
-    }
-
-    list.scrollBy({ left: step, behavior: 'smooth' });
-  };
-
-
-  const handleProjectCardPointerMove = (event: React.MouseEvent<HTMLElement>) => {
-    if (window.innerWidth < 900) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-    const card = event.currentTarget;
-    const bounds = card.getBoundingClientRect();
-    const x = event.clientX - bounds.left;
-    const y = event.clientY - bounds.top;
-
-    card.style.setProperty('--spotlight-x', `${x}px`);
-    card.style.setProperty('--spotlight-y', `${y}px`);
-  };
-
-  const handleProjectCardPointerLeave = (event: React.MouseEvent<HTMLElement>) => {
-    const card = event.currentTarget;
-    card.style.removeProperty('--spotlight-x');
-    card.style.removeProperty('--spotlight-y');
-  };
-
-  const isTouchFlipMode = () => window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  const groupedProjects = categories.map((cat) => ({
+    category: cat,
+    label: getCategoryLabel(t, cat),
+    projects: projects.filter((p) => getProjectCategory(p) === cat),
+  }));
 
   return (
-    <section className="border border-line/20 rounded-md p-5 md:p-6 animate-panel-in bg-gradient-to-b from-surface-4/45 to-surface-2/78 section-rhythm-light">
-      <header className="projects-filter-shell mb-1">
-        <div className="flex items-center justify-between gap-2 md:hidden">
-          <button
-            type="button"
-            className="projects-filter-toggle mt-0 inline-flex"
-            onClick={() => setAreFiltersOpen(true)}
-            aria-expanded={areFiltersOpen}
-            aria-controls="projects-mobile-filters"
-          >
-            {t.projects.filtersOpen} ({totalFacetFilters})
-          </button>
+    <div className="bg-base-100 py-16">
+      <div className="container mx-auto px-4">
+        <h2 className="mb-2 text-center text-3xl font-bold">{t.nav.projects}</h2>
+        <p className="mx-auto mb-10 max-w-2xl text-center text-base-content/60">
+          {t.projects.subtitle || t.focus}
+        </p>
 
-          {effectiveFilter !== 'all' ? (
-            <span className="inline-flex min-w-0 max-w-[52%] items-center justify-end rounded-full border border-line/20 bg-surface-1/55 px-2.5 py-1 text-[0.63rem] font-mono uppercase tracking-[0.08em] text-ink-3">
-              <span className="truncate">{activeFilterLabel}</span>
-            </span>
-          ) : null}
-        </div>
-
-        <div className="hidden md:block">
-          <div className="space-y-3">
-            <div className="projects-filter-row mt-0 hidden md:flex">
-              {projectFilters.slice(0, 1).map((filterOption) => renderFilterChip(filterOption))}
-
-              {filterGroupOrder.map((groupKey) => {
-                const filters = groupedFilters[groupKey] ?? [];
-                if (!filters.length) return null;
-                const isGroupOpen = openFilterGroup === groupKey;
-
-                return (
-                  <div key={groupKey} className={`projects-filter-group ${isGroupOpen ? 'is-open' : ''}`}>
-                    <button
-                      type="button"
-                      className="projects-filter-group-toggle"
-                      aria-expanded={isGroupOpen}
-                      onClick={() => {
-                        setOpenFilterGroup((previous) => (previous === groupKey ? null : groupKey));
-                      }}
-                    >
-                      <span className="projects-filter-group-label">{t.projects.filterGroups?.[groupKey] ?? groupKey}</span>
-                      <span className="projects-filter-group-meta">{filters.length}</span>
-                      <span className={`projects-filter-group-caret ${isGroupOpen ? 'is-open' : ''}`}>▾</span>
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-
-            {openFilterGroup ? (
-              <div className="projects-filter-panel">
-                <div className="projects-filter-panel-head">
-                  <p className="projects-filter-panel-title m-0">{t.projects.filterGroups?.[openFilterGroup] ?? openFilterGroup}</p>
-                  <span className="projects-filter-panel-count">{openGroupFilters.length}</span>
-                </div>
-
-                <div className="projects-filter-panel-grid">
-                  {openGroupFilters.map((filterOption) => renderFilterChip(filterOption, { extraClassName: 'w-full justify-between' }))}
-                </div>
-              </div>
-            ) : null}
-          </div>
-        </div>
-
-        {areFiltersOpen && typeof document !== 'undefined' && createPortal(
-          <>
-            <button
-              type="button"
-              className="projects-mobile-sheet-backdrop fixed inset-0 z-40 bg-[rgb(2_8_16/0.68)] backdrop-blur-[3px] md:hidden"
-              aria-label={t.projects.filtersClose}
-              onClick={closeFilters}
-            />
-
-            <div className="projects-mobile-sheet-frame fixed inset-0 z-50 flex items-end justify-center md:hidden">
-              <div
-                id="projects-mobile-filters"
-                role="dialog"
-                aria-modal="true"
-                aria-label={t.projects.filtersOpen}
-                className="projects-mobile-sheet relative flex max-h-[min(86dvh,42rem)] w-full max-w-xl flex-col overflow-hidden rounded-t-[1.75rem] border border-line/18 bg-[linear-gradient(180deg,rgba(12,18,30,0.98)_0%,rgba(15,24,38,0.99)_54%,rgba(11,18,28,1)_100%)] shadow-[0_-20px_65px_rgba(2,6,16,0.52)] ring-1 ring-white/5"
-              >
-                <div className="projects-mobile-sheet-header sticky top-0 z-10 flex items-start justify-between gap-3 border-b border-white/8 bg-[linear-gradient(180deg,rgba(15,22,36,0.98)_0%,rgba(13,20,33,0.92)_100%)] px-4 py-4 backdrop-blur-md">
-                  <div className="min-w-0">
-                    <p className="m-0 text-sm font-semibold tracking-[-0.01em] text-ink">{totalFacetFilters} {t.projects.filtersOptionsLabel}</p>
-                  </div>
-
-                  <button
-                    type="button"
-                    className="inline-flex h-10 w-10 flex-none items-center justify-center rounded-full border border-white/10 bg-white/5 text-ink-3 transition-all duration-150 hover:border-signal-cyan/28 hover:bg-white/10 hover:text-ink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-cyan/45"
-                    onClick={closeFilters}
-                    aria-label={t.projects.filtersClose}
-                  >
-                    <FiX className="h-5 w-5" />
-                  </button>
-                </div>
-
-                <div className="projects-mobile-sheet-body flex-1 overflow-y-auto bg-[linear-gradient(180deg,rgba(8,12,20,0.08)_0%,rgba(8,12,20,0.22)_100%)] px-4 py-4 pb-28">
-                  <div className="flex flex-wrap gap-2">
-                    {projectFilters.slice(0, 1).map((filterOption) => renderFilterChip(filterOption, {
-                      extraClassName: 'w-full justify-between rounded-xl',
-                      selectedKey: mobilePendingFilter,
-                      onClick: () => setMobilePendingFilter(filterOption.key),
-                    }))}
-                  </div>
-
-                  <div className="mt-4 space-y-3.5">
-                    {filterGroupOrder.map((groupKey) => {
-                      const filters = groupedFilters[groupKey] ?? [];
-                      if (!filters.length) return null;
-
-                      return (
-                        <section key={groupKey} className="rounded-2xl border border-white/8 bg-[linear-gradient(180deg,rgba(255,255,255,0.05)_0%,rgba(255,255,255,0.018)_100%)] p-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
-                          <div className="mb-3 flex items-center justify-between gap-3">
-                            <p className="projects-filter-mobile-group-title m-0">
-                              {t.projects.filterGroups?.[groupKey] ?? groupKey}
-                            </p>
-                            <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full border border-white/10 bg-surface-0/58 px-1.5 text-[0.58rem] font-mono text-ink-3">
-                              {filters.length}
-                            </span>
-                          </div>
-
-                          <div className="grid grid-cols-1 gap-2 min-[420px]:grid-cols-2 sm:grid-cols-3">
-                            {filters.map((filterOption) => renderFilterChip(filterOption, {
-                              extraClassName: 'w-full justify-between rounded-xl',
-                              selectedKey: mobilePendingFilter,
-                              onClick: () => setMobilePendingFilter(filterOption.key),
-                            }))}
-                          </div>
-                        </section>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                <div className="projects-mobile-sheet-footer absolute inset-x-0 bottom-0 z-10 border-t border-white/8 bg-[linear-gradient(180deg,rgba(15,22,36,0.82)_0%,rgba(15,22,36,0.98)_100%)] px-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] pt-3 backdrop-blur-md">
-                  <button
-                    type="button"
-                    className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-signal-cyan/28 bg-gradient-to-r from-surface-0 via-surface-0 to-surface-1 px-4 py-3 text-[0.78rem] font-mono font-semibold uppercase tracking-[0.1em] text-ink transition-all duration-150 hover:-translate-y-0.5 hover:border-signal-cyan/42 hover:from-surface-0 hover:to-surface-2 hover:shadow-[0_12px_24px_rgba(8,18,30,0.18),inset_0_1px_0_rgba(255,255,255,0.2)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-cyan/45"
-                    onClick={applyMobilePendingFilter}
-                  >
-                    <span className="inline-flex h-2 w-2 rounded-full bg-signal-cyan/80 shadow-[0_0_0_4px_rgba(59,176,242,0.12)]" aria-hidden="true" />
-                    {t.projects.filtersApply}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </>,
-          document.body,
-        )}
-      </header>
-
-      <div
-        className={`projects-grid projects-grid-dynamic mt-3 md:mt-4 grid grid-cols-1 gap-3 ${projectCount === 1 ? 'projects-grid-single' : ''} projects-grid-sm-${smGridColumns} projects-grid-lg-${lgGridColumns} projects-grid-xl-${xlGridColumns} projects-grid-2xl-${xxlGridColumns}`}
-      >
-          {visibleProjects.length === 0 ? (
-            <article className="project-empty-state border border-line/20 rounded-md p-5 bg-surface-3/58 text-ink-2">
-              <p className="m-0 text-[0.82rem] font-mono tracking-[0.05em] uppercase text-ink-3">{t.projects.emptyStateTitle}</p>
-              <p className="mt-2 mb-0 text-[0.9rem] leading-[1.52]">{t.projects.emptyStateText}</p>
-            </article>
-          ) : visibleProjects.map((project) => {
-            const isSelected = selectedProjectId === project.id;
-            const hasDemo = Boolean(project.links.demo);
-            const previewSrc = project.previewImage;
-            const projectFrontNote = project.category || project.type;
-            const hasActiveFacet = Boolean(activeFacet) && project.facets.some((facet) => facet.toLowerCase() === activeFacet);
-            const isFlipped = flippedProjectId === project.id;
-
+        <div className="space-y-16">
+          {groupedProjects.map(({ category, label, projects: categoryProjects }) => {
+            const gradient = categoryGradients[category];
             return (
-              <article
-                key={project.id}
-                className={`project-card project-showcase project-flip-card border border-line/20 rounded-lg transition-all duration-150 overflow-hidden ${hasActiveFacet ? 'project-card-filter-accent' : ''} ${
-                  isSelected
-                    ? 'bg-surface-4 border-signal-cyan/50 shadow-[inset_0_0_0_1px_rgba(59,176,242,0.16),0_14px_30px_rgba(10,19,30,0.18)]'
-                    : 'bg-surface-3 hover:border-line/40 hover:bg-surface-4'
-                }`}
-                onMouseMove={handleProjectCardPointerMove}
-                onMouseLeave={handleProjectCardPointerLeave}
-              >
-                <span className="project-spotlight" aria-hidden="true" />
-                <div className={`project-flip-inner ${isFlipped ? 'is-flipped' : ''}`}>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setSelectedProjectId(project.id);
-                      if (isTouchFlipMode()) {
-                        setFlippedProjectId((prev) => (prev === project.id ? null : project.id));
-                      }
-                    }}
-                    className="project-flip-face project-flip-front project-card-select w-full text-left bg-transparent border-0 p-0 cursor-pointer"
-                  >
-                    <div className="project-showcase-media-front">
-                      <img
-                        src={previewSrc}
-                        alt={`${project.name} preview`}
-                        className={`project-showcase-image project-showcase-image-${project.id}`}
-                        loading="lazy"
-                        onError={(event) => {
-                          const image = event.currentTarget;
-                          if (image.dataset['fallback'] === '1') return;
-                          image.dataset['fallback'] = '1';
-                          image.src = projectPlaceholder;
-                        }}
-                      />
+              <section key={category} className="card bg-base-200 shadow-lg">
+                <div className="card-body">
+                  <h3 className="card-title text-2xl mb-6">{label}</h3>
+                  {categoryProjects.length === 0 ? (
+                    <p className="text-center text-base-content/60 py-8">{t.projects.emptyStateText}</p>
+                  ) : (
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3 max-w-7xl mx-auto">
+                      {categoryProjects.map((project, index) => {
+                        const gradient = categoryGradients[category];
+                        return (
+                            <div
+                              key={project.id}
+                              className="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 h-80 md:h-96 border border-base-300/30"
+                            >
+                             {/* Gradient Border Wrapper */}
+                             <div className={`rounded-2xl p-[2px] bg-gradient-to-br ${gradient} h-full`}>
+                               <div className="rounded-2xl overflow-hidden bg-base-100 h-full relative">
+                                 {/* Background Image */}
+                                 <div className="relative h-full overflow-hidden">
+                                   <img
+                                     src={project.previewImage}
+                                     alt={project.name}
+                                       className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                                     onError={(e) => {
+                                       (e.target as HTMLImageElement).src = '/portfolio/img/project-placeholder.svg';
+                                     }}
+                                   />
+                                   
+                                     {/* Solid Color Overlay */}
+                                     <div className="absolute inset-0 bg-base-100 opacity-0 group-hover:opacity-95 transition-opacity duration-300" />
+                                   
+                                    {/* Pre-Hover Title Badge */}
+                                    <div className="absolute top-3 left-3 md:top-4 md:left-4 z-10 opacity-100 group-hover:opacity-0 transition-all duration-300 ease-out">
+                                      <div className="badge badge-lg bg-base-100/95 backdrop-blur-md text-base-content font-bold shadow-xl border border-base-300/30 hover:shadow-2xl transition-shadow duration-300">
+                                        {project.name}
+                                      </div>
+                                    </div>
+                                 </div>
+                                 
+                                   {/* Hover Content */}
+                                   <div className="absolute inset-0 flex flex-col justify-end p-4 md:p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                                     {/* Title - Appears first */}
+                                     <h3 className="text-lg md:text-xl font-bold text-base-content mb-1 md:mb-2 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out">
+                                       {project.name}
+                                     </h3>
+                                     
+                                     {/* Description - Appears second */}
+                                     <p className="text-xs md:text-sm text-base-content/80 leading-relaxed mb-3 md:mb-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-75 ease-out">
+                                       {project.summary}
+                                     </p>
+                                    
+                                      {/* Tech Badges - Appears third */}
+                                      <div className="flex flex-wrap gap-2 mb-3 md:mb-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-150 ease-out">
+                                        {project.facets.slice(0, 3).map((facet) => {
+                                          const config = techConfig[facet] || {
+                                            color: 'text-base-content',
+                                            bg: 'bg-base-200',
+                                            border: 'border-base-300',
+                                            icon: null
+                                          };
+                                          
+                                          return (
+                                            <span 
+                                              key={facet} 
+                                              className={`badge badge-md ${config.bg} ${config.color} ${config.border} hover:scale-105 transition-all duration-200 font-semibold shadow-sm gap-1.5`}
+                                            >
+                                              {config.icon}
+                                              {facet}
+                                            </span>
+                                          );
+                                        })}
+                                      </div>
+                                    
+                                     {/* Action Buttons - Appears last */}
+                                     <div className="flex gap-3 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-200 ease-out">
+                                       {project.links.repo && (
+                                         <a
+                                           href={project.links.repo}
+                                           target="_blank"
+                                           rel="noopener noreferrer"
+                                           className="btn btn-outline btn-primary btn-sm gap-2 rounded-xl shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 font-semibold"
+                                           onClick={(e) => e.stopPropagation()}
+                                         >
+                                           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                             <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 2.61.092.792-.225 1.638-.338 2.478-.342.84.004 1.686.117 2.478.342 1.602-.414 2.602-.092 2.602-.092.658 1.652.246 2.872.122 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                           </svg>
+                                           <span className="hidden sm:inline font-semibold">{t.projects.repo}</span>
+                                         </a>
+                                       )}
+                                       {project.links.demo && (
+                                         <a
+                                           href={project.links.demo}
+                                           target="_blank"
+                                           rel="noopener noreferrer"
+                                           className="btn btn-primary btn-sm gap-2 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 font-semibold bg-gradient-to-r from-primary to-primary-focus border-0"
+                                           onClick={(e) => e.stopPropagation()}
+                                         >
+                                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                           </svg>
+                                           <span className="hidden sm:inline font-semibold">{t.projects.demo}</span>
+                                         </a>
+                                       )}
+                                     </div>
+                                  </div>
+                               </div>
+                             </div>
+                           </div>
+                        );
+                      })}
                     </div>
-
-                    <div className="project-front-overlay p-3 md:p-3.5">
-                      <div className="project-front-head flex items-center gap-2">
-                        <span className="project-front-badge" aria-hidden="true">
-                          <TechIcon tech={resolveFacetTechIcon(project.facets[0] ?? 'JavaScript')} className="project-front-badge-icon" />
-                        </span>
-                        <div className="min-w-0">
-                          <h3 className="project-front-title m-0">{project.name}</h3>
-                          <p className="project-front-subtitle mt-1 mb-0">{project.previewLabel || project.summary}</p>
-                        </div>
-                      </div>
-
-                      <div className="project-front-foot mt-2.5 flex items-center">
-                        <span className="project-front-foot-note">{projectFrontNote}</span>
-                      </div>
-                    </div>
-                  </button>
-
-                  <div
-                    className="project-flip-face project-flip-back px-3 md:px-3.5 py-3 md:py-3.5"
-                    onClick={(event) => {
-                      if (!isTouchFlipMode()) return;
-                      const target = event.target as HTMLElement;
-                      if (target.closest('a,button')) return;
-                      setFlippedProjectId(null);
-                    }}
-                  >
-                    <div className="project-back-content">
-                      <div className="project-back-head flex items-start justify-between gap-2">
-                        <h3 className="m-0 text-ink text-[0.9rem] font-semibold tracking-[-0.01em]">{project.name}</h3>
-                      </div>
-
-                      <p className="project-back-summary m-0">{project.summary}</p>
-
-                      <div className="project-back-tech-carousel">
-                        <button
-                          type="button"
-                          className="project-tech-nav"
-                          aria-label={t.projects.techScrollLeft}
-                          data-direction="left"
-                          onClick={handleTechNavClick}
-                        >
-                          {'<-'}
-                        </button>
-                        <div className="project-back-tech-list">
-                          <div className="project-back-tech-track">
-                            {(() => {
-                              const facets = sortFacetsByComplexity(Array.from(new Set(project.facets)));
-                              const repeated = facets.concat(facets);
-                              return repeated.map((facet, index) => {
-                                const isActiveFacetTag = Boolean(activeFacet) && facet.toLowerCase() === activeFacet;
-
-                                return (
-                                  <span
-                                    key={`${facet}-${index}`}
-                                    className={`project-tech-pill project-tech-pill-${resolveFacetTone(facet)} ${isActiveFacetTag ? 'is-active' : ''}`}
-                                    data-tech={resolveFacetTechIcon(facet) ?? undefined}
-                                    title={facet}
-                                    aria-label={facet}
-                                    aria-hidden={index >= facets.length}
-                                  >
-                                    <TechIcon tech={resolveFacetTechIcon(facet)} className="project-tech-pill-icon" />
-                                    <span className="project-tech-pill-label">{facet}</span>
-                                  </span>
-                                );
-                              });
-                            })()}
-                          </div>
-                        </div>
-                        <button
-                          type="button"
-                          className="project-tech-nav"
-                          aria-label={t.projects.techScrollRight}
-                          data-direction="right"
-                          onClick={handleTechNavClick}
-                        >
-                          {'->'}
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="project-actions mt-2.5 border-t border-line/10 pt-2.5 flex flex-wrap gap-2">
-                      <a
-                        href={project.links.repo}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="project-action project-action-repo"
-                        title={t.projects.repo}
-                        aria-label={t.projects.repo}
-                        data-tooltip={t.projects.repo}
-                      >
-                        <GitHubIcon className="project-action-icon w-3.5 h-3.5" />
-                        <span className="project-action-label">{t.projects.repo}</span>
-                      </a>
-                      {hasDemo ? (
-                        <a
-                          href={project.links.demo}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="project-action project-action-demo"
-                          title={t.projects.demo}
-                          aria-label={t.projects.demo}
-                          data-tooltip={t.projects.demo}
-                        >
-                          <ExternalLinkIcon className="project-action-icon w-3.5 h-3.5" />
-                          <span className="project-action-label">{t.projects.demo}</span>
-                        </a>
-                      ) : (
-                        <span
-                          className="project-action project-action-disabled"
-                          title={t.projects.noDemo}
-                          aria-label={t.projects.noDemo}
-                          data-tooltip={t.projects.noDemo}
-                        >
-                          <MaintenanceIcon className="project-action-icon w-3.5 h-3.5" />
-                          <span className="project-action-label">{t.projects.noDemo}</span>
-                        </span>
-                      )}
-                    </div>
-                  </div>
+                  )}
                 </div>
-              </article>
+              </section>
             );
           })}
+        </div>
       </div>
-    </section>
+    </div>
   );
 }

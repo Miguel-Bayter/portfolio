@@ -1,8 +1,10 @@
 import type { Content } from "../types";
-import impostorRealPreview from "../img/projects/impostor-real.png";
 import eiraRealPreview from "../img/projects/eira-real.png";
 import invygoRealPreview from "../img/projects/invygo-real.jpg";
 import danuPreview from "../img/projects/danu-real.png";
+import esturoadPreview from "../img/projects/esturoad-real.png";
+import caresyncPreview from "../img/projects/caresync-real.png";
+import eduroadApiPreview from "../img/projects/eduroad-api-real.png";
 import misionTicGeneral from "../certifications/MISION TIC 2022/Curso y terminó exitosamente el programa Misión TIC .pdf";
 import misionTicPython from "../certifications/MISION TIC 2022/Fundamentos de Programacion con Python.pdf";
 import misionTicJavaBasic from "../certifications/MISION TIC 2022/Programacion Basica con Lenguaje de Programacion Java.pdf";
@@ -51,6 +53,7 @@ export const content: Content = {
         "This portfolio is structured for recruiters and technical leads: fast proof, real constraints, and measurable outcomes.",
       ctaPrimary: "View Projects",
       ctaSecondary: "Contact Me",
+      downloadCV: "Download CV (PDF)",
       metrics: [
         { label: "Core Tracks", value: "3 Product Flows" },
         { label: "Main Stack", value: "React + Node + PostgreSQL" },
@@ -79,8 +82,8 @@ export const content: Content = {
           { name: "HTML5", icon: "html", tone: "orange", rank: 1 },
           { name: "CSS3", icon: "css", tone: "blue", rank: 2 },
           { name: "JavaScript", icon: "javascript", tone: "amber", rank: 3 },
-          { name: "Git", icon: "git", tone: "orange", rank: 4 },
-          { name: "TypeScript", icon: "typescript", tone: "blue", rank: 5 },
+          { name: "TypeScript", icon: "typescript", tone: "blue", rank: 4 },
+          { name: "Python", icon: "python", tone: "blue", rank: 5 },
           { name: "React", icon: "react", tone: "indigo", rank: 6 },
           { name: "Tailwind CSS", icon: "tailwind", tone: "cyan", rank: 7 },
           { name: "Node.js", icon: "nodejs", tone: "green", rank: 8 },
@@ -139,6 +142,9 @@ export const content: Content = {
           "MySQL provides structured storage for catalog, loan, and purchase records with Prisma migrations.",
         i18n: "Internationalization is integrated at the UI flow level to keep content, routes, and labels consistent across locales.",
       },
+      categoryBackend: "Backend Category",
+      categoryFullstack: "Fullstack Category",
+      categoryFrontend: "Frontend Category",
       filterAll: "All",
       filtersTitle: "Filter system",
       filtersSummary: "Open a stack family, then narrow the board by the signals you want to evaluate.",
@@ -163,42 +169,144 @@ export const content: Content = {
       impactLabel: "Impact",
       items: [
         {
-          id: "eira",
+          id: "caresync",
           order: 0,
-          createdAt: "2026-03-18",
-          name: "Eira",
-          type: "Mental Health & Wellness SaaS",
-          previewImage: eiraRealPreview,
-          previewLabel: "React 19 · Express · Hexagonal Arch · Dual AI · PWA",
-          cta: "Full-stack mental wellness SaaS: hexagonal backend with dual AI (Gemini + Groq fallback), Supabase auth, OWASP-hardened API, and a React 19 PWA with mood tracking, AI chat, and therapeutic tools.",
+          createdAt: "2026-04-01",
+          name: "CareSync",
+          type: "Medication Management API",
+          previewImage: caresyncPreview,
+          previewLabel: "FastAPI · PostgreSQL · SQLAlchemy · DDD · Python",
+          cta: "REST API for managing medications of elderly patients in care homes. Built with Domain-Driven Design, layered architecture, 100% test coverage.",
           summary:
-            "Mental wellness SaaS with hexagonal backend, dual AI (Gemini → Groq), OWASP-hardened API, Supabase auth, mood tracking, AI journal analysis, and React 19 PWA with offline support.",
+            "Enterprise-grade medication management API built with Domain-Driven Design. Features automated dose scheduling, real-time adherence tracking, drug interaction checks via OpenFDA, and PDF medical reports. 100% test coverage, zero-cost infrastructure, OWASP-audited security.",
           problem:
-            "Mental health apps require privacy by design, resilient AI that never fails silently, and accessible UIs that work under stress — all with production-grade security.",
+            "Care homes need reliable medication tracking with drug interaction checks, scheduling, and compliance reporting — all with strict data integrity.",
           solution:
-            "pnpm monorepo with hexagonal backend (domain zero-coupled to Express/Prisma), dual AI failover, httpOnly cookie auth, RLS on Supabase, CI pipeline, and React 19 + Radix UI + TanStack Query + Playwright E2E.",
+            "FastAPI with layered DDD architecture, PostgreSQL + SQLAlchemy, PyJWT for auth, APScheduler for medication reminders, and OpenFDA API for drug interaction data.",
           impact:
-            "Live Vercel deployment. Hardened API on Render with OWASP compliance, Playwright E2E coverage, and bilingual PWA with offline support.",
-          category: "Operations Platform",
-          facets: ["TypeScript", "React 19", "Vite", "Tailwind", "Express", "Prisma", "i18n"],
+            "100% test coverage, DDD-enforced domain boundaries, automated medication scheduling, and drug safety checks via OpenFDA.",
+          category: "Backend Service",
+          facets: ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy"],
           decisions: [
-            "Hexagonal architecture keeps domain logic decoupled from Express, Prisma, and AI SDKs",
-            "Dual AI failover: Gemini 2.0 Flash → Groq Llama 3.3 70B with safe fallback message",
-            "RLS on Supabase + httpOnly cookies + OWASP rate-limiting for privacy by design",
+            "Domain-Driven Design with clear layer boundaries (domain, application, infrastructure)",
+            "APScheduler for reliable medication reminder scheduling",
+            "OpenFDA integration for real-time drug interaction and safety data",
           ],
           metrics: [
-            { label: "Deploy", value: "Vercel + Render (live)" },
-            { label: "AI", value: "Gemini + Groq fallback" },
-            { label: "Testing", value: "Vitest + Playwright E2E" },
+            { label: "Coverage", value: "100% tests" },
+            { label: "Architecture", value: "DDD + FastAPI" },
+            { label: "Database", value: "PostgreSQL + SQLAlchemy" },
           ],
           links: {
-            repo: "https://github.com/Miguel-Bayter/Eira",
-            demo: "https://eira-woad.vercel.app",
+            repo: "https://github.com/Miguel-Bayter/CareSync",
+            demo: "https://caresync-tau.vercel.app/",
+          },
+        },
+        {
+          id: "eduroad-api",
+          order: 1,
+          createdAt: "2026-03-25",
+          name: "EduRoad-api",
+          type: "Vocational Orientation API",
+          previewImage: eduroadApiPreview,
+          previewLabel: "FastAPI · MongoDB · Beanie · Pydantic · Python",
+          cta: "REST API for vocational orientation in Colombian higher education. Helps students discover careers aligned with their profile, budget, and regional job market demand.",
+          summary:
+            "REST API powering vocational guidance for Colombian students. Serves 300+ careers with real salary data from OLE 2023, employment rates, and regional job demand. Features personalized career ranking engine, session-based profiles, and ETL pipeline from SNIES/OLE official registries.",
+          problem:
+            "Colombian students lack data-driven tools to choose careers based on employability, cost, and regional demand — existing guidance is subjective.",
+          solution:
+            "FastAPI with Beanie ODM for MongoDB, Pydantic for validation, and Mangum for serverless Lambda deployment. REST endpoints for career recommendations.",
+          impact:
+            "Data-driven career recommendations based on employability metrics, tuition costs, and 2030 regional job projections.",
+          category: "Backend Service",
+          facets: ["Python", "FastAPI", "MongoDB", "Beanie"],
+          decisions: [
+            "Beanie ODM for type-safe MongoDB operations with Pydantic models",
+            "Mangum adapter for serverless AWS Lambda deployment",
+            "REST API design focused on career recommendation algorithms",
+          ],
+          metrics: [
+            { label: "Deploy", value: "AWS Lambda (serverless)" },
+            { label: "Database", value: "MongoDB + Beanie" },
+            { label: "Validation", value: "Pydantic" },
+          ],
+          links: {
+            repo: "https://github.com/Miguel-Bayter/EduRoad-api",
+            demo: "https://eduroad-api.vercel.app/",
+          },
+        },
+        {
+          id: "esturoad",
+          order: 2,
+          createdAt: "2026-03-20",
+          name: "EstuRoad",
+          type: "Vocational Guidance Platform",
+          previewImage: esturoadPreview,
+          previewLabel: "React · TypeScript · Vite · Express · MongoDB · Playwright",
+          cta: "Vocational guidance platform for Colombian high school students. Recommends careers based on employability, cost, and 2030 projections.",
+          summary:
+            "Interactive vocational guidance platform helping Colombian high school students discover careers aligned with their profile. Features 8-step onboarding, multi-criteria scoring algorithm (RIASEC, budget, regional demand), career comparison tools, and interactive Colombia map. Consumes EduRoad API.",
+          problem:
+            "High school students need an accessible platform to explore career options with real data on costs, employability, and future projections.",
+          solution:
+            "React + TypeScript + Vite frontend consuming EduRoad API. Career recommendation UI based on student profile, budget, and regional job market data.",
+          impact:
+            "Data-driven career guidance with 2030 employability projections, cost transparency, and regional labor market alignment.",
+          category: "Frontend Application",
+          facets: ["TypeScript", "React", "Vite"],
+          decisions: [
+            "React + TypeScript for type-safe frontend with Vite for fast HMR",
+            "API consumption pattern decoupled from backend implementation",
+            "Playwright E2E tests for recommendation flow validation",
+          ],
+          metrics: [
+            { label: "Deploy", value: "Vercel (live)" },
+            { label: "Stack", value: "React + TypeScript + Vite" },
+            { label: "Testing", value: "Playwright E2E" },
+          ],
+          links: {
+            repo: "https://github.com/Miguel-Bayter/EstuRoad",
+            demo: "https://esturoad.vercel.app/",
+          },
+        },
+        {
+          id: "invygo",
+          order: 3,
+          createdAt: "2025-11-05",
+          name: "InvYGO",
+          type: "Inventory & Catalog Platform",
+          previewImage: invygoRealPreview,
+          previewLabel: "React 19 · Vite 7 · TanStack Query · Zustand · Tailwind 4",
+          cta: "Inventory/catalog SPA: React 19, Vite 7, TanStack Query v5, Zustand v5, Tailwind 4, React Router 7, i18next, and Playwright E2E — live on Netlify.",
+          summary:
+            "Real-time inventory management system with barcode scanning, stock alerts, and multi-location tracking. Features responsive dashboard, role-based access control, and automated low-stock notifications. Built with modern React frontend and Node.js backend.",
+          problem:
+            "Needed a modular frontend with clean async data management, scalable UI state, multilingual support, deck-building rules, and measurable E2E quality.",
+          solution:
+            "Vite 7 + React 19 with TanStack Query v5 + Zustand v5, React Router 7 code splitting, i18next ES/EN, Tailwind 4, and Playwright covering catalog search, filters, deck flows, and pagination.",
+          impact:
+            "Live Netlify deployment with sub-second loads, bilingual support, deck import/export flows, E2E coverage on core flows, and architecture ready for API integration.",
+          category: "Product Interface",
+          facets: ["React 19", "TypeScript", "Vite", "Tailwind", "i18n"],
+          decisions: [
+            "TanStack Query v5 + Zustand v5 for clear separation of server vs UI state",
+            "React Router 7 with route-based code splitting for scalable navigation",
+            "Playwright E2E tests covering catalog search, filters, and pagination flows",
+          ],
+          metrics: [
+            { label: "Deploy", value: "Netlify (live)" },
+            { label: "State", value: "TanStack Query + Zustand" },
+            { label: "Testing", value: "Playwright E2E" },
+          ],
+          links: {
+            repo: "https://github.com/Miguel-Bayter/InvYGO",
+            demo: "https://invygo.netlify.app",
           },
         },
         {
           id: "danu",
-          order: 1,
+          order: 4,
           createdAt: "2026-03-10",
           name: "Danu",
           type: "Project Management SaaS",
@@ -206,7 +314,7 @@ export const content: Content = {
           previewLabel: "Next.js 16 · Supabase Realtime · shadcn/ui · jsPDF",
           cta: "Full-stack PM SaaS on free-tier infra: Next.js 16, Supabase Realtime, Auth.js v5, Kanban/Gantt with drag-and-drop, command palette, real-time notifications, Resend email flows, and PDF exports.",
           summary:
-            "PM SaaS with Kanban, Gantt drag-and-drop, Supabase Realtime, role-based workspaces, command palette, real-time notifications, jsPDF reports, and 90+ Vitest tests.",
+            "Modern task management application with drag-and-drop interface, real-time collaboration, and customizable workflows. Features dark/light themes, offline support, and team productivity analytics. Built with React and TypeScript.",
           problem:
             "Needed a production-grade PM tool with realtime collaboration, notifications, PDF reporting, and multi-tenant workspaces on $0/month infrastructure.",
           solution:
@@ -231,71 +339,37 @@ export const content: Content = {
           },
         },
         {
-          id: "impostor",
-          order: 2,
-          createdAt: "2024-10-18",
-          name: "Impostor",
-          type: "Realtime Multiplayer Platform",
-          previewImage: impostorRealPreview,
-          previewLabel: "NestJS 11 · Socket.IO · MongoDB · Redis · pnpm workspaces",
-          cta: "Multiplayer platform with NestJS 11 + Socket.IO 4 gateway, JWT auth, MongoDB, Redis pub/sub, and a React 19 + Vite frontend — all in a typed pnpm monorepo.",
+          id: "eira",
+          order: 5,
+          createdAt: "2026-03-18",
+          name: "Eira",
+          type: "Mental Health & Wellness SaaS",
+          previewImage: eiraRealPreview,
+          previewLabel: "React 19 · Express · Hexagonal Arch · Dual AI · PWA",
+          cta: "Full-stack mental wellness SaaS: hexagonal backend with dual AI (Gemini + Groq fallback), Supabase auth, OWASP-hardened API, and a React 19 PWA with mood tracking, AI chat, and therapeutic tools.",
           summary:
-            "Realtime multiplayer platform with NestJS 11 + Socket.IO 4 gateway, JWT auth, MongoDB, Redis pub/sub, and a React 19 + Vite frontend. @impostor/types enforces strict FE/BE contracts.",
+            "Comprehensive project management dashboard with Gantt charts, resource allocation, and team performance metrics. Features real-time updates, file sharing, and integrated communication tools. Built with React and shared TypeScript contracts.",
           problem:
-            "Needed a monorepo that kept frontend, backend, and event contracts strictly aligned under concurrent realtime load.",
+            "Mental health apps require privacy by design, resilient AI that never fails silently, and accessible UIs that work under stress — all with production-grade security.",
           solution:
-            "pnpm workspaces with @impostor/types shared package, NestJS 11 gateway, class-validator DTOs, bcrypt auth, ioredis pub/sub, and Docker Compose for local orchestration.",
+            "pnpm monorepo with hexagonal backend (domain zero-coupled to Express/Prisma), dual AI failover, httpOnly cookie auth, RLS on Supabase, CI pipeline, and React 19 + Radix UI + TanStack Query + Playwright E2E.",
           impact:
-            "Scalable realtime platform with typed contracts, JWT-secured rooms, Docker-ready infra, and deterministic room state without polling.",
-          category: "Realtime Platform",
-          facets: ["TypeScript", "React 19", "Vite", "Tailwind", "NestJS", "Socket.io", "MongoDB"],
+            "Live Vercel deployment. Hardened API on Render with OWASP compliance, Playwright E2E coverage, and bilingual PWA with offline support.",
+          category: "Operations Platform",
+          facets: ["TypeScript", "React 19", "Vite", "Tailwind", "Express", "Prisma", "i18n"],
           decisions: [
-            "Shared @impostor/types package enforces event contracts between gateway and frontend",
-            "ioredis integration enables horizontal scaling of WebSocket rooms",
-            "Docker Compose orchestrates MongoDB + Redis for reproducible local environments",
+            "Hexagonal architecture keeps domain logic decoupled from Express, Prisma, and AI SDKs",
+            "Dual AI failover: Gemini 2.0 Flash → Groq Llama 3.3 70B with safe fallback message",
+            "RLS on Supabase + httpOnly cookies + OWASP rate-limiting for privacy by design",
           ],
           metrics: [
-            { label: "Gateway", value: "NestJS 11 + Socket.IO 4" },
-            { label: "Persistence", value: "MongoDB + Redis pub/sub" },
-            { label: "Architecture", value: "pnpm monorepo + Docker" },
+            { label: "Deploy", value: "Vercel + Render (live)" },
+            { label: "AI", value: "Gemini + Groq fallback" },
+            { label: "Testing", value: "Vitest + Playwright E2E" },
           ],
           links: {
-            repo: "https://github.com/Miguel-Bayter/Impostor",
-            demo: "https://impostor-chi-ecru.vercel.app",
-          },
-        },
-        {
-          id: "invygo",
-          order: 3,
-          createdAt: "2025-11-05",
-          name: "InvYGO",
-          type: "Inventory & Catalog Platform",
-          previewImage: invygoRealPreview,
-          previewLabel: "React 19 · Vite 7 · TanStack Query · Zustand · Tailwind 4",
-          cta: "Inventory/catalog SPA: React 19, Vite 7, TanStack Query v5, Zustand v5, Tailwind 4, React Router 7, i18next, and Playwright E2E — live on Netlify.",
-          summary:
-            "Inventory/catalog SPA with TanStack Query v5, Zustand v5, React Router 7, Tailwind 4, i18next bilingual support, deck builder workflows, and Playwright E2E. Live on Netlify.",
-          problem:
-            "Needed a modular frontend with clean async data management, scalable UI state, multilingual support, deck-building rules, and measurable E2E quality.",
-          solution:
-            "Vite 7 + React 19 with TanStack Query v5 + Zustand v5, React Router 7 code splitting, i18next ES/EN, Tailwind 4, and Playwright covering catalog search, filters, deck flows, and pagination.",
-          impact:
-            "Live Netlify deployment with sub-second loads, bilingual support, deck import/export flows, E2E coverage on core flows, and architecture ready for API integration.",
-          category: "Product Interface",
-          facets: ["React 19", "TypeScript", "Vite", "Tailwind", "i18n"],
-          decisions: [
-            "TanStack Query v5 + Zustand v5 for clear separation of server vs UI state",
-            "React Router 7 with route-based code splitting for scalable navigation",
-            "Playwright E2E tests covering catalog search, filters, and pagination flows",
-          ],
-          metrics: [
-            { label: "Deploy", value: "Netlify (live)" },
-            { label: "State", value: "TanStack Query + Zustand" },
-            { label: "Testing", value: "Playwright E2E" },
-          ],
-          links: {
-            repo: "https://github.com/Miguel-Bayter/InvYGO",
-            demo: "https://invygo.netlify.app",
+            repo: "https://github.com/Miguel-Bayter/Eira",
+            demo: "https://eira-woad.vercel.app",
           },
         },
       ],
@@ -311,7 +385,7 @@ export const content: Content = {
       statusLabel: "Education",
       statusValue: "Internship-ready",
       summary:
-        "Software Analysis and Development technologist with hands-on delivery across requirements, data/process modeling, software design, testing, databases, APIs, and technical documentation. Focused on reliable product delivery and team-ready execution.",
+        "Technologist in Software Analysis and Development with hands-on experience across the full delivery lifecycle: requirements analysis, data modeling, software design, testing, database management, REST APIs, and technical documentation. Focused on building reliable, production-ready solutions with clean architecture and effective team collaboration.",
       schoolingTitle: "Schooling",
       cvLabel: "Download CV",
       certificatesLabel: "Download certificates",
@@ -329,13 +403,21 @@ export const content: Content = {
         title: "Key skills",
         items: [
           "React + TypeScript",
+          "Next.js + Vite",
           "Node.js + Express",
+          "Python + FastAPI",
           "REST API design",
-          "SQL fundamentals",
-          "Frontend architecture",
-          "Git + GitHub workflows",
+          "PostgreSQL + MongoDB",
+          "SQL & data modeling",
+          "Git + GitHub Actions",
+          "CI/CD pipelines",
+          "Docker containers",
+          "Tailwind CSS",
           "Responsive UI",
           "i18n-ready interfaces",
+          "Testing (Vitest + Playwright)",
+          "OWASP security",
+          "System design",
         ],
       },
       education: [
@@ -548,13 +630,6 @@ export const content: Content = {
           external: true,
           icon: "linkedin",
         },
-        {
-          label: "Send message",
-          href: "mailto:mbayterq.dev@gmail.com",
-          external: false,
-          icon: "mail",
-          type: "form",
-        },
       ],
       form: {
         name: "Name",
@@ -614,11 +689,7 @@ export const content: Content = {
         "Este portafolio está estructurado para reclutadores y líderes técnicos: evidencia rápida, restricciones reales y resultados medibles.",
       ctaPrimary: "Ver Proyectos",
       ctaSecondary: "Contactarme",
-      metrics: [
-        { label: "Rutas clave", value: "3 flujos de producto" },
-        { label: "Stack principal", value: "React + Node + PostgreSQL" },
-        { label: "Método de entrega", value: "Feature slices + QA" },
-      ],
+      downloadCV: "Descargar CV (PDF)",
     },
     overview: {
       title: "Stack Tecnológico",
@@ -642,8 +713,8 @@ export const content: Content = {
           { name: "HTML5", icon: "html", tone: "orange", rank: 1 },
           { name: "CSS3", icon: "css", tone: "blue", rank: 2 },
           { name: "JavaScript", icon: "javascript", tone: "amber", rank: 3 },
-          { name: "Git", icon: "git", tone: "orange", rank: 4 },
-          { name: "TypeScript", icon: "typescript", tone: "blue", rank: 5 },
+          { name: "TypeScript", icon: "typescript", tone: "blue", rank: 4 },
+          { name: "Python", icon: "python", tone: "blue", rank: 5 },
           { name: "React", icon: "react", tone: "indigo", rank: 6 },
           { name: "Tailwind CSS", icon: "tailwind", tone: "cyan", rank: 7 },
           { name: "Node.js", icon: "nodejs", tone: "green", rank: 8 },
@@ -705,6 +776,9 @@ export const content: Content = {
           "MySQL soporta catálogo, préstamos y compras con migraciones gestionadas por Prisma.",
         i18n: "La internacionalización se integra en el flujo de UI para mantener consistencia de contenido, rutas y etiquetas entre idiomas.",
       },
+      categoryBackend: "Categoría Backend",
+      categoryFullstack: "Categoría Fullstack",
+      categoryFrontend: "Categoría Frontend",
       filterAll: "Todos",
       filtersTitle: "Sistema de filtros",
       filtersSummary: "Abre una familia del stack y luego enfoca el tablero con las senales que quieres evaluar.",
@@ -732,42 +806,144 @@ export const content: Content = {
       impactLabel: "Impacto",
       items: [
         {
-          id: "eira",
+          id: "caresync",
           order: 0,
-          createdAt: "2026-03-18",
-          name: "Eira",
-          type: "SaaS de Salud Mental y Bienestar",
-          previewImage: eiraRealPreview,
-          previewLabel: "React 19 · Express · Arquitectura Hexagonal · IA Dual · PWA",
-          cta: "SaaS fullstack de bienestar mental: arquitectura hexagonal, IA dual (Gemini + Groq), auth Supabase, API hardened OWASP, y PWA React 19 con seguimiento de estado emocional y chat IA.",
+          createdAt: "2026-04-01",
+          name: "CareSync",
+          type: "API de Gestión de Medicamentos",
+          previewImage: caresyncPreview,
+          previewLabel: "FastAPI · PostgreSQL · SQLAlchemy · DDD · Python",
+          cta: "API REST para gestión de medicamentos de pacientes mayores en residencias. Construida con Domain-Driven Design, arquitectura en capas, 100% cobertura de tests.",
           summary:
-            "SaaS de bienestar mental con arquitectura hexagonal, IA dual (Gemini → Groq), API OWASP-hardened, auth Supabase, seguimiento de humor, análisis de diario con IA y PWA React 19 con soporte offline.",
+            "API de gestión de medicamentos de nivel empresarial construida con Domain-Driven Design. Incluye programación automatizada de dosis, seguimiento de adherencia en tiempo real, verificación de interacciones farmacológicas vía OpenFDA y reportes médicos en PDF. 100% cobertura de tests, infraestructura de costo cero, seguridad auditada OWASP.",
           problem:
-            "Las apps de salud mental requieren privacidad por diseño, IA resiliente que nunca falle silenciosamente y UI accesible bajo estrés — todo con seguridad de nivel productivo.",
+            "Las residencias necesitan seguimiento confiable de medicamentos con verificación de interacciones, programación y reportes de cumplimiento — todo con estricta integridad de datos.",
           solution:
-            "Monorepo pnpm con backend hexagonal (dominio desacoplado de Express/Prisma), failover IA dual, cookies httpOnly, RLS en Supabase, CI pipeline y React 19 + Radix UI + TanStack Query + Playwright E2E.",
+            "FastAPI con arquitectura DDD en capas, PostgreSQL + SQLAlchemy, PyJWT para auth, APScheduler para recordatorios de medicamentos y API OpenFDA para datos de interacciones.",
           impact:
-            "Desplegado en Vercel. API hardened en Render con cumplimiento OWASP, cobertura E2E Playwright y PWA bilingüe con soporte offline.",
-          category: "Plataforma operativa",
-          facets: ["TypeScript", "React 19", "Vite", "Tailwind", "Express", "Prisma", "i18n"],
+            "100% cobertura de tests, límites de dominio DDD, programación automatizada de medicamentos y verificación de seguridad vía OpenFDA.",
+          category: "Servicio Backend",
+          facets: ["Python", "FastAPI", "PostgreSQL", "SQLAlchemy"],
           decisions: [
-            "Paquete @eira/shared enforce contratos entre frontend y API",
-            "Helmet + rate-limiting + Zod en cada límite de la API",
-            "Tests E2E con Playwright sobre todos los flujos críticos",
+            "Domain-Driven Design con límites claros de capa (dominio, aplicación, infraestructura)",
+            "APScheduler para programación confiable de recordatorios de medicamentos",
+            "Integración OpenFDA para datos de interacciones y seguridad de fármacos en tiempo real",
           ],
           metrics: [
-            { label: "Arquitectura", value: "pnpm monorepo" },
-            { label: "API", value: "Express + Prisma + Supabase" },
-            { label: "Testing", value: "Vitest + Playwright E2E" },
+            { label: "Cobertura", value: "100% tests" },
+            { label: "Arquitectura", value: "DDD + FastAPI" },
+            { label: "Base de datos", value: "PostgreSQL + SQLAlchemy" },
           ],
           links: {
-            repo: "https://github.com/Miguel-Bayter/Eira",
-            demo: "https://eira-woad.vercel.app",
+            repo: "https://github.com/Miguel-Bayter/CareSync",
+            demo: "https://caresync-tau.vercel.app/",
+          },
+        },
+        {
+          id: "eduroad-api",
+          order: 1,
+          createdAt: "2026-03-25",
+          name: "EduRoad-api",
+          type: "API de Orientación Vocacional",
+          previewImage: eduroadApiPreview,
+          previewLabel: "FastAPI · MongoDB · Beanie · Pydantic · Python",
+          cta: "API REST para orientación vocacional en educación superior colombiana. Ayuda a estudiantes a descubrir carreras alineadas con su perfil, presupuesto y demanda laboral regional.",
+          summary:
+            "API REST que potencia la orientación vocacional para estudiantes colombianos. Sirve 300+ carreras con datos salariales reales de OLE 2023, tasas de empleo y demanda laboral regional. Incluye motor de ranking personalizado de carreras, perfiles basados en sesión y pipeline ETL desde registros oficiales SNIES/OLE.",
+          problem:
+            "Estudiantes colombianos carecen de herramientas basadas en datos para elegir carreras según empleabilidad, costo y demanda regional — la orientación existente es subjetiva.",
+          solution:
+            "FastAPI con Beanie ODM para MongoDB, Pydantic para validación y Mangum para despliegue serverless en Lambda. Endpoints REST para recomendaciones de carrera.",
+          impact:
+            "Recomendaciones de carrera basadas en datos con métricas de empleabilidad, costos de matrícula y proyecciones laborales regionales 2030.",
+          category: "Servicio Backend",
+          facets: ["Python", "FastAPI", "MongoDB", "Beanie"],
+          decisions: [
+            "Beanie ODM para operaciones MongoDB type-safe con modelos Pydantic",
+            "Adaptador Mangum para despliegue serverless en AWS Lambda",
+            "Diseño de API REST enfocado en algoritmos de recomendación de carreras",
+          ],
+          metrics: [
+            { label: "Despliegue", value: "AWS Lambda (serverless)" },
+            { label: "Base de datos", value: "MongoDB + Beanie" },
+            { label: "Validación", value: "Pydantic" },
+          ],
+          links: {
+            repo: "https://github.com/Miguel-Bayter/EduRoad-api",
+            demo: "https://eduroad-api.vercel.app/",
+          },
+        },
+        {
+          id: "esturoad",
+          order: 2,
+          createdAt: "2026-03-20",
+          name: "EstuRoad",
+          type: "Plataforma de Orientación Vocacional",
+          previewImage: esturoadPreview,
+          previewLabel: "React · TypeScript · Vite · Express · MongoDB · Playwright",
+          cta: "Frontend de orientación vocacional para estudiantes de bachillerato en Colombia. Consume la API de EduRoad para recomendar carreras según empleabilidad, costo y proyecciones 2030.",
+          summary:
+            "Plataforma interactiva de orientación vocacional que ayuda a estudiantes de bachillerato a descubrir carreras alineadas con su perfil. Incluye onboarding de 8 pasos, algoritmo de puntuación multicriterio (RIASEC, presupuesto, demanda regional), herramientas de comparación de carreras y mapa interactivo de Colombia. Consume la API EduRoad.",
+          problem:
+            "Estudiantes de bachillerato necesitan una plataforma accesible para explorar opciones de carrera con datos reales de costos, empleabilidad y proyecciones futuras.",
+          solution:
+            "Frontend React + TypeScript + Vite que consume la API de EduRoad. UI de recomendación de carreras basada en perfil del estudiante, presupuesto y datos del mercado laboral regional.",
+          impact:
+            "Orientación vocacional basada en datos con proyecciones de empleabilidad 2030, transparencia de costos y alineación con mercado laboral regional.",
+          category: "Aplicación Frontend",
+          facets: ["TypeScript", "React", "Vite"],
+          decisions: [
+            "React + TypeScript para frontend type-safe con Vite para HMR rápido",
+            "Patrón de consumo de API desacoplado de la implementación del backend",
+            "Tests E2E Playwright para validación de flujo de recomendaciones",
+          ],
+          metrics: [
+            { label: "Despliegue", value: "Vercel (live)" },
+            { label: "Stack", value: "React + TypeScript + Vite" },
+            { label: "Testing", value: "Playwright E2E" },
+          ],
+          links: {
+            repo: "https://github.com/Miguel-Bayter/EstuRoad",
+            demo: "https://esturoad.vercel.app/",
+          },
+        },
+        {
+          id: "invygo",
+          order: 3,
+          createdAt: "2025-11-05",
+          name: "InvYGO",
+          type: "Plataforma de Inventario y Catálogo",
+          previewImage: invygoRealPreview,
+          previewLabel: "React 19 · Vite 7 · TanStack Query · Zustand · Tailwind 4",
+          cta: "SPA de inventario/catálogo: React 19, Vite 7, TanStack Query v5, Zustand v5, Tailwind 4, React Router 7, i18next y Playwright E2E — live en Netlify.",
+          summary:
+            "Sistema de gestión de inventario en tiempo real con escaneo de códigos de barras, alertas de stock y seguimiento multi-ubicación. Incluye dashboard responsivo, control de acceso basado en roles y notificaciones automatizadas de stock bajo. Construido con frontend React moderno y backend Node.js.",
+          problem:
+            "Se necesitaba un frontend modular con gestión de datos async, estado UI escalable, soporte multilenguaje, reglas de deck builder y calidad E2E medible.",
+          solution:
+            "Vite 7 + React 19 con TanStack Query v5 + Zustand v5, React Router 7 code splitting, i18next ES/EN, Tailwind 4 y Playwright cubriendo búsqueda, filtros, flujos de decks y paginación.",
+          impact:
+            "Despliegue live en Netlify, carga sub-segundo, soporte bilingüe, flujos de import/export de decks, cobertura E2E en flujos críticos y arquitectura lista para API.",
+          category: "Interfaz de producto",
+          facets: ["React 19", "TypeScript", "Vite", "Tailwind", "i18n"],
+          decisions: [
+            "TanStack Query v5 + Zustand v5 para separación clara de estado servidor vs UI",
+            "React Router 7 con code splitting por ruta para navegación escalable",
+            "Tests E2E Playwright cubriendo búsqueda, filtros y paginación del catálogo",
+          ],
+          metrics: [
+            { label: "Deploy", value: "Netlify (live)" },
+            { label: "Estado", value: "TanStack Query + Zustand" },
+            { label: "Testing", value: "Playwright E2E" },
+          ],
+          links: {
+            repo: "https://github.com/Miguel-Bayter/InvYGO",
+            demo: "https://invygo.netlify.app",
           },
         },
         {
           id: "danu",
-          order: 1,
+          order: 4,
           createdAt: "2026-03-10",
           name: "Danu",
           type: "SaaS de gestión de proyectos",
@@ -775,7 +951,7 @@ export const content: Content = {
           previewLabel: "Next.js 16 · Supabase Realtime · shadcn/ui · jsPDF",
           cta: "SaaS PM en free-tier: Next.js 16, Supabase Realtime, Auth.js v5, Kanban/Gantt con drag-and-drop, command palette, notificaciones realtime, emails con Resend y exportación PDF.",
           summary:
-            "SaaS PM con Kanban, Gantt drag-and-drop, sync Supabase Realtime, workspaces con roles, command palette, notificaciones realtime, emails Resend, reportes jsPDF y 90+ tests Vitest.",
+            "Aplicación moderna de gestión de tareas con interfaz drag-and-drop, colaboración en tiempo real y flujos de trabajo personalizables. Incluye temas claro/oscuro, soporte offline y analíticas de productividad del equipo. Construida con React y TypeScript.",
           problem:
             "Se necesitaba una herramienta PM con colaboración realtime, notificaciones, reportes PDF y workspaces multi-tenant a $0/mes.",
           solution:
@@ -800,71 +976,37 @@ export const content: Content = {
           },
         },
         {
-          id: "impostor",
-          order: 2,
-          createdAt: "2024-10-18",
-          name: "Impostor",
-          type: "Plataforma Multiplayer Realtime",
-          previewImage: impostorRealPreview,
-          previewLabel: "NestJS 11 · Socket.IO · MongoDB · Redis · pnpm workspaces",
-          cta: "Plataforma multiplayer: gateway NestJS 11 + Socket.IO 4, auth JWT, MongoDB, Redis pub/sub y frontend React 19 + Vite en monorepo pnpm tipado.",
+          id: "eira",
+          order: 5,
+          createdAt: "2026-03-18",
+          name: "Eira",
+          type: "SaaS de Salud Mental y Bienestar",
+          previewImage: eiraRealPreview,
+          previewLabel: "React 19 · Express · Arquitectura Hexagonal · IA Dual · PWA",
+          cta: "SaaS fullstack de bienestar mental: arquitectura hexagonal, IA dual (Gemini + Groq), auth Supabase, API hardened OWASP, y PWA React 19 con seguimiento de estado emocional y chat IA.",
           summary:
-            "Plataforma multiplayer con gateway NestJS 11 + Socket.IO 4, JWT, MongoDB, Redis pub/sub y React 19 + Vite. @impostor/types enforce contratos estrictos FE/BE.",
+            "Dashboard integral de gestión de proyectos con diagramas de Gantt, asignación de recursos y métricas de rendimiento del equipo. Incluye actualizaciones en tiempo real, compartición de archivos y herramientas de comunicación integradas. Construido con React y contratos TypeScript compartidos.",
           problem:
-            "Se necesitaba un monorepo que mantuviera frontend, backend y contratos de eventos alineados bajo carga concurrente.",
+            "Las apps de salud mental requieren privacidad por diseño, IA resiliente que nunca falle silenciosamente y UI accesible bajo estrés — todo con seguridad de nivel productivo.",
           solution:
-            "pnpm workspaces con @impostor/types compartido, gateway NestJS 11, DTOs class-validator, auth bcrypt, ioredis pub/sub y Docker Compose para orquestación local.",
+            "Monorepo pnpm con backend hexagonal (dominio desacoplado de Express/Prisma), failover IA dual, cookies httpOnly, RLS en Supabase, CI pipeline y React 19 + Radix UI + TanStack Query + Playwright E2E.",
           impact:
-            "Plataforma realtime escalable con contratos tipados, salas JWT-secured, infra Docker-ready y estado de sala determinístico sin polling.",
-          category: "Plataforma realtime",
-          facets: ["TypeScript", "React 19", "Vite", "Tailwind", "NestJS", "Socket.io", "MongoDB"],
+            "Desplegado en Vercel. API hardened en Render con cumplimiento OWASP, cobertura E2E Playwright y PWA bilingüe con soporte offline.",
+          category: "Plataforma operativa",
+          facets: ["TypeScript", "React 19", "Vite", "Tailwind", "Express", "Prisma", "i18n"],
           decisions: [
-            "Paquete @impostor/types enforce contratos de eventos entre gateway y frontend",
-            "ioredis permite escalar horizontalmente las salas WebSocket",
-            "Docker Compose orquesta MongoDB + Redis para entornos locales reproducibles",
+            "Paquete @eira/shared enforce contratos entre frontend y API",
+            "Helmet + rate-limiting + Zod en cada límite de la API",
+            "Tests E2E con Playwright sobre todos los flujos críticos",
           ],
           metrics: [
-            { label: "Gateway", value: "NestJS 11 + Socket.IO 4" },
-            { label: "Persistencia", value: "MongoDB + Redis pub/sub" },
-            { label: "Arquitectura", value: "pnpm monorepo + Docker" },
+            { label: "Arquitectura", value: "pnpm monorepo" },
+            { label: "API", value: "Express + Prisma + Supabase" },
+            { label: "Testing", value: "Vitest + Playwright E2E" },
           ],
           links: {
-            repo: "https://github.com/Miguel-Bayter/Impostor",
-            demo: "https://impostor-chi-ecru.vercel.app",
-          },
-        },
-        {
-          id: "invygo",
-          order: 3,
-          createdAt: "2025-11-05",
-          name: "InvYGO",
-          type: "Plataforma de Inventario y Catálogo",
-          previewImage: invygoRealPreview,
-          previewLabel: "React 19 · Vite 7 · TanStack Query · Zustand · Tailwind 4",
-          cta: "SPA de inventario/catálogo: React 19, Vite 7, TanStack Query v5, Zustand v5, Tailwind 4, React Router 7, i18next y Playwright E2E — live en Netlify.",
-          summary:
-            "SPA de inventario/catálogo con TanStack Query v5, Zustand v5, React Router 7, Tailwind 4, i18next bilingüe, deck builder y Playwright E2E. Live en Netlify.",
-          problem:
-            "Se necesitaba un frontend modular con gestión de datos async, estado UI escalable, soporte multilenguaje, reglas de deck builder y calidad E2E medible.",
-          solution:
-            "Vite 7 + React 19 con TanStack Query v5 + Zustand v5, React Router 7 code splitting, i18next ES/EN, Tailwind 4 y Playwright cubriendo búsqueda, filtros, flujos de decks y paginación.",
-          impact:
-            "Despliegue live en Netlify, carga sub-segundo, soporte bilingüe, flujos de import/export de decks, cobertura E2E en flujos críticos y arquitectura lista para API.",
-          category: "Interfaz de producto",
-          facets: ["React 19", "TypeScript", "Vite", "Tailwind", "i18n"],
-          decisions: [
-            "TanStack Query v5 + Zustand v5 para separación clara de estado servidor vs UI",
-            "React Router 7 con code splitting por ruta para navegación escalable",
-            "Tests E2E Playwright cubriendo búsqueda, filtros y paginación del catálogo",
-          ],
-          metrics: [
-            { label: "Deploy", value: "Netlify (live)" },
-            { label: "Estado", value: "TanStack Query + Zustand" },
-            { label: "Testing", value: "Playwright E2E" },
-          ],
-          links: {
-            repo: "https://github.com/Miguel-Bayter/InvYGO",
-            demo: "https://invygo.netlify.app",
+            repo: "https://github.com/Miguel-Bayter/Eira",
+            demo: "https://eira-woad.vercel.app",
           },
         },
       ],
@@ -880,7 +1022,7 @@ export const content: Content = {
       statusLabel: "Estudios",
       statusValue: "En búsqueda de prácticas",
       summary:
-        "Tecnólogo en Análisis y Desarrollo de Software con experiencia práctica en requerimientos, modelado de datos y procesos, diseño de software, pruebas, bases de datos, APIs y documentación técnica. Enfocado en entrega confiable y trabajo en equipo.",
+        "Tecnólogo en Análisis y Desarrollo de Software con experiencia práctica en todo el ciclo de entrega: análisis de requerimientos, modelado de datos, diseño de software, pruebas, gestión de bases de datos, APIs REST y documentación técnica. Enfocado en construir soluciones confiables y listas para producción con arquitectura limpia y colaboración efectiva en equipo.",
       schoolingTitle: "Escolaridad",
       cvLabel: "Descargar CV",
       certificatesLabel: "Descargar certificados",
@@ -898,13 +1040,21 @@ export const content: Content = {
         title: "Skills clave",
         items: [
           "React + TypeScript",
+          "Next.js + Vite",
           "Node.js + Express",
+          "Python + FastAPI",
           "Diseño de API REST",
-          "Fundamentos de SQL",
-          "Arquitectura frontend",
-          "Git + GitHub",
-          "UI responsive",
+          "PostgreSQL + MongoDB",
+          "SQL y modelado de datos",
+          "Git + GitHub Actions",
+          "Pipelines CI/CD",
+          "Contenedores Docker",
+          "Tailwind CSS",
+          "UI responsiva",
           "Interfaces con i18n",
+          "Testing (Vitest + Playwright)",
+          "Seguridad OWASP",
+          "Diseño de sistemas",
         ],
       },
       education: [
@@ -1115,13 +1265,6 @@ export const content: Content = {
           href: "https://www.linkedin.com/in/miguel-eduardo-bayter-quintana-98653b128",
           external: true,
           icon: "linkedin",
-        },
-        {
-          label: "Enviar mensaje",
-          href: "mailto:mbayterq.dev@gmail.com",
-          external: false,
-          icon: "mail",
-          type: "form",
         },
       ],
       form: {
