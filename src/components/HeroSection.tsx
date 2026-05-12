@@ -54,12 +54,6 @@ export function HeroSection({ t, onNavigate }: HeroSectionProps) {
     });
   }, []);
 
-  useEffect(() => {
-    if (isMobile && isLoaded && !isActive) {
-      setIsActive(true);
-    }
-  }, [isMobile, isLoaded]);
-
   const advanceFrame = useCallback(() => {
     setCurrentFrame((current) => {
       const next = (current + 1) % ANIMATION_FRAMES.length;
@@ -68,28 +62,17 @@ export function HeroSection({ t, onNavigate }: HeroSectionProps) {
       setTimeout(() => setIsCrossfading(false), 50);
       
       if (next === ANIMATION_FRAMES.length - 1) {
-        if (isMobile) {
-          hasReachedEndRef.current = false;
-        } else {
-          hasReachedEndRef.current = true;
-        }
+        hasReachedEndRef.current = true;
       }
       
       return next;
     });
-  }, [isMobile]);
+  }, []);
 
   const animate = useCallback(
     (timestamp: number) => {
-      if (hasReachedEndRef.current && !isMobile) {
+      if (hasReachedEndRef.current) {
         return;
-      }
-
-      if (hasReachedEndRef.current && isMobile) {
-        hasReachedEndRef.current = false;
-        setCurrentFrame(0);
-        setPrevFrame(0);
-        lastFrameTimeRef.current = 0;
       }
 
       if (!lastFrameTimeRef.current) {
@@ -105,7 +88,7 @@ export function HeroSection({ t, onNavigate }: HeroSectionProps) {
 
       animationRef.current = requestAnimationFrame(animate);
     },
-    [advanceFrame, isMobile],
+    [advanceFrame],
   );
 
   useEffect(() => {
@@ -117,7 +100,7 @@ export function HeroSection({ t, onNavigate }: HeroSectionProps) {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
-      if (!isActive && !isMobile) {
+      if (!isActive) {
         setCurrentFrame(0);
         setPrevFrame(0);
         setIsCrossfading(false);
@@ -130,14 +113,20 @@ export function HeroSection({ t, onNavigate }: HeroSectionProps) {
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [isActive, isLoaded, animate, isMobile]);
+  }, [isActive, isLoaded, animate]);
 
   const handleActivate = () => {
-    if (isLoaded) setIsActive(true);
+    if (isLoaded && !hasReachedEndRef.current) setIsActive(true);
   };
 
   const handleDeactivate = () => {
     setIsActive(false);
+  };
+
+  const handleTap = () => {
+    if (isLoaded && !hasReachedEndRef.current) {
+      setIsActive(true);
+    }
   };
 
   return (
@@ -188,11 +177,13 @@ export function HeroSection({ t, onNavigate }: HeroSectionProps) {
 
         <div
           ref={containerRef}
-          className="mt-12 flex-shrink-0 lg:mt-0"
-          {...(!isMobile && {
-            onMouseEnter: handleActivate,
-            onMouseLeave: handleDeactivate,
-          })}
+          className="mt-12 flex-shrink-0 touch-manipulation lg:mt-0"
+          {...(isMobile
+            ? { onTouchEnd: handleTap }
+            : {
+                onMouseEnter: handleActivate,
+                onMouseLeave: handleDeactivate,
+              })}
         >
           <div className="w-80 sm:w-96 md:w-[28rem] overflow-hidden rounded-3xl">
             <figure className="relative aspect-square">
