@@ -158,7 +158,7 @@ export function ProfileSection({ t, language }: ProfileSectionProps) {
                   ref={certScrollRef}
                   className="flex flex-col gap-3 overflow-y-auto pr-2 max-h-80 [&::-webkit-scrollbar]:hidden [scrollbar-width:none]"
                 >
-                  {allCertificates.map((cert, i) => (
+                  {allCertificates.map((cert, _i) => (
                     <a
                       key={`${cert.group}-${cert.index}`}
                       href={cert.href}

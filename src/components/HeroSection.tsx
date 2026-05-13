@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import type { ContentLocale, Language } from '../types';
+import type { ContentLocale } from '../types';
 import anim01 from '../img/animation/01.png';
 import anim02 from '../img/animation/02.png';
 import anim03 from '../img/animation/03.png';
@@ -8,30 +8,37 @@ import anim05 from '../img/animation/05.png';
 import anim06 from '../img/animation/06.png';
 import anim07 from '../img/animation/07.png';
 import anim08 from '../img/animation/08.png';
-import cvEn from '../cv/cv-en.pdf';
-import cvEs from '../cv/cv-es.pdf';
 
 const ANIMATION_FRAMES = [anim01, anim02, anim03, anim04, anim05, anim06, anim07, anim08];
 const FRAME_DURATION = 150;
 
 interface HeroSectionProps {
   t: ContentLocale;
-  language: Language;
   onNavigate: (id: 'contact') => void;
 }
 
-export function HeroSection({ t, language, onNavigate }: HeroSectionProps) {
-  const cvUrl = language === 'en' ? cvEn : cvEs;
+export function HeroSection({ t, onNavigate }: HeroSectionProps) {
   const hero = t.overview.hero;
   const [isActive, setIsActive] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const [currentFrame, setCurrentFrame] = useState(0);
   const [prevFrame, setPrevFrame] = useState(0);
   const [isCrossfading, setIsCrossfading] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | null>(null);
   const lastFrameTimeRef = useRef<number>(0);
   const hasReachedEndRef = useRef(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   useEffect(() => {
     let loadedCount = 0;
@@ -109,7 +116,7 @@ export function HeroSection({ t, language, onNavigate }: HeroSectionProps) {
   }, [isActive, isLoaded, animate]);
 
   const handleActivate = () => {
-    if (isLoaded) setIsActive(true);
+    if (isLoaded && !hasReachedEndRef.current) setIsActive(true);
   };
 
   const handleDeactivate = () => {
@@ -163,11 +170,14 @@ export function HeroSection({ t, language, onNavigate }: HeroSectionProps) {
         </div>
 
         <div
-          className="mt-12 flex-shrink-0 lg:mt-0"
-          onMouseEnter={handleActivate}
-          onMouseLeave={handleDeactivate}
-          onTouchStart={handleActivate}
-          onTouchEnd={handleDeactivate}
+          ref={containerRef}
+          className="mt-12 flex-shrink-0 cursor-pointer lg:mt-0"
+          {...(isMobile
+            ? { onClick: handleActivate }
+            : {
+                onMouseEnter: handleActivate,
+                onMouseLeave: handleDeactivate,
+              })}
         >
           <div className="w-80 sm:w-96 md:w-[28rem] overflow-hidden rounded-3xl">
             <figure className="relative aspect-square">

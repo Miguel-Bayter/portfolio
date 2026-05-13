@@ -135,6 +135,9 @@ export interface ContentLocale {
     demo: string;
     noDemo: string;
     languageLabel: string;
+    categoryBackend: string;
+    categoryFullstack: string;
+    categoryFrontend: string;
     facetCta: {
       language: string;
       framework: string;

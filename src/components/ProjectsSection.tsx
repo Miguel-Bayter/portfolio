@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import type { ContentLocale, Language } from '../types';
 import { 
   SiPython, SiFastapi, SiMongodb, SiTypescript, SiVite, 
@@ -136,8 +137,17 @@ function getProjectCategory(project: { id: string }): 'backend' | 'fullstack' | 
   return 'fullstack';
 }
 
-export function ProjectsSection({ t, language }: ProjectsSectionProps) {
+export function ProjectsSection({ t }: ProjectsSectionProps) {
   const projects = t.projects.items;
+  const [activeCard, setActiveCard] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const categories: Array<'backend' | 'fullstack' | 'frontend'> = ['backend', 'frontend', 'fullstack'];
 
@@ -166,52 +176,75 @@ export function ProjectsSection({ t, language }: ProjectsSectionProps) {
                     <p className="text-center text-base-content/60 py-8">{t.projects.emptyStateText}</p>
                   ) : (
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3 max-w-7xl mx-auto">
-                      {categoryProjects.map((project, index) => {
-                        const gradient = categoryGradients[category];
+                      {categoryProjects.map((project) => {
+                        const isActive = activeCard === project.id;
                         return (
                             <div
                               key={project.id}
-                              className="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 h-80 md:h-96 border border-base-300/30"
+                              className={`group relative overflow-hidden rounded-2xl shadow-md transition-all duration-300 h-96 border border-base-300/30 ${
+                                isActive ? 'shadow-xl' : 'hover:shadow-xl'
+                              }`}
+                              onClick={() => isMobile && setActiveCard(isActive ? null : project.id)}
                             >
                              {/* Gradient Border Wrapper */}
                              <div className={`rounded-2xl p-[2px] bg-gradient-to-br ${gradient} h-full`}>
                                <div className="rounded-2xl overflow-hidden bg-base-100 h-full relative">
                                  {/* Background Image */}
-                                 <div className="relative h-full overflow-hidden">
-                                   <img
-                                     src={project.previewImage}
-                                     alt={project.name}
-                                       className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                                  <div className="relative h-full overflow-hidden">
+                                    <img
+                                      src={project.previewImage}
+                                      alt={project.name}
+                                        className={`w-full h-full object-cover object-center transition-transform duration-500 ${
+                                          isActive ? 'scale-110' : 'group-hover:scale-110'
+                                        }`}
                                      onError={(e) => {
                                        (e.target as HTMLImageElement).src = '/portfolio/img/project-placeholder.svg';
                                      }}
                                    />
                                    
-                                     {/* Solid Color Overlay */}
-                                     <div className="absolute inset-0 bg-base-100 opacity-0 group-hover:opacity-95 transition-opacity duration-300" />
-                                   
-                                    {/* Pre-Hover Title Badge */}
-                                    <div className="absolute top-3 left-3 md:top-4 md:left-4 z-10 opacity-100 group-hover:opacity-0 transition-all duration-300 ease-out">
+                                      {/* Solid Color Overlay */}
+                                      <div className={`absolute inset-0 bg-base-100 transition-opacity duration-300 ${
+                                        isActive ? 'opacity-95' : 'opacity-0 group-hover:opacity-95'
+                                      }`} />
+                                    
+                                     {/* Pre-Hover Title Badge */}
+                                     <div className={`absolute top-4 left-4 z-10 transition-all duration-300 ease-out ${
+                                       isActive ? 'opacity-0' : 'opacity-100 group-hover:opacity-0'
+                                     }`}>
                                       <div className="badge badge-lg bg-base-100/95 backdrop-blur-md text-base-content font-bold shadow-xl border border-base-300/30 hover:shadow-2xl transition-shadow duration-300">
                                         {project.name}
                                       </div>
                                     </div>
                                  </div>
                                  
-                                   {/* Hover Content */}
-                                   <div className="absolute inset-0 flex flex-col justify-end p-4 md:p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out">
-                                     {/* Title - Appears first */}
-                                     <h3 className="text-lg md:text-xl font-bold text-base-content mb-1 md:mb-2 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out">
-                                       {project.name}
-                                     </h3>
-                                     
-                                     {/* Description - Appears second */}
-                                     <p className="text-xs md:text-sm text-base-content/80 leading-relaxed mb-3 md:mb-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-75 ease-out">
-                                       {project.summary}
-                                     </p>
-                                    
-                                      {/* Tech Badges - Appears third */}
-                                      <div className="flex flex-wrap gap-2 mb-3 md:mb-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-150 ease-out">
+                                     {/* Hover Content */}
+                                     <div className={`absolute inset-0 flex flex-col justify-end p-6 transition-transform duration-500 ease-out ${
+                                       isActive ? 'translate-y-0' : 'translate-y-full group-hover:translate-y-0'
+                                     }`}>
+                                       {/* Title - Appears first */}
+                                       <h3 className={`text-xl font-bold text-base-content mb-2 transition-all duration-300 ease-out ${
+                                         isActive
+                                           ? 'opacity-100 translate-y-0'
+                                           : 'opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0'
+                                       }`}>
+                                         {project.name}
+                                       </h3>
+                                       
+                                       {/* Description - Appears second */}
+                                       <p className={`text-sm text-base-content/80 leading-relaxed mb-4 transition-all duration-300 delay-75 ease-out ${
+                                         isActive
+                                           ? 'opacity-100 translate-y-0'
+                                           : 'opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0'
+                                       }`}>
+                                         {project.summary}
+                                       </p>
+                                      
+                                        {/* Tech Badges - Appears third */}
+                                        <div className={`flex flex-wrap gap-2 mb-4 transition-all duration-300 delay-150 ease-out ${
+                                          isActive
+                                            ? 'opacity-100 translate-y-0'
+                                            : 'opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0'
+                                        }`}>
                                         {project.facets.slice(0, 3).map((facet) => {
                                           const config = techConfig[facet] || {
                                             color: 'text-base-content',
@@ -232,8 +265,12 @@ export function ProjectsSection({ t, language }: ProjectsSectionProps) {
                                         })}
                                       </div>
                                     
-                                     {/* Action Buttons - Appears last */}
-                                     <div className="flex gap-3 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-200 ease-out">
+                                      {/* Action Buttons - Appears last */}
+                                      <div className={`flex gap-3 transition-all duration-300 delay-200 ease-out ${
+                                        isActive
+                                          ? 'opacity-100 translate-y-0'
+                                          : 'opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0'
+                                      }`}>
                                        {project.links.repo && (
                                          <a
                                            href={project.links.repo}
@@ -242,10 +279,10 @@ export function ProjectsSection({ t, language }: ProjectsSectionProps) {
                                            className="btn btn-outline btn-primary btn-sm gap-2 rounded-xl shadow-md hover:shadow-lg hover:scale-105 transition-all duration-200 font-semibold"
                                            onClick={(e) => e.stopPropagation()}
                                          >
-                                           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                                             <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 2.61.092.792-.225 1.638-.338 2.478-.342.84.004 1.686.117 2.478.342 1.602-.414 2.602-.092 2.602-.092.658 1.652.246 2.872.122 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                                           </svg>
-                                           <span className="hidden sm:inline font-semibold">{t.projects.repo}</span>
+                                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 2.61.092.792-.225 1.638-.338 2.478-.342.84.004 1.686.117 2.478.342 1.602-.414 2.602-.092 2.602-.092.658 1.652.246 2.872.122 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                            </svg>
+                                            <span className="font-semibold">{t.projects.repo}</span>
                                          </a>
                                        )}
                                        {project.links.demo && (
@@ -256,20 +293,20 @@ export function ProjectsSection({ t, language }: ProjectsSectionProps) {
                                            className="btn btn-primary btn-sm gap-2 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 font-semibold bg-gradient-to-r from-primary to-primary-focus border-0"
                                            onClick={(e) => e.stopPropagation()}
                                          >
-                                           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                           </svg>
-                                           <span className="hidden sm:inline font-semibold">{t.projects.demo}</span>
+                                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                            </svg>
+                                            <span className="font-semibold">{t.projects.demo}</span>
                                          </a>
                                        )}
                                      </div>
                                   </div>
                                </div>
                              </div>
-                           </div>
-                        );
+                               </div>
+                           );
                       })}
-                    </div>
+                      </div>
                   )}
                 </div>
               </section>

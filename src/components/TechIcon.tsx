@@ -19,7 +19,7 @@ import {
   SiVercel,
   SiNetlify,
 } from 'react-icons/si';
-import { FaJava, FaPython, FaGithub, FaLinkedin } from 'react-icons/fa';
+import { FaJava, FaPython } from 'react-icons/fa';
 
 interface TechIconProps {
   icon: string;
