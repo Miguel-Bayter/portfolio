@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import type { ContentLocale, Language } from '../types';
 import { 
   SiPython, SiFastapi, SiMongodb, SiTypescript, SiVite, 
@@ -138,6 +139,15 @@ function getProjectCategory(project: { id: string }): 'backend' | 'fullstack' | 
 
 export function ProjectsSection({ t }: ProjectsSectionProps) {
   const projects = t.projects.items;
+  const [activeCard, setActiveCard] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const categories: Array<'backend' | 'fullstack' | 'frontend'> = ['backend', 'frontend', 'fullstack'];
 
@@ -166,50 +176,75 @@ export function ProjectsSection({ t }: ProjectsSectionProps) {
                     <p className="text-center text-base-content/60 py-8">{t.projects.emptyStateText}</p>
                   ) : (
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3 max-w-7xl mx-auto">
-                      {categoryProjects.map((project) => (
+                      {categoryProjects.map((project) => {
+                        const isActive = activeCard === project.id;
+                        return (
                             <div
                               key={project.id}
-                              className="group relative overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 h-80 md:h-96 border border-base-300/30"
+                              className={`group relative overflow-hidden rounded-2xl shadow-md transition-all duration-300 h-80 md:h-96 border border-base-300/30 ${
+                                isActive ? 'shadow-xl' : 'hover:shadow-xl'
+                              }`}
+                              onClick={() => isMobile && setActiveCard(isActive ? null : project.id)}
                             >
                              {/* Gradient Border Wrapper */}
                              <div className={`rounded-2xl p-[2px] bg-gradient-to-br ${gradient} h-full`}>
                                <div className="rounded-2xl overflow-hidden bg-base-100 h-full relative">
                                  {/* Background Image */}
-                                 <div className="relative h-full overflow-hidden">
-                                   <img
-                                     src={project.previewImage}
-                                     alt={project.name}
-                                       className="w-full h-full object-cover object-center transition-transform duration-500 group-hover:scale-110"
+                                  <div className="relative h-full overflow-hidden">
+                                    <img
+                                      src={project.previewImage}
+                                      alt={project.name}
+                                        className={`w-full h-full object-cover object-center transition-transform duration-500 ${
+                                          isActive ? 'scale-110' : 'group-hover:scale-110'
+                                        }`}
                                      onError={(e) => {
                                        (e.target as HTMLImageElement).src = '/portfolio/img/project-placeholder.svg';
                                      }}
                                    />
                                    
-                                     {/* Solid Color Overlay */}
-                                     <div className="absolute inset-0 bg-base-100 opacity-0 group-hover:opacity-95 transition-opacity duration-300" />
-                                   
-                                    {/* Pre-Hover Title Badge */}
-                                    <div className="absolute top-3 left-3 md:top-4 md:left-4 z-10 opacity-100 group-hover:opacity-0 transition-all duration-300 ease-out">
+                                      {/* Solid Color Overlay */}
+                                      <div className={`absolute inset-0 bg-base-100 transition-opacity duration-300 ${
+                                        isActive ? 'opacity-95' : 'opacity-0 group-hover:opacity-95'
+                                      }`} />
+                                    
+                                     {/* Pre-Hover Title Badge */}
+                                     <div className={`absolute top-3 left-3 md:top-4 md:left-4 z-10 transition-all duration-300 ease-out ${
+                                       isActive ? 'opacity-0' : 'opacity-100 group-hover:opacity-0'
+                                     }`}>
                                       <div className="badge badge-lg bg-base-100/95 backdrop-blur-md text-base-content font-bold shadow-xl border border-base-300/30 hover:shadow-2xl transition-shadow duration-300">
                                         {project.name}
                                       </div>
                                     </div>
                                  </div>
                                  
-                                   {/* Hover Content */}
-                                   <div className="absolute inset-0 flex flex-col justify-end p-4 md:p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-out">
-                                     {/* Title - Appears first */}
-                                     <h3 className="text-lg md:text-xl font-bold text-base-content mb-1 md:mb-2 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out">
-                                       {project.name}
-                                     </h3>
+                                    {/* Hover Content */}
+                                    <div className={`absolute inset-0 flex flex-col justify-end p-4 md:p-6 transition-transform duration-500 ease-out ${
+                                      isActive ? 'translate-y-0' : 'translate-y-full group-hover:translate-y-0'
+                                    }`}>
+                                      {/* Title - Appears first */}
+                                      <h3 className={`text-lg md:text-xl font-bold text-base-content mb-1 md:mb-2 transition-all duration-300 ease-out ${
+                                        isActive
+                                          ? 'opacity-100 translate-y-0'
+                                          : 'opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0'
+                                      }`}>
+                                        {project.name}
+                                      </h3>
+                                      
+                                      {/* Description - Appears second */}
+                                      <p className={`text-xs md:text-sm text-base-content/80 leading-relaxed mb-3 md:mb-4 transition-all duration-300 delay-75 ease-out ${
+                                        isActive
+                                          ? 'opacity-100 translate-y-0'
+                                          : 'opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0'
+                                      }`}>
+                                        {project.summary}
+                                      </p>
                                      
-                                     {/* Description - Appears second */}
-                                     <p className="text-xs md:text-sm text-base-content/80 leading-relaxed mb-3 md:mb-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-75 ease-out">
-                                       {project.summary}
-                                     </p>
-                                    
-                                      {/* Tech Badges - Appears third */}
-                                      <div className="flex flex-wrap gap-2 mb-3 md:mb-4 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-150 ease-out">
+                                       {/* Tech Badges - Appears third */}
+                                       <div className={`flex flex-wrap gap-2 mb-3 md:mb-4 transition-all duration-300 delay-150 ease-out ${
+                                         isActive
+                                           ? 'opacity-100 translate-y-0'
+                                           : 'opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0'
+                                       }`}>
                                         {project.facets.slice(0, 3).map((facet) => {
                                           const config = techConfig[facet] || {
                                             color: 'text-base-content',
@@ -230,8 +265,12 @@ export function ProjectsSection({ t }: ProjectsSectionProps) {
                                         })}
                                       </div>
                                     
-                                     {/* Action Buttons - Appears last */}
-                                     <div className="flex gap-3 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 delay-200 ease-out">
+                                      {/* Action Buttons - Appears last */}
+                                      <div className={`flex gap-3 transition-all duration-300 delay-200 ease-out ${
+                                        isActive
+                                          ? 'opacity-100 translate-y-0'
+                                          : 'opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0'
+                                      }`}>
                                        {project.links.repo && (
                                          <a
                                            href={project.links.repo}
@@ -264,8 +303,9 @@ export function ProjectsSection({ t }: ProjectsSectionProps) {
                                   </div>
                                </div>
                              </div>
-                              </div>
-                          ))}
+                               </div>
+                           );
+                      })}
                       </div>
                   )}
                 </div>
